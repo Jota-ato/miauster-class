@@ -16,7 +16,7 @@ export default async function DashboardLayout({
 
     if (!session) redirect("/not-authorized")
 
-    if (UsersPolicies.isAuthorizedToDashboard(session.user as User)) redirect("/not-authorized")
+    if (!UsersPolicies.isAuthorizedToDashboard(session.user as User)) redirect("/not-authorized")
 
     return (
         <div>
