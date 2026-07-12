@@ -2,7 +2,8 @@ import {
     pgTable,
     uuid,
     time,
-    pgEnum
+    pgEnum,
+    timestamp,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { groups } from "./groups-schema";
@@ -25,6 +26,11 @@ export const groupsSchedules = pgTable("groups_schedules", {
     dayOfWeek: daysOfWeekEnum("day_of_week").notNull(),
     startTime: time("start_time").notNull(),
     endTime: time("end_time").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
 });
 
 export const groupsSchedulesRelations = relations(groupsSchedules, ({ one }) => ({

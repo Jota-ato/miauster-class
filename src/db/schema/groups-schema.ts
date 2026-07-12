@@ -5,10 +5,11 @@ import {
     integer,
     numeric,
     boolean,
-    date
+    date,
+    timestamp
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
-import { languagesLevels, studentsGroups } from "."
+import { languagesLevels, studentsGroups, user } from "."
 import { groupsSchedules } from "./groups-schedules"
 
 export const groups = pgTable("groups", {
@@ -27,11 +28,19 @@ export const groups = pgTable("groups", {
     particular: boolean("particular")
         .notNull()
         .default(false),
+    isActive: boolean("is_active")
+        .notNull()
+        .default(true),
     startDate:
         date("start_date", { mode: "string" })
             .notNull(),
     endDate: date("end_date", { mode: "string" })
-        .notNull()
+        .notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
 })
 
 export const groupsRelations = relations(groups, ({ one, many }) => ({

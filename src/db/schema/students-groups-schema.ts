@@ -1,5 +1,6 @@
 import {
     pgTable,
+    timestamp,
     uuid,
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
@@ -16,6 +17,11 @@ export const studentsGroups = pgTable("students_groups", {
     groupId: uuid("group_id")
         .notNull()
         .references(() => groups.id, { onDelete: "restrict" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
 })
 
 export const studentsGroupsRelations = relations(studentsGroups, ({ one }) => ({

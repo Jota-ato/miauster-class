@@ -2,7 +2,8 @@ import {
     pgTable,
     uuid,
     varchar,
-    boolean
+    boolean,
+    timestamp
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
 import { languagesLevels } from "./languages-levels-schema"
@@ -17,7 +18,12 @@ export const languages = pgTable("languages", {
         .unique(),
     isActive: boolean("is_active")
         .notNull()
-        .default(true)
+        .default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
 })
 
 export const languagesRelations = relations(languages, ({ many }) => ({

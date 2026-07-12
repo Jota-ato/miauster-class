@@ -1,5 +1,6 @@
 import {
     pgTable,
+    timestamp,
     uuid,
     varchar,
 } from "drizzle-orm/pg-core"
@@ -13,6 +14,11 @@ export const levels = pgTable("levels", {
     name: varchar("name", { length: 20 })
         .notNull()
         .unique(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
 })
 
 export const levelsRelations = relations(levels, ({ many }) => ({

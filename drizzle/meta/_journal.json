@@ -15,6 +15,13 @@
       "when": 1783819195511,
       "tag": "0001_slim_nova",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783822240454,
+      "tag": "0002_dark_living_mummy",
+      "breakpoints": true
     }
   ]
 }
