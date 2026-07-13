@@ -14,12 +14,17 @@ import {
 import { cn } from "@/shared/lib/utils"
 import { isActive } from "@/shared/utils/pathname"
 
-import { dashboardNavigation } from "./constants"
+import { getUserDashboardNavigation } from "./constants"
+import { User } from "@/features/users/types/user.types"
 
 const navigationItemClassName =
     "p-2 flex items-center gap-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-250"
 
-export function DashboardSidebarNavigation() {
+export function DashboardSidebarNavigation({
+    user
+}: {
+    user: User
+}) {
     const { toggleSidebar, open } = useSidebar()
     const pathname = usePathname()
 
@@ -34,9 +39,8 @@ export function DashboardSidebarNavigation() {
                     <PanelLeft className="size-4" />
                     {open && "Cerrar menú"}
                 </SidebarMenuItem>
-                {dashboardNavigation.map(item => {
+                {getUserDashboardNavigation(user).map(item => {
                     const active = isActive(item, pathname)
-
                     return (
                         <SidebarMenuItem key={item.href}>
                             <Link

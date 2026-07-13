@@ -18,7 +18,9 @@ export function DashboardSidebar({
         <Sidebar collapsible="icon">
             <DashboardSidebarHeader />
             <SidebarContent>
-                <DashboardSidebarNavigation />
+                <DashboardSidebarNavigation 
+                    user={user}
+                />
             </SidebarContent>
             <DashboardSidebarFooter
                 user={user}

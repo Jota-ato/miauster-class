@@ -198,7 +198,7 @@
     @apply font-sans;
   }
 
-  button :not(:disabled) {
+  button:not(:disabled) {
     @apply cursor-pointer;
   }
 }
