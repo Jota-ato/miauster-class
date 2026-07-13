@@ -13,11 +13,14 @@ import { Button } from "@/shared/components/ui/button"
 import { PenSquare, Trash } from "lucide-react"
 import { rolesTranslatedMap } from "@/shared/utils/roles"
 import { useUsersStore } from "../stores/users-store"
+import { cn } from "@/shared/lib/utils"
 
 export function UsersTable({
-    users
+    users,
+    currentUser
 }: {
     users: User[]
+    currentUser: User
 }) {
 
     const {
@@ -46,7 +49,10 @@ export function UsersTable({
             <TableBody>
                 {users.length ? (
                     users.map(user => (
-                        <TableRow key={user.id}>
+                        <TableRow
+                            key={user.id}
+                            className={cn(currentUser.id === user.id && "bg-muted")}
+                        >
                             <TableCell>
                                 <UserData user={user} />
                             </TableCell>
