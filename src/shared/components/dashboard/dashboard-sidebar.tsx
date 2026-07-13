@@ -2,26 +2,27 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
-    SidebarHeader,
 } from "@/shared/components/ui/sidebar"
 import { DashboardSidebarFooter } from "./sidebar/dashboard-sidebar-footer"
 import { DashboardSidebarHeader } from "./sidebar/dashboard-sidebar-header"
 import { DashboardSidebarNavigation } from "./sidebar/dashboard-sidebar-navigation"
+import { User } from "@/features/users/types/user.types"
 
-export function DashboardSidebar() {
+export function DashboardSidebar({
+    user
+}: {
+    user: User
+}) {
 
     return (
         <Sidebar collapsible="icon">
-            <SidebarHeader className="p-4">
-                <DashboardSidebarHeader />
-            </SidebarHeader>
+            <DashboardSidebarHeader />
             <SidebarContent>
                 <DashboardSidebarNavigation />
             </SidebarContent>
-            <SidebarFooter className="p-4">
-                <DashboardSidebarFooter />
-            </SidebarFooter>
+            <DashboardSidebarFooter
+                user={user}
+            />
         </Sidebar>
     )
 }

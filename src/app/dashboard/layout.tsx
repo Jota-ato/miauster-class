@@ -16,12 +16,16 @@ export default async function DashboardLayout({
 
     if (!session) redirect("/not-authorized")
 
-    if (!UsersPolicies.isAuthorizedToDashboard(session.user as User)) redirect("/not-authorized")
+    const { user } = session
+
+    if (!UsersPolicies.isAuthorizedToDashboard(user as User)) redirect("/not-authorized")
 
     return (
         <div>
             <SidebarProvider>
-                <DashboardSidebar />
+                <DashboardSidebar
+                    user={user as User}
+                />
                 <main>
                     {children}
                 </main>
