@@ -17,6 +17,8 @@ import {
 } from "@/shared/components/ui/dropdown-menu"
 import { SidebarFooter, SidebarMenu, SidebarMenuButton, useSidebar } from "@/shared/components/ui/sidebar"
 import { ChevronsUpDown, LogOut } from "lucide-react"
+import { signOut } from "@/lib/auth-client"
+import { redirect } from "next/navigation"
 
 export function DashboardSidebarFooter({
     user,
@@ -71,7 +73,12 @@ export function DashboardSidebarFooter({
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    signOut()
+                                    redirect("/auth/sign-in")
+                                }}
+                            >
                                 <LogOut />
                                 Cerrar sesión
                             </DropdownMenuItem>

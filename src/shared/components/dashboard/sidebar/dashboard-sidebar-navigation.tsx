@@ -26,7 +26,7 @@ export function DashboardSidebarNavigation() {
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Navegación</SidebarGroupLabel>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
                 <SidebarMenuItem
                     className={navigationItemClassName}
                     onClick={toggleSidebar}
