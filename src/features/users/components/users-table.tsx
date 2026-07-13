@@ -1,3 +1,4 @@
+"use client"
 import { UserData } from "@/shared/components/dashboard/sidebar/user-data"
 import { User } from "../types/user.types"
 import {
@@ -11,12 +12,19 @@ import {
 import { Button } from "@/shared/components/ui/button"
 import { PenSquare, Trash } from "lucide-react"
 import { rolesTranslatedMap } from "@/shared/utils/roles"
+import { useUsersStore } from "../stores/users-store"
 
 export function UsersTable({
     users
 }: {
     users: User[]
 }) {
+
+    const {
+        setActiveUser,
+        setOpenEditSheet
+    } = useUsersStore()
+
     return (
         <Table>
             <TableHeader>
@@ -52,6 +60,10 @@ export function UsersTable({
                                 <Button
                                     size="icon"
                                     variant="outline"
+                                    onClick={() => {
+                                        setActiveUser(user)
+                                        setOpenEditSheet(true)
+                                    }}
                                 >
                                     <PenSquare />
                                 </Button>

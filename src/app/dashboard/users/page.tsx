@@ -1,3 +1,4 @@
+import { EditSheet } from "@/features/users/components/edit-sheet";
 import { UsersTable } from "@/features/users/components/users-table";
 import { usersService } from "@/features/users/services/users-service";
 import { requireAuth } from "@/lib/auth-server";
@@ -22,6 +23,7 @@ export default async function UsersPage() {
             <UsersTable
                 users={users}
             />
+            <EditSheet />
         </>
     )
 }
