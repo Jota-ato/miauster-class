@@ -1,10 +1,6 @@
 "use client"
 import { User } from "@/features/users/types/user.types"
-import {
-    Avatar,
-    AvatarImage,
-    AvatarFallback,
-} from "@/shared/components/ui/avatar"
+
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -19,6 +15,7 @@ import { SidebarFooter, SidebarMenu, SidebarMenuButton, useSidebar } from "@/sha
 import { ChevronsUpDown, LogOut } from "lucide-react"
 import { signOut } from "@/lib/auth-client"
 import { redirect } from "next/navigation"
+import { UserData } from "./user-data"
 
 export function DashboardSidebarFooter({
     user,
@@ -27,8 +24,7 @@ export function DashboardSidebarFooter({
 }) {
 
     const { open, isMobile } = useSidebar()
-    const image = user.image ? user.image : "/img/default-avatar.png"
-    const firstName = user.name.split(" ")[0]
+    
 
     return (
         <SidebarFooter>
@@ -40,22 +36,10 @@ export function DashboardSidebarFooter({
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground justify-between items-center gap-2 w-full"
                         />}
                     >
-                        <div className="flex gap-2 items-center">
-                            <Avatar>
-                                <AvatarImage
-                                    src={image}
-                                />
-                                <AvatarFallback>
-                                    {user.name.charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                            </Avatar>
-                            {open && (
-                                <div>
-                                    <p className="text-sm font-semibold">{firstName}</p>
-                                    <p className="text-xs">{user.email}</p>
-                                </div>
-                            )}
-                        </div>
+                        <UserData 
+                            user={user}
+                            imageOnly={!open}
+                        />
                         {open && <ChevronsUpDown />}
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
