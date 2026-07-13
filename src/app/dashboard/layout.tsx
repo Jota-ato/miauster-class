@@ -27,7 +27,7 @@ export default async function DashboardLayout({
             <DashboardSidebar
                 user={user as User}
             />
-            <main className="flex-1">
+            <main className="flex-1 min-w-0">
                 <Container className="py-8 md:py-12 space-y-8">
                     <MobileHeader />
                     {children}
