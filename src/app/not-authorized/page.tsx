@@ -33,12 +33,13 @@ export default function NotAuthorizedPage() {
                         Parece que no tienes los permisos necesarios para acceder a esta sección. Si crees que esto es un error, por favor contacta con el administrador del sistema para obtener ayuda.
                     </p>
                 </CardContent>
-                <CardFooter className="md:justify-evenly">
+                <CardFooter className="md:justify-evenly flex-col md:flex-row">
                     <Button
                         render={<Link href="/" />}
                         nativeButton={false}
                         variant="outline"
                         size="lg"
+                        className="w-full"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Volver a la página principal
@@ -47,6 +48,7 @@ export default function NotAuthorizedPage() {
                         render={<Link href="/auth/sign-in" />}
                         nativeButton={false}
                         size="lg"
+                        className="w-full"
                     >
                         <LogIn className="w-4 h-4" />
                         Inicia sesión en una cuenta diferente
