@@ -33,7 +33,7 @@ export default function NotAuthorizedPage() {
                         Parece que no tienes los permisos necesarios para acceder a esta sección. Si crees que esto es un error, por favor contacta con el administrador del sistema para obtener ayuda.
                     </p>
                 </CardContent>
-                <CardFooter className="md:justify-evenly flex-col md:flex-row">
+                <CardFooter className="md:justify-evenly flex-col md:flex-row gap-4">
                     <Button
                         render={<Link href="/" />}
                         nativeButton={false}
