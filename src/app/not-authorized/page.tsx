@@ -39,7 +39,7 @@ export default function NotAuthorizedPage() {
                         nativeButton={false}
                         variant="outline"
                         size="lg"
-                        className="w-full"
+                        className="w-full md:w-auto"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Volver a la página principal
@@ -48,7 +48,7 @@ export default function NotAuthorizedPage() {
                         render={<Link href="/auth/sign-in" />}
                         nativeButton={false}
                         size="lg"
-                        className="w-full"
+                        className="w-full md:w-auto"
                     >
                         <LogIn className="w-4 h-4" />
                         Inicia sesión en una cuenta diferente
