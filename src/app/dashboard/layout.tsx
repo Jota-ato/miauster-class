@@ -2,6 +2,8 @@ import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { User } from "@/features/users/types/user.types"
 import { requireAuth } from "@/lib/auth-server"
 import { DashboardSidebar } from "@/shared/components/dashboard/dashboard-sidebar"
+import { MobileHeader } from "@/shared/components/dashboard/mobile-header"
+import { Container } from "@/shared/components/layout/container"
 import { SidebarProvider } from "@/shared/components/ui/sidebar"
 import { redirect } from "next/navigation"
 import { ReactNode } from "react"
@@ -21,15 +23,16 @@ export default async function DashboardLayout({
     if (!UsersPolicies.isAuthorizedToDashboard(user as User)) redirect("/not-authorized")
 
     return (
-        <div>
-            <SidebarProvider>
-                <DashboardSidebar
-                    user={user as User}
-                />
-                <main>
+        <SidebarProvider>
+            <DashboardSidebar
+                user={user as User}
+            />
+            <main className="flex-1">
+                <Container>
+                    <MobileHeader />
                     {children}
-                </main>
-            </SidebarProvider>
-        </div>
+                </Container>
+            </main>
+        </SidebarProvider>
     )
 }

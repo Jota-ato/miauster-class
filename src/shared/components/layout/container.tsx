@@ -10,7 +10,7 @@ export function Container({
 }) {
   return (
     <div className={cn(
-        "max-w-5xl w-[90%] mx-auto",
+        "max-w-5xl w-[85%] mx-auto",
         className
     )}>
       {children}
