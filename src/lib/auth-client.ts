@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { createAuthClient } from "better-auth/client"
 import { adminClient } from "better-auth/client/plugins"
 import { roles } from "@/lib/auth"
