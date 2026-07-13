@@ -9,7 +9,7 @@ export function MobileHeader() {
     const { toggleSidebar } = useSidebar();
 
     return (
-        <header className="md:hidden flex items-center justify-between py-4 w-full">
+        <header className="md:hidden flex items-center justify-between w-full">
             <Heading className="text-left text-xl! font-bold">Miauster class</Heading>
             <Button
                 onClick={toggleSidebar}
