@@ -42,7 +42,7 @@ export const getUserDashboardNavigation = (user: User) => {
         return dashboardNavigation
     }
     if (user.role === "seller") {
-        return dashboardNavigation.filter(item => item.label !== "Usuarios")
+        return dashboardNavigation.filter(item => item.href !== "/dashboard/users")
     }
     else {
         return []
