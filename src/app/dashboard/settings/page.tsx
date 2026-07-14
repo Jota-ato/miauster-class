@@ -1,3 +1,5 @@
+import { UserForm } from "@/features/users/components/user-form"
+import { User } from "@/features/users/types/user.types"
 import { requireAuth } from "@/lib/auth-server"
 import { ThemeToggle } from "@/shared/components/dashboard/theme-toggle"
 import { Heading } from "@/shared/components/typography/heading"
@@ -15,6 +17,7 @@ export default async function SettingsPage() {
     const { session } = await requireAuth()
 
     if (!session) redirect("/auth/sign-in")
+    const { user } = session
 
     return (
         <>
@@ -32,7 +35,9 @@ export default async function SettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-
+                    <UserForm 
+                        user={user as User}
+                    />
                 </CardContent>
             </Card>
             <Card className="max-w-2xl mx-auto">
