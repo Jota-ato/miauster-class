@@ -5,16 +5,16 @@ import { User } from "../types/user.types"
 import {
     FieldSet,
     FieldGroup,
-    FieldLabel,
-    FieldError
 } from "@/shared/components/ui/field"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { UserInput, userSchema } from "../schema/user-schema"
+import { editOwnUserSchema, EditOwnUserInput } from "../schema/user-schema"
 import { FieldInput } from "@/shared/components/forms/field-inputs.types"
 import { FormSubmit } from "@/shared/components/forms/form-submit"
+import { showResponse } from "@/shared/lib/client-actions"
+import { editOwnUserAction } from "../actions/user-actions"
 
-const inputs: FieldInput<UserInput>[] = [
+const inputs: FieldInput<EditOwnUserInput>[] = [
     {
         label: "Nombre",
         name: "name"
@@ -25,7 +25,7 @@ const inputs: FieldInput<UserInput>[] = [
     },
 ]
 
-export function UserForm({
+export function EditOwnUserForm({
     user
 }: {
     user: User
@@ -35,15 +35,16 @@ export function UserForm({
         handleSubmit,
         register,
         formState: { errors, isSubmitting }
-    } = useForm<UserInput>({
-        resolver: zodResolver(userSchema),
+    } = useForm<EditOwnUserInput>({
+        resolver: zodResolver(editOwnUserSchema),
         defaultValues: {
-            ...user
+            name: user.name,
+            phone: user.phone || ""
         }
     })
 
-    const onSubmit = (data: UserInput) => {
-
+    const onSubmit = async (data: EditOwnUserInput) => {
+        showResponse(await editOwnUserAction(data, user.id))
     }
 
     return (

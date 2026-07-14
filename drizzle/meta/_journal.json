@@ -50,6 +50,13 @@
       "when": 1783963748602,
       "tag": "0006_bored_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1784045600593,
+      "tag": "0007_flaky_paper_doll",
+      "breakpoints": true
     }
   ]
 }

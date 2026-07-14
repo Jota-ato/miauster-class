@@ -1,4 +1,4 @@
-import { UserForm } from "@/features/users/components/user-form"
+import { EditOwnUserForm } from "@/features/users/components/edit-own-user-form"
 import { User } from "@/features/users/types/user.types"
 import { requireAuth } from "@/lib/auth-server"
 import { ThemeToggle } from "@/shared/components/dashboard/theme-toggle"
@@ -35,7 +35,7 @@ export default async function SettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <UserForm 
+                    <EditOwnUserForm 
                         user={user as User}
                     />
                 </CardContent>

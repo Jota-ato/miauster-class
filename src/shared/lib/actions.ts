@@ -45,8 +45,6 @@ export function adminAction<T extends any[], R>(
 
             revalidatePath("/")
 
-            const isStringResult = typeof result === "string";
-
             return {
                 success: true,
                 message: getSuccessMessage(result),
@@ -73,8 +71,8 @@ export function sellerAction<T extends any[], R>(
     return async (...args: T): Promise<NonPromiseActionResponse<InferActionData<R>>> => {
         try {
             const { requireAuth } = await import("@/lib/auth-server");
-            const { isSeller } = await requireAuth();
-            if (!isSeller) {
+            const { isSeller, isAdmin } = await requireAuth();
+            if (!isSeller && !isAdmin) {
                 return {
                     success: false,
                     message: "You do not have authorization to perform this action."
@@ -88,8 +86,6 @@ export function sellerAction<T extends any[], R>(
 
             revalidatePath("/")
 
-            const isStringResult = typeof result === "string";
-
             return {
                 success: true,
                 message: getSuccessMessage(result),
@@ -100,34 +96,6 @@ export function sellerAction<T extends any[], R>(
             if (error instanceof AppError) {
                 return { success: false, message: error.message };
             }
-            console.error('[SERVER_ACTION_ERROR]:', error);
-            return {
-                success: false,
-                message: "An unexpected internal error occurred. Please try again later."
-            };
-        }
-    };
-}
-
-export function customerAction<T extends any[], R>(
-    callback: (...args: T) => Promise<R>,
-) {
-    return async (...args: T): Promise<NonPromiseActionResponse<InferActionData<R>>> => {
-        try {
-
-            const result = await callback(...args);
-
-            return {
-                success: true,
-                message: getSuccessMessage(result),
-                data: result as InferActionData<R>
-            };
-
-        } catch (error) {
-            if (error instanceof AppError) {
-                return { success: false, message: error.message };
-            }
-
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,

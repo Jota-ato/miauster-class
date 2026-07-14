@@ -24,7 +24,7 @@ export function FormSubmit({
             )}
             disabled={isSubmitting}
         >
-            {isSubmitting ? <span><Spinner /> {isSubmittingLabel}</span> : label}
+            {isSubmitting ? <span className="flex items-center gap-2"><Spinner /> {isSubmittingLabel}</span> : label}
         </Button>
     )
 }
