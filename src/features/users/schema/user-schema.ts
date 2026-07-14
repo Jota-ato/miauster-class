@@ -6,7 +6,7 @@ export type UserRole = z.infer<typeof userRoles>
 
 export const baseUserSchema = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
-    phone: z.string({error: "El teléfono es obligatorio"}).min(10, "El teléfono debe tener al menos 10 dígitos"),
+    phone: z.string({error: "El teléfono es obligatorio"}).optional(),
     role: userRoles
 })
 

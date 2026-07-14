@@ -27,7 +27,9 @@ export default async function UsersPage() {
                 currentUser={user as User}
                 users={users}
             />
-            <EditSheet />
+            <EditSheet
+                currentUser={user as User}
+            />
             <DeleteUserDialog
                 currentUser={user as User}
             />

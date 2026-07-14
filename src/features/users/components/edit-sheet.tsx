@@ -8,8 +8,14 @@ import {
     SheetDescription
 } from "@/shared/components/ui/sheet";
 import { useUsersStore } from "../stores/users-store";
+import { EditUserForm } from "./edit-user-form";
+import { User } from "../types/user.types";
 
-export function EditSheet() {
+export function EditSheet({
+    currentUser
+}: {
+    currentUser: User
+}) {
 
     const {
         setOpenEditSheet,
@@ -37,7 +43,10 @@ export function EditSheet() {
                         </strong>
                     </SheetDescription>
                 </SheetHeader>
-                contenido
+                    <EditUserForm 
+                        user={activeUser}
+                        currentUser={currentUser}
+                    />
                 <SheetFooter>
                     Footer
                 </SheetFooter>
