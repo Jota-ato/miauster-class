@@ -1,6 +1,7 @@
 import { AppError } from "@/shared/lib/errors";
 import { User } from "../types/user.types";
 import { IUsersRepository, usersRepository } from "./users-repository";
+import { DELETE_USER_ID } from "@/shared/lib/env";
 
 class UsersService {
     constructor(
@@ -38,6 +39,7 @@ class UsersService {
         id: string,
         deleterId: string
     ) {
+        if (id === DELETE_USER_ID) throw new AppError("No puedes eliminar este usuario")
         const user = await this.usersRepository.findById(id)
         const deleter = await this.usersRepository.findById(deleterId)
         if (!user || !deleter) {
