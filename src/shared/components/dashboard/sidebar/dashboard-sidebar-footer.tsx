@@ -16,6 +16,7 @@ import { ChevronsUpDown, LogOut } from "lucide-react"
 import { signOut } from "@/lib/auth-client"
 import { redirect } from "next/navigation"
 import { UserData } from "./user-data"
+import Link from "next/link"
 
 export function DashboardSidebarFooter({
     user,
@@ -24,7 +25,7 @@ export function DashboardSidebarFooter({
 }) {
 
     const { open, isMobile } = useSidebar()
-    
+
 
     return (
         <SidebarFooter>
@@ -36,7 +37,7 @@ export function DashboardSidebarFooter({
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground justify-between items-center gap-2 w-full"
                         />}
                     >
-                        <UserData 
+                        <UserData
                             user={user}
                             imageOnly={!open}
                         />
@@ -51,7 +52,10 @@ export function DashboardSidebarFooter({
                             <DropdownMenuLabel>
                                 Ajustes de cuenta
                             </DropdownMenuLabel>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                render={<Link href="/dashboard/settings" />}
+                            >
                                 Configuración
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
