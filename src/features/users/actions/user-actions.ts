@@ -23,6 +23,17 @@ export const editOwnUserAction = sellerAction(async (
     return "Actualizaste tus datos correctamente"
 })
 
+export const deleteOwnUserAction = sellerAction(async (
+    userId: string,
+    deleterId: string
+) => {
+    await usersService.deleteUser(
+        userId,
+        deleterId
+    )
+
+    return "Eliminaste tu cuenta correctamente"
+})
 export const deleteUserAction = adminAction(async (
     userId: string,
     deleterId: string
@@ -31,4 +42,6 @@ export const deleteUserAction = adminAction(async (
         userId,
         deleterId
     )
+
+    "Usuario eliminado correctamente"
 })

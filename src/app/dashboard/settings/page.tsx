@@ -1,15 +1,11 @@
-import { EditOwnUserForm } from "@/features/users/components/edit-own-user-form"
+
+import { DangerActionsCard } from "@/features/users/components/danger-actions-card"
+import { EditOwnUserCard } from "@/features/users/components/edit-own-user-card"
+import { PreferencesCard } from "@/features/users/components/preferences-card"
 import { User } from "@/features/users/types/user.types"
 import { requireAuth } from "@/lib/auth-server"
-import { ThemeToggle } from "@/shared/components/dashboard/theme-toggle"
 import { Heading } from "@/shared/components/typography/heading"
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent
-} from "@/shared/components/ui/card"
+
 import { redirect } from "next/navigation"
 
 export default async function SettingsPage() {
@@ -25,37 +21,13 @@ export default async function SettingsPage() {
                 Configuración
             </Heading>
 
-            <Card className="max-w-2xl mx-auto">
-                <CardHeader>
-                    <CardTitle>
-                        Información de la cuenta
-                    </CardTitle>
-                    <CardDescription>
-                        Aquí puedes ver y actualizar la información de tu cuenta, como tu nombre y correo electrónico. Asegúrate de mantener tus datos actualizados.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <EditOwnUserForm 
-                        user={user as User}
-                    />
-                </CardContent>
-            </Card>
-            <Card className="max-w-2xl mx-auto">
-                <CardHeader>
-                    <CardTitle>
-                        Preferencias
-                    </CardTitle>
-                    <CardDescription>
-                        Aquí puedes ver y actualizar tus preferencias
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center gap-4">
-                        <p>Tema</p>
-                        <ThemeToggle />
-                    </div>
-                </CardContent>
-            </Card>
+            <EditOwnUserCard
+                user={user as User}
+            />
+            <PreferencesCard />
+            <DangerActionsCard
+                user={user as User}
+            />
         </>
     )
 }

@@ -1,7 +1,9 @@
 "use client"
-
+import { Button } from "@/shared/components/ui/button"
+import { User } from "../types/user.types"
 import {
     AlertDialog,
+    AlertDialogTrigger,
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogTitle,
@@ -10,48 +12,42 @@ import {
     AlertDialogCancel,
     AlertDialogAction
 } from "@/shared/components/ui/alert-dialog"
-import { useUsersStore } from "../stores/users-store"
-import { User } from "../types/user.types"
+import { Trash } from "lucide-react"
 import { showResponse } from "@/shared/lib/client-actions"
-import { deleteUserAction } from "../actions/user-actions"
-import { useState } from "react"
+import { deleteOwnUserAction } from "../actions/user-actions"
 import { Spinner } from "@/shared/components/ui/spinner"
-import { set } from "zod"
+import { useState } from "react"
 
-export function DeleteUserDialog({
-    currentUser
+export function DeleteOwnUser({
+    user
 }: {
-    currentUser: User
+    user: User
 }) {
 
-    const {
-        activeUser,
-        setActiveUser,
-        openDeleteDialog,
-        setOpenDeleteDialog
-    } = useUsersStore()
     const [isDeleting, setIsDeleting] = useState(false)
-
-    if (!activeUser) return null
 
     const deleteAction = async () => {
         setIsDeleting(true)
-        showResponse(await deleteUserAction(activeUser.id, currentUser.id))
+        showResponse(await deleteOwnUserAction(user.id, user.id))
         setIsDeleting(false)
     }
 
     return (
-        <AlertDialog open={openDeleteDialog} onOpenChange={() => {
-            setActiveUser(null)
-            setOpenDeleteDialog(false)
-        }}>
+        <AlertDialog>
+            <AlertDialogTrigger
+                render={<Button variant="destructive" />}
+                className="flex items-center"
+            >
+                <Trash className="w-4 h-4" />
+                Borrar cuenta
+            </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
-                        ¿Estás seguro de que deseas eliminar al usuario {activeUser.name}?
+                        ¿Estás seguro de que deseas eliminar tu cuenta?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta acción no se puede deshacer. Las inscripciones realizadas por  el usuario se conservarán.
+                        Esta acción no se puede deshacer. Todas tus inscripciones se conservarán, pero perderás el acceso a tu cuenta y a la información asociada a ella.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
