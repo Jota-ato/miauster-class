@@ -50,6 +50,8 @@ class UsersService {
             throw new AppError("No tienes permisos para eliminar este usuario")
         }
 
+        // TODO: Change all invoices and enrollments to be assigned to the deleter user
+
         await this.usersRepository.delete(user.id)
     }
 }

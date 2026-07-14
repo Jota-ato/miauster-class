@@ -10,10 +10,11 @@ import {
     TableRow
 } from "@/shared/components/ui/table"
 import { Button } from "@/shared/components/ui/button"
-import { PenSquare, Trash } from "lucide-react"
+import { PenSquare, Settings, Trash } from "lucide-react"
 import { rolesTranslatedMap } from "@/shared/utils/roles"
 import { useUsersStore } from "../stores/users-store"
 import { cn } from "@/shared/lib/utils"
+import Link from "next/link"
 
 export function UsersTable({
     users,
@@ -64,26 +65,42 @@ export function UsersTable({
                                 {rolesTranslatedMap[user.role]}
                             </TableCell>
                             <TableCell className="flex gap-2">
-                                <Button
-                                    size="icon"
-                                    variant="outline"
-                                    onClick={() => {
-                                        setActiveUser(user)
-                                        setOpenEditSheet(true)
-                                    }}
-                                >
-                                    <PenSquare />
-                                </Button>
-                                <Button
-                                    size="icon"
-                                    variant="destructive"
-                                    onClick={() => {
-                                        setActiveUser(user)
-                                        setOpenDeleteDialog(true)
-                                    }}
-                                >
-                                    <Trash />
-                                </Button>
+                                {(user.id !== currentUser.id) ? (
+                                    <>
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            onClick={() => {
+                                                setActiveUser(user)
+                                                setOpenEditSheet(true)
+                                            }}
+                                            aria-label="Editar usuario"
+                                        >
+                                            <PenSquare />
+                                        </Button>
+                                        <Button
+                                            size="icon"
+                                            variant="destructive"
+                                            onClick={() => {
+                                                setActiveUser(user)
+                                                setOpenDeleteDialog(true)
+                                            }}
+                                            aria-label="Eliminar usuario"
+                                        >
+                                            <Trash />
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        aria-label="Configuración"
+                                        render={<Link href="/dashboard/settings" />}
+                                        nativeButton={false}
+                                    >
+                                        <Settings />
+                                    </Button>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))
