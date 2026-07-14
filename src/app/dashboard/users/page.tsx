@@ -1,3 +1,4 @@
+import { DeleteUserDialog } from "@/features/users/components/delete-user-dialog";
 import { EditSheet } from "@/features/users/components/edit-sheet";
 import { UsersTable } from "@/features/users/components/users-table";
 import { usersService } from "@/features/users/services/users-service";
@@ -27,6 +28,9 @@ export default async function UsersPage() {
                 users={users}
             />
             <EditSheet />
+            <DeleteUserDialog
+                currentUser={user as User}
+            />
         </>
     )
 }

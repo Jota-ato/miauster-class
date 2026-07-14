@@ -25,7 +25,8 @@ export function UsersTable({
 
     const {
         setActiveUser,
-        setOpenEditSheet
+        setOpenEditSheet,
+        setOpenDeleteDialog
     } = useUsersStore()
 
     return (
@@ -76,6 +77,10 @@ export function UsersTable({
                                 <Button
                                     size="icon"
                                     variant="destructive"
+                                    onClick={() => {
+                                        setActiveUser(user)
+                                        setOpenDeleteDialog(true)
+                                    }}
                                 >
                                     <Trash />
                                 </Button>

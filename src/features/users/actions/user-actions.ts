@@ -1,6 +1,6 @@
 "use server"
 
-import { sellerAction } from "@/shared/lib/actions"
+import { adminAction, sellerAction } from "@/shared/lib/actions"
 import { EditOwnUserInput, editOwnUserSchema } from "../schema/user-schema"
 import { AppError } from "@/shared/lib/errors"
 import { usersService } from "../services/users-service"
@@ -21,4 +21,14 @@ export const editOwnUserAction = sellerAction(async (
     )
 
     return "Actualizaste tus datos correctamente"
+})
+
+export const deleteUserAction = adminAction(async (
+    userId: string,
+    deleterId: string
+) => {
+    await usersService.deleteUser(
+        userId,
+        deleterId
+    )
 })

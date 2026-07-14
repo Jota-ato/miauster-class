@@ -33,6 +33,23 @@ class UsersService {
 
         return await this.usersRepository.update(user.id, data)
     }
+
+    async deleteUser(
+        id: string,
+        deleterId: string
+    ) {
+        const user = await this.usersRepository.findById(id)
+        const deleter = await this.usersRepository.findById(deleterId)
+        if (!user || !deleter) {
+            throw new AppError("Usuario no encontrado")
+        }
+
+        if ((user.id !== deleter.id) && (deleter.role !== "admin")) {
+            throw new AppError("No tienes permisos para eliminar este usuario")
+        }
+
+        await this.usersRepository.delete(user.id)
+    }
 }
 
 export const usersService = new UsersService(

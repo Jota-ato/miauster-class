@@ -2,11 +2,13 @@ import { db } from "@/db"
 import { User } from "../types/user.types"
 import { user } from "@/db/schema"
 import { eq } from "drizzle-orm"
+import { DELETE_USER_ID } from "@/shared/lib/env"
 
 export interface IUsersRepository {
     findAll(): Promise<User[]>
     findById(id: string): Promise<User | null>
     update(id: string, data: Partial<Omit<User, "id">>): Promise<User>
+    delete(id: string): Promise<void>
 }
 
 class UsersRepository implements IUsersRepository {
@@ -14,7 +16,9 @@ class UsersRepository implements IUsersRepository {
         return await db
             .query
             .user
-            .findMany()
+            .findMany({
+                where: (user, { not, eq }) => not(eq(user.id, DELETE_USER_ID!))
+            })
     }
 
     async findById(id: string): Promise<User | null> {
@@ -35,6 +39,12 @@ class UsersRepository implements IUsersRepository {
             .where(eq(user.id, id))
             .returning()
         )[0]
+    }
+
+    async delete(id: string): Promise<void> {
+        await db
+            .delete(user)
+            .where(eq(user.id, id))
     }
 }
 
