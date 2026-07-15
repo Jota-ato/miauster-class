@@ -28,5 +28,4 @@ export const languages = pgTable("languages", {
 
 export const languagesRelations = relations(languages, ({ many }) => ({
     levels: many(languagesLevels),
-    groups: many(groups)
 }))
