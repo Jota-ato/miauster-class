@@ -1,9 +1,16 @@
-import { AddLevelCard } from "@/features/levels/components/add-level-card"
-import { LevelForm } from "@/features/levels/components/level-form"
+import { EditLevelCard } from "@/features/levels/components/edit-level-card"
+import { LevelDetailsCard } from "@/features/levels/components/level-details-card"
 import { levelsService } from "@/features/levels/services/levels-service"
+import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { requireAuth } from "@/lib/auth-server"
 import { Heading } from "@/shared/components/typography/heading"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/shared/components/ui/card"
 import { notFound, redirect } from "next/navigation"
 
 export default async function LevelPage({
@@ -24,17 +31,15 @@ export default async function LevelPage({
         <>
             <Heading>{level.name}</Heading>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Editar nivel</CardTitle>
-                    <CardDescription>Modifica los detalles del nivel</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <LevelForm
-                        level={level}
-                    />
-                </CardContent>
-            </Card>
+            {UsersPolicies.isAdmin(user) ? (
+                <EditLevelCard 
+                    level={level}
+                />
+            ) : (
+                <LevelDetailsCard 
+                    level={level}
+                />
+            )}
         </>
     )
 }
