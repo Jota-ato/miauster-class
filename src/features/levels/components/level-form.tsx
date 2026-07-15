@@ -13,7 +13,7 @@ import { FieldInput } from "@/shared/components/forms/field-inputs.types"
 import { FieldWLabel } from "@/shared/components/forms/field-w-label"
 import { FormSubmit } from "@/shared/components/forms/form-submit"
 import { showResponse } from "@/shared/lib/client-actions"
-import { createLevelAction } from "../actions/levels-actions"
+import { createLevelAction, updateLevelAction } from "../actions/levels-actions"
 import { Textarea } from "@/shared/components/ui/textarea"
 import { Level } from "../types/levels.types"
 import { CustomSelect } from "@/shared/components/forms/custom-select"
@@ -61,7 +61,11 @@ export function LevelForm({
     })
 
     const onSubmit = async (data: LevelsInput) => {
-        showResponse(await createLevelAction(data))
+        if (isEditing) {
+            showResponse(await updateLevelAction(level.id, data))
+        } else {
+            showResponse(await createLevelAction(data))
+        }
     }
 
     const label = isEditing ? "Actualizar nivel" : "Agregar nivel"

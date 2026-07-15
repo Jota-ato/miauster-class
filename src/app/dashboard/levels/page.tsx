@@ -50,6 +50,7 @@ export default async function LevelsPage() {
                 <CardContent>
                     {levels.length ? (
                         <LevelsTable 
+                            currentUser={user}
                             levels={levels}
                         />
                     ): (

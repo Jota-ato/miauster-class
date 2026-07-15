@@ -24,7 +24,7 @@ class LevelsService {
         const payload: NewLevel = {
             name: data.name,
             description: data.description,
-            isActive: data.isActive ? true : false
+            isActive: data.isActive || false
         }
 
         await this.levelsRepository.insert(payload)

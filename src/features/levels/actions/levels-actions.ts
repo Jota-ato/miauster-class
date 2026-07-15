@@ -16,3 +16,15 @@ export const createLevelAction = adminAction(async (data: LevelsInput) => {
 
     return `Nivel "${zodResponse.data.name}" agregado correctamente`
 })
+
+export const updateLevelAction = adminAction(async (levelId: string, data: LevelsInput) => {
+    const zodResponse = levelsSchema.safeParse(data)
+
+    if (!zodResponse.success) {
+        throw new AppError("Datos inválidos")
+    }
+
+    await levelsService.updateLevel(levelId, zodResponse.data)
+
+    return `Nivel "${zodResponse.data.name}" actualizado correctamente`
+})

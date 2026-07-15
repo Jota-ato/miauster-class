@@ -1,3 +1,4 @@
+import { User } from "@/features/users/types/user.types"
 import { LevelWithLanguages } from "../types/levels.types"
 import {
     Table,
@@ -7,11 +8,17 @@ import {
     TableBody,
     TableCell
 } from "@/shared/components/ui/table"
+import { UsersPolicies } from "@/features/users/policies/user-policies"
+import { Button } from "@/shared/components/ui/button"
+import Link from "next/link"
+import { PenSquare } from "lucide-react"
 
 export function LevelsTable({
-    levels
+    levels,
+    currentUser
 }: {
     levels: LevelWithLanguages[]
+    currentUser: User
 }) {
     return (
         <Table>
@@ -19,6 +26,9 @@ export function LevelsTable({
                 <TableRow>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Idiomas</TableHead>
+                    {UsersPolicies.isAdmin(currentUser) && (
+                        <TableHead>Acciones</TableHead>
+                    )}
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -37,6 +47,19 @@ export function LevelsTable({
                                 <span>No tiene idiomas asociados</span>
                             )}
                         </TableCell>
+                        {UsersPolicies.isAdmin(currentUser) && (
+                            <TableCell className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    render={<Link href={`/dashboard/levels/${level.id}`} />}
+                                    nativeButton={false}
+                                    aria-label="Ver detalles"
+                                >
+                                    <PenSquare />
+                                </Button>
+                            </TableCell>
+                        )}
                     </TableRow>
                 ))}
             </TableBody>
