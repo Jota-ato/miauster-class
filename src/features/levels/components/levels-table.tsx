@@ -26,9 +26,8 @@ export function LevelsTable({
                 <TableRow>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Idiomas</TableHead>
-                    {UsersPolicies.isAdmin(currentUser) && (
-                        <TableHead>Acciones</TableHead>
-                    )}
+                    <TableHead>Acciones</TableHead>
+
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -47,19 +46,17 @@ export function LevelsTable({
                                 <span>No tiene idiomas asociados</span>
                             )}
                         </TableCell>
-                        {UsersPolicies.isAdmin(currentUser) && (
-                            <TableCell className="flex items-center gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    render={<Link href={`/dashboard/levels/${level.id}`} />}
-                                    nativeButton={false}
-                                    aria-label="Ver detalles"
-                                >
-                                    <Eye />
-                                </Button>
-                            </TableCell>
-                        )}
+                        <TableCell className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                render={<Link href={`/dashboard/levels/${level.id}`} />}
+                                nativeButton={false}
+                                aria-label="Ver detalles"
+                            >
+                                <Eye />
+                            </Button>
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>
