@@ -39,3 +39,5 @@ export const groupsSchedulesRelations = relations(groupsSchedules, ({ one }) => 
         references: [groups.id],
     }),
 }));
+
+export const daysOfWeek = daysOfWeekEnum.enumValues
