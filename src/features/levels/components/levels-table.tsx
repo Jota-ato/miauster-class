@@ -27,9 +27,10 @@ export function LevelsTable({
                         <TableCell>{level.name}</TableCell>
                         <TableCell>
                             {level.languagesLevels.length ? (
-                                level.languagesLevels.map((langLevel) => (
+                                level.languagesLevels.map((langLevel, idx) => (
                                     <span key={langLevel.language.id}>
                                         {langLevel.language.name}
+                                        {idx < level.languagesLevels.length - 1 && ", "}
                                     </span>
                                 ))
                             ) : (

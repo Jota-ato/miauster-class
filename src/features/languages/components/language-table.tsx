@@ -30,10 +30,13 @@ export function LanguagesTable({
                         <TableCell>{language.name}</TableCell>
                         <TableCell>
                             {language.languagesLevels.length ? (
-                                language.languagesLevels.map(langLevel => (
-                                    <span key={langLevel.id}>{langLevel.level.name}</span>
+                                language.languagesLevels.map((langLevel, idx) => (
+                                    <span key={langLevel.id}>
+                                        {langLevel.level.name}
+                                        {idx < language.languagesLevels.length - 1 && ", "}
+                                    </span>
                                 ))
-                            ): (
+                            ) : (
                                 <span>No tiene niveles asociados</span>
                             )}
                         </TableCell>
