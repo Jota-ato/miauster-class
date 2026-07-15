@@ -11,7 +11,7 @@ import {
 import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { Button } from "@/shared/components/ui/button"
 import Link from "next/link"
-import { PenSquare } from "lucide-react"
+import { Eye } from "lucide-react"
 
 export function LevelsTable({
     levels,
@@ -56,7 +56,7 @@ export function LevelsTable({
                                     nativeButton={false}
                                     aria-label="Ver detalles"
                                 >
-                                    <PenSquare />
+                                    <Eye />
                                 </Button>
                             </TableCell>
                         )}
