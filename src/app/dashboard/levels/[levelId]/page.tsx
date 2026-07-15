@@ -29,7 +29,7 @@ export default async function LevelPage({
 
     return (
         <>
-            <Heading>{level.name}</Heading>
+            <Heading>Nivel: {level.name}</Heading>
 
             {UsersPolicies.isAdmin(user) ? (
                 <EditLevelCard 

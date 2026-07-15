@@ -26,7 +26,8 @@ class LevelsRepository implements ILevelsRepository {
                             language: full ? true : undefined
                         }
                     }
-                }
+                },
+                orderBy: (level, { asc }) => asc(level.name)
             })
     }
 
