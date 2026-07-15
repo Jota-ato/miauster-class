@@ -10,10 +10,9 @@ import { redirect } from "next/navigation"
 
 export default async function SettingsPage() {
 
-    const { session } = await requireAuth()
+    const { session, user } = await requireAuth()
 
-    if (!session) redirect("/auth/sign-in")
-    const { user } = session
+    if (!session || !user) redirect("/auth/sign-in")
 
     return (
         <>

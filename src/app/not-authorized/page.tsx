@@ -17,8 +17,14 @@ import {
 } from "@/shared/components/ui/card"
 import { Heading } from "@/shared/components/typography/heading"
 import { Container } from "@/shared/components/layout/container"
+import { requireAuth } from "@/lib/auth-server"
 
-export default function NotAuthorizedPage() {
+export default async function NotAuthorizedPage() {
+
+    const { session, user } = await requireAuth()
+
+    const backUrl = session && user ? "/dashboard" : "/auth/sign-in"
+
     return (
         <Container className="flex items-center justify-center min-h-screen py-8 md:py-12">
             <Card className="max-w-2xl w-full mx-auto">
@@ -35,7 +41,7 @@ export default function NotAuthorizedPage() {
                 </CardContent>
                 <CardFooter className="md:justify-evenly flex-col md:flex-row gap-4">
                     <Button
-                        render={<Link href="/" />}
+                        render={<Link href={backUrl} />}
                         nativeButton={false}
                         variant="outline"
                         size="lg"
