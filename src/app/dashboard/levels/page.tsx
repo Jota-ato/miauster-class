@@ -10,12 +10,15 @@ import {
     CardContent,
 } from "@/shared/components/ui/card";
 import Link from "next/link";
+import { levelsService } from "@/features/levels/services/levels-service";
 
 export default async function LevelsPage() {
 
     const { session, user } = await requireAuth()
 
     if (!session || !user) redirect("/auth/sign-in")
+
+    const levels = await levelsService.getAllLevels(true)
 
     return (
         <>
@@ -28,24 +31,24 @@ export default async function LevelsPage() {
                     className="my-4"
                     size="lg"
                     variant="link"
-                    render={<Link href="/dashboard/languages/add" />}
+                    render={<Link href="/dashboard/levels/add" />}
                     nativeButton={false}
                 >
-                    Agregar idioma
+                    Agregar nivel
                 </Button>
             )}
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        Idiomas
+                        Niveles
                     </CardTitle>
                     <CardDescription>
-                        Aquí puedes ver los idiomas disponibles en la plataforma.
+                        Aquí puedes ver los niveles disponibles en la plataforma.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <p>
-                        Contenido de los idiomas.
+                        Contenido de los niveles.
                     </p>
                 </CardContent>
             </Card>
