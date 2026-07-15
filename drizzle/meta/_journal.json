@@ -57,6 +57,13 @@
       "when": 1784045600593,
       "tag": "0007_flaky_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1784137271385,
+      "tag": "0008_dear_namor",
+      "breakpoints": true
     }
   ]
 }

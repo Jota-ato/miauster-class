@@ -5,6 +5,7 @@ import {
     CardDescription,
     CardContent,
 } from "@/shared/components/ui/card";
+import { LanguageForm } from "./language-form";
 
 export function AddLanguageCard() {
     return (
@@ -16,6 +17,7 @@ export function AddLanguageCard() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
+                <LanguageForm />
             </CardContent>
         </Card>
     )

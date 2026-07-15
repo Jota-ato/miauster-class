@@ -1,4 +1,4 @@
-import { AddLanguageCard } from "@/features/languages/components/add-level-card";
+import { AddLanguageCard } from "@/features/languages/components/add-language-card";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
 import { redirect } from "next/navigation";
