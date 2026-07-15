@@ -33,7 +33,7 @@ export function LevelsTable({
                                     </span>
                                 ))
                             ) : (
-                                <p>No tiene idiomas asociados</p>
+                                <span>No tiene idiomas asociados</span>
                             )}
                         </TableCell>
                     </TableRow>
