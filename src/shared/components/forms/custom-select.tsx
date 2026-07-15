@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
 
 interface SelectOption {
-    value: string
+    value: any
     label: string
 }
 

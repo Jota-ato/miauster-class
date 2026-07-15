@@ -20,7 +20,6 @@ export default async function LevelsPage() {
     if (!session || !user) redirect("/auth/sign-in")
 
     const levels = await levelsService.getAllLevels(true)
-    console.log(levels)
 
     return (
         <>

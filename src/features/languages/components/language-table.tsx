@@ -14,8 +14,6 @@ export function LanguagesTable({
     languages: LanguageWithLanguagesLevels[]
 }) {
 
-    console.log(languages)
-
     return (
         <Table>
             <TableHeader>

@@ -1,5 +1,6 @@
+import { AppError } from "@/shared/lib/errors";
 import { LevelsInput } from "../schemas/levels-schema";
-import { Level, LevelWithLanguages, NewLevel } from "../types/levels.types";
+import { Level, LevelWithLanguages, NewLevel, UpdateLevel } from "../types/levels.types";
 import { ILevelsRepository, levelsRepository } from "./levels-repository";
 
 class LevelsService {
@@ -21,10 +22,29 @@ class LevelsService {
     async addLevel(data: LevelsInput) {
 
         const payload: NewLevel = {
-            name: data.name
+            name: data.name,
+            description: data.description,
+            isActive: data.isActive ? true : false
         }
 
         await this.levelsRepository.insert(payload)
+    }
+
+    async updateLevel(id: string, data: LevelsInput) {
+
+        const level = await this.levelsRepository.getById(id)
+
+        if (!level) {
+            throw new AppError("Level not found")
+        }
+
+        const payload: UpdateLevel = {
+            name: data.name,
+            description: data.description,
+            isActive: data.isActive ? true : false
+        }
+
+        await this.levelsRepository.update(id, payload)
     }
 }
 

@@ -4,8 +4,8 @@ import { languagesLevels } from "@/db/schema/languages-levels-schema"
 // Define aquí qué niveles aplican a cada idioma
 const seedData: Record<string, string[]> = {
     "Inglés": ["A1", "A2", "B1", "B2", "C1", "C2"],
-    "Francés": ["A1", "A2", "B1", "B2", "C1", "C2"],
-    "Alemán": ["A1", "A2", "B1", "B2", "C1", "C2"],
+    "Francés": ["A1", "A2", "B1", "B2", "C1"],
+    "Alemán": ["A1", "A2", "B1"],
     "Chino": ["Básico 1", "Presscolar 4"],
 }
 

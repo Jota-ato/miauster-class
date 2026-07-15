@@ -1,6 +1,7 @@
 import { db } from "@/db"
-import { Level, LevelWithLanguages, NewLevel } from "../types/levels.types"
+import { Level, LevelWithLanguages, NewLevel, UpdateLevel } from "../types/levels.types"
 import { levels } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 export interface ILevelsRepository {
     getAll(full: true): Promise<LevelWithLanguages[]>
@@ -8,6 +9,7 @@ export interface ILevelsRepository {
     getAll(full?: boolean): Promise<Level[] | LevelWithLanguages[]>
     getById(id: string): Promise<Level | null>
     insert(data: NewLevel): Promise<void>
+    update(id: string, data: UpdateLevel): Promise<void>
 }
 
 class LevelsRepository implements ILevelsRepository {
@@ -41,6 +43,13 @@ class LevelsRepository implements ILevelsRepository {
         await db
             .insert(levels)
             .values(data)
+    }
+
+    async update(id: string, data: UpdateLevel): Promise<void> {
+        await db
+            .update(levels)
+            .set(data)
+            .where(eq(levels.id, id))
     }
 }
 
