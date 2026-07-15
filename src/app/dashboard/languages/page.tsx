@@ -1,3 +1,4 @@
+import { languagesService } from "@/features/languages/services/languages-service";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
 import { Button } from "@/shared/components/ui/button";
@@ -16,6 +17,8 @@ export default async function LanguagesPage() {
     const { session, user } = await requireAuth()
 
     if (!session || !user) redirect("/auth/sign-in")
+    
+    const languages = await languagesService.getAllLanguages()
 
     return (
         <>

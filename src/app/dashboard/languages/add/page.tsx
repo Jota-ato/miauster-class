@@ -1,3 +1,4 @@
+import { AddLanguageCard } from "@/features/languages/components/add-level-card";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
 import { redirect } from "next/navigation";
@@ -15,6 +16,8 @@ export default async function AddLanguagePage() {
             <Heading>
                 Agregar idioma
             </Heading>
+
+            <AddLanguageCard />
         </>
     )
 }
