@@ -6,16 +6,18 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/shared/lib/utils";
 import { GoogleLogo } from "./google-logo";
 import { Spinner } from "@/shared/components/ui/spinner"
+import { Route } from "next";
 
-interface GoogleAuthButtonProps {
-    mode?: "signin" | "signup"
-    className?: string
-}
 
 export default function GoogleAuthButton({
     mode = "signin",
     className,
-}: GoogleAuthButtonProps) {
+    callbackURL = "/dashboard"
+}: {
+    mode?: "signin" | "signup"
+    className?: string
+    callbackURL?: Route
+}) {
     const [isLoading, setIsLoading] = useState(false)
 
     const label = mode === "signin"
@@ -27,7 +29,7 @@ export default function GoogleAuthButton({
         try {
             await authClient.signIn.social({
                 provider: "google",
-                callbackURL: "/dashboard"
+                callbackURL
             })
         } catch {
             toast.error("Error al iniciar sesión con Google. Por favor, inténtalo de nuevo.")

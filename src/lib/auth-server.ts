@@ -14,6 +14,7 @@ export async function requireAuth() {
 
     if (!session) return {
         session: null,
+        user: null,
         isAuth: false,
         isAdmin: false,
         isSeller: false
@@ -21,6 +22,7 @@ export async function requireAuth() {
 
     return {
         session,
+        user: session.user as User,
         isAuth: session ? true : false,
         isAdmin: UsersPolicies.isAdmin(session.user as User),
         isSeller: UsersPolicies.isSeller(session.user as User)

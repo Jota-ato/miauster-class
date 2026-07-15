@@ -1,7 +1,6 @@
 import GoogleAuthButton from "@/features/auth/components/google-auth-button";
 import { Container } from "@/shared/components/layout/container";
 import { Heading } from "@/shared/components/typography/heading";
-import { Button } from "@/shared/components/ui/button";
 import {
     Card,
     CardAction,
@@ -11,6 +10,7 @@ import {
     CardHeader,
     CardTitle
 } from "@/shared/components/ui/card"
+import Link from "next/link";
 
 export default function SignInPage() {
     return (
@@ -29,6 +29,14 @@ export default function SignInPage() {
                     </CardAction>
                 </CardContent>
             </Card>
+            <div className="max-w-xl mx-auto -mt-6 flex items-center justify-end">
+                <Link
+                    href="/auth/sign-up"
+                    className="text-sm text-muted-foreground hover:border-b border-accent-foreground transition-all duration-300"
+                >
+                    ¿No tienes una cuenta? Registrarse
+                </Link>
+            </div>
         </Container>
     )
 }
