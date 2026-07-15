@@ -7,6 +7,7 @@ import {
 import { relations } from "drizzle-orm"
 import { languages } from "./languages-schema"
 import { levels } from "./levels-schema"
+import { groups } from "./groups-schema"
 
 export const languagesLevels = pgTable("languages_levels", {
     id: uuid("id")
@@ -28,7 +29,7 @@ export const languagesLevels = pgTable("languages_levels", {
         .notNull(),
 })
 
-export const languagesLevelsRelations = relations(languagesLevels, ({ one }) => ({
+export const languagesLevelsRelations = relations(languagesLevels, ({ one, many }) => ({
     language: one(languages, {
         fields: [languagesLevels.languageId],
         references: [languages.id]
@@ -37,4 +38,5 @@ export const languagesLevelsRelations = relations(languagesLevels, ({ one }) => 
         fields: [languagesLevels.levelId],
         references: [levels.id]
     }),
+    groups: many(groups)
 }))

@@ -1,3 +1,4 @@
+import { LanguagesTable } from "@/features/languages/components/language-table";
 import { languagesService } from "@/features/languages/services/languages-service";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
@@ -18,7 +19,7 @@ export default async function LanguagesPage() {
 
     if (!session || !user) redirect("/auth/sign-in")
     
-    const languages = await languagesService.getAllLanguages()
+    const languages = await languagesService.getAllLanguages(true)
 
     return (
         <>
@@ -47,9 +48,11 @@ export default async function LanguagesPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>
-                        Contenido de los idiomas.
-                    </p>
+                    {languages.length ? (
+                        <LanguagesTable languages={languages} />
+                    ) : (
+                        <span>No hay idiomas disponibles.</span>
+                    )}
                 </CardContent>
             </Card>
         </>
