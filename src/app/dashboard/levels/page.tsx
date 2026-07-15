@@ -11,6 +11,7 @@ import {
 } from "@/shared/components/ui/card";
 import Link from "next/link";
 import { levelsService } from "@/features/levels/services/levels-service";
+import { LevelsTable } from "@/features/levels/components/levels-table";
 
 export default async function LevelsPage() {
 
@@ -19,6 +20,7 @@ export default async function LevelsPage() {
     if (!session || !user) redirect("/auth/sign-in")
 
     const levels = await levelsService.getAllLevels(true)
+    console.log(levels)
 
     return (
         <>
@@ -47,9 +49,13 @@ export default async function LevelsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>
-                        Contenido de los niveles.
-                    </p>
+                    {levels.length ? (
+                        <LevelsTable 
+                            levels={levels}
+                        />
+                    ): (
+                        <p>No hay niveles disponibles en este momento.</p>
+                    )}
                 </CardContent>
             </Card>
         </>
