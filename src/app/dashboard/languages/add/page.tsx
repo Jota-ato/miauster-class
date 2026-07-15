@@ -8,6 +8,8 @@ export default async function AddLanguagePage() {
 
     if (!session || !user) redirect("/auth/sign-in")
 
+    if (user.role !== "admin") redirect("/not-authorized")
+
     return (
         <>
             <Heading>

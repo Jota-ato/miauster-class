@@ -4,7 +4,8 @@ import {
     FolderKanban,
     Home,
     Users,
-    Languages
+    Languages,
+    SignalHigh
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { User } from "@/features/users/types/user.types"
@@ -35,6 +36,11 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
         label: "Idiomas",
         href: "/dashboard/languages",
         icon: Languages
+    },
+    {
+        label: "Niveles",
+        href: "/dashboard/levels",
+        icon: SignalHigh
     },
     {
         label: "Usuarios",
