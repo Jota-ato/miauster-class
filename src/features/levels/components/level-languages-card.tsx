@@ -9,7 +9,7 @@ import {
 } from "@/shared/components/ui/card"
 import { LanguageLevelFlag } from "./language-level-flag"
 import { AdminLanguageLevelFlag } from "./admin-language-level-flag"
-import { AddLanguageLevelFlag } from "./add-language-level-flag"
+import { EditLanguageLevelFlag } from "./edit-language-level-flag"
 
 export function LevelLanguagesCard({
     level,
@@ -49,7 +49,7 @@ export function LevelLanguagesCard({
                     </div>
                 )}
                 {isAdmin && (
-                    <AddLanguageLevelFlag />
+                    <EditLanguageLevelFlag />
                 )}
             </CardContent>
         </Card>

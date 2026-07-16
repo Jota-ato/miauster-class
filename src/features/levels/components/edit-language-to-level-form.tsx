@@ -20,7 +20,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox"
 import { showResponse } from "@/shared/lib/client-actions"
 import { updateLanguageLevelsAction } from "../actions/language-levels-actions"
 
-export function AddLanguageToLevelForm({
+export function EditLanguageToLevelForm({
     level,
     currentLanguagesInLevel,
     languages

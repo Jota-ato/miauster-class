@@ -10,7 +10,7 @@ import {
 import { useLanguageLevelStore } from "../stores/language-level-store"
 import { Level } from "../types/levels.types"
 import { Language, LanguageLevelWithLanguage } from "@/features/languages/types/languages.types"
-import { AddLanguageToLevelForm } from "./add-language-to-level-form"
+import { EditLanguageToLevelForm } from "./edit-language-to-level-form"
 
 export function AddLanguageToLevelDialog({
     level,
@@ -33,7 +33,7 @@ export function AddLanguageToLevelDialog({
                         Selecciona el idioma que deseas agregar a este nivel. Una vez agregado, podrás crear grupos con este nivel e idioma.
                     </DialogDescription>
                 </DialogHeader>
-                <AddLanguageToLevelForm 
+                <EditLanguageToLevelForm 
                     level={level}
                     currentLanguagesInLevel={currentLanguagesInLevel}
                     languages={languages}

@@ -1,5 +1,5 @@
 import { languagesService } from "@/features/languages/services/languages-service"
-import { AddLanguageToLevelDialog } from "@/features/levels/components/add-language-to-level-dialog"
+import { AddLanguageToLevelDialog } from "@/features/levels/components/edit-language-to-level-dialog"
 import { EditLevelCard } from "@/features/levels/components/edit-level-card"
 import { LevelDetailsCard } from "@/features/levels/components/level-details-card"
 import { LevelLanguagesCard } from "@/features/levels/components/level-languages-card"
