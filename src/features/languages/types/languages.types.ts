@@ -5,8 +5,14 @@ export type Language = typeof languages.$inferSelect
 export type NewLanguage = typeof languages.$inferInsert
 export type UpdateLanguage = Partial<Omit<Language, "id">>
 
-export type LanguageLevel = typeof languagesLevels.$inferSelect & {
+export type LanguageLevel = typeof languagesLevels.$inferSelect
+
+export type LanguageLevelWithLevel = typeof languagesLevels.$inferSelect & {
     level: Level
+}
+
+export type LanguageLevelWithLanguage = LanguageLevel & {
+    language: Language
 }
 
 export type LanguageWithLanguagesLevels = Language & {

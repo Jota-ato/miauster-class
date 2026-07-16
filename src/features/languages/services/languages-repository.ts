@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { Language, LanguageWithLanguagesLevels, NewLanguage } from "../types/languages.types"
+import { Language, LanguageLevelWithLanguage, LanguageWithLanguagesLevels, NewLanguage } from "../types/languages.types"
 import { languages } from "@/db/schema/languages-schema"
 
 export interface ILanguagesRepository {
@@ -8,6 +8,7 @@ export interface ILanguagesRepository {
     getAll(full?: boolean): Promise<Language[] | LanguageWithLanguagesLevels[]>
     getAll(): Promise<Language[]>
     getById(id: string): Promise<Language | null>
+    getByLevel(levelId: string): Promise<LanguageLevelWithLanguage[]>
     insert(data: NewLanguage): Promise<void>
 }
 
@@ -36,6 +37,18 @@ class LanguagesRepository implements ILanguagesRepository {
             .findFirst({
                 where: (languages, { eq }) => eq(languages.id, id)
             }) || null
+    }
+
+    async getByLevel(levelId: string): Promise<LanguageLevelWithLanguage[]> {
+        return await db
+            .query
+            .languagesLevels
+            .findMany({
+                where: (languagesLevels, { eq }) => eq(languagesLevels.levelId, levelId),
+                with: {
+                    language: true
+                }
+            })
     }
 
     async insert(data: NewLanguage): Promise<void> {

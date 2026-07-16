@@ -1,5 +1,7 @@
+import { languagesService } from "@/features/languages/services/languages-service"
 import { EditLevelCard } from "@/features/levels/components/edit-level-card"
 import { LevelDetailsCard } from "@/features/levels/components/level-details-card"
+import { LevelLanguagesCard } from "@/features/levels/components/level-languages-card"
 import { levelsService } from "@/features/levels/services/levels-service"
 import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { requireAuth } from "@/lib/auth-server"
@@ -26,6 +28,7 @@ export default async function LevelPage({
 
     const level = await levelsService.getLevelById(levelId)
     if (!level) notFound()
+    const languages = await languagesService.getLanguagesByLevel(level.id)
 
     return (
         <>
@@ -40,6 +43,12 @@ export default async function LevelPage({
                     level={level}
                 />
             )}
+
+            <LevelLanguagesCard 
+                level={level}
+                languages={languages}
+                isAdmin={UsersPolicies.isAdmin(user)}
+            />
         </>
     )
 }

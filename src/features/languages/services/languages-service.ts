@@ -16,6 +16,10 @@ class LanguagesService {
         return await this.languagesRepository.getById(id)
     }
 
+    async getLanguagesByLevel(levelId: string) {
+        return await this.languagesRepository.getByLevel(levelId)
+    }
+
     async createLanguage(data: NewLanguage) {
         return await this.languagesRepository.insert(data)
     }
