@@ -8,7 +8,6 @@ import {
     CardTitle
 } from "@/shared/components/ui/card"
 import { LanguageLevelFlag } from "./language-level-flag"
-import { AdminLanguageLevelFlag } from "./admin-language-level-flag"
 import { EditLanguageLevelFlag } from "./edit-language-level-flag"
 
 export function LevelLanguagesCard({
@@ -30,17 +29,10 @@ export function LevelLanguagesCard({
                 {languages.length ? (
                     <div className="flex md:inline-flex flex-col sm:flex-row items-center gap-4 md:mr-4">
                         {languages.map(languageLevel => (
-                            isAdmin ? (
-                                <AdminLanguageLevelFlag
-                                    key={languageLevel.id}
-                                    languageLevel={languageLevel}
-                                />
-                            ) : (
-                                <LanguageLevelFlag
-                                    key={languageLevel.id}
-                                    languageLevel={languageLevel}
-                                />
-                            )
+                            <LanguageLevelFlag
+                                key={languageLevel.id}
+                                languageLevel={languageLevel}
+                            />
                         ))}
                     </div>
                 ) : (
