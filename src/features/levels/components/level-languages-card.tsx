@@ -25,11 +25,11 @@ export function LevelLanguagesCard({
             </CardHeader>
             <CardContent>
                 {languages.length ? (
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
                         {languages.map(languageLevel => (
                             <span
                                 key={languageLevel.id}
-                                className="inline-block px-6 py-4 bg-muted border border-border rounded-md"
+                                className="inline-block w-full sm:w-auto text-center px-6 py-4 bg-muted border border-border rounded-md"
                             >
                                 {languageLevel.language.name}
                             </span>
