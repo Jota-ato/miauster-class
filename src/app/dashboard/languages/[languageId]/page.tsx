@@ -15,7 +15,6 @@ export default async function LanguagePage({
     const { user } = await requireAuth()
 
     if (!user) redirect("/auth/sign-in")
-    if (!UsersPolicies.isAdmin(user)) redirect("/not-authorized")
     
     const { languageId } = await params
     const language = await languagesService.getLanguageById(languageId)
