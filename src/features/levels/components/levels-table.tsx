@@ -12,6 +12,8 @@ import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { Button } from "@/shared/components/ui/button"
 import Link from "next/link"
 import { Eye } from "lucide-react"
+import { EyeButton } from "@/shared/components/ui/eye-button"
+import { Route } from "next/dist/build/swc/types"
 
 export function LevelsTable({
     levels,
@@ -47,15 +49,10 @@ export function LevelsTable({
                             )}
                         </TableCell>
                         <TableCell className="flex items-center gap-2">
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                render={<Link href={`/dashboard/levels/${level.id}`} />}
-                                nativeButton={false}
-                                aria-label="Ver detalles"
-                            >
-                                <Eye />
-                            </Button>
+                            <EyeButton 
+                                href={`/dashboard/levels/${level.id}`}
+                                aria-label="Ver nivel"
+                            />
                         </TableCell>
                     </TableRow>
                 ))}

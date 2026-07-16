@@ -7,6 +7,7 @@ import {
     TableCell
 } from "@/shared/components/ui/table"
 import { LanguageWithLanguagesLevels } from "../types/languages.types"
+import { EyeButton } from "@/shared/components/ui/eye-button"
 
 export function LanguagesTable({
     languages
@@ -20,6 +21,7 @@ export function LanguagesTable({
                 <TableRow>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Niveles</TableHead>
+                    <TableHead>Acciones</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -37,6 +39,12 @@ export function LanguagesTable({
                             ) : (
                                 <span>No tiene niveles asociados</span>
                             )}
+                        </TableCell>
+                        <TableCell>
+                            <EyeButton 
+                                href={`/dashboard/languages/${language.id}`}
+                                aria-label="Ver idioma"
+                            />
                         </TableCell>
                     </TableRow>
                 ))}
