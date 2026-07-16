@@ -74,11 +74,12 @@ export function EditLanguageToLevelForm({
                                 return (
                                     <Field key={language.id} orientation="horizontal">
                                         <Checkbox
+                                            id={language.id}
                                             checked={isChecked}
                                             onCheckedChange={handleCheckedChange}
                                         />
                                         <FieldContent>
-                                            <FieldLabel>
+                                            <FieldLabel htmlFor={language.id}>
                                                 {language.name}
                                             </FieldLabel>
                                         </FieldContent>

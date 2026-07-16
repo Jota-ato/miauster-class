@@ -22,6 +22,7 @@ class LevelsRepository implements ILevelsRepository {
             .findMany({
                 with: {
                     languagesLevels: {
+                        where: (languageLevel, { not, eq }) => not(eq(languageLevel.isActive, false)),
                         with: {
                             language: full ? true : undefined
                         }
