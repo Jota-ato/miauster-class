@@ -11,6 +11,7 @@ import { FieldWLabel } from "@/shared/components/forms/field-w-label"
 import { FormSubmit } from "@/shared/components/forms/form-submit"
 import { showResponse } from "@/shared/lib/client-actions"
 import { addLanguageAction } from "../actions/language-actions"
+import { Language } from "../types/languages.types"
 
 const inputs: FieldInput<LanguageInput>[] = [
     {
@@ -21,7 +22,13 @@ const inputs: FieldInput<LanguageInput>[] = [
     }
 ]
 
-export function LanguageForm() {
+export function LanguageForm({
+    language
+}: {
+    language?: Language
+}) {
+
+    const isEditing = !!language
 
     const {
         register,
@@ -29,10 +36,13 @@ export function LanguageForm() {
         formState: { errors, isSubmitting }
     } = useForm({
         resolver: zodResolver(languageSchema),
+        defaultValues: {
+            name: language?.name || ""
+        }
     })
 
-    const label = "Agregar idioma"
-    const isSubmittingLabel = "Agregando idioma..."
+    const label = isEditing ? "Actualizar idioma" : "Agregar idioma"
+    const isSubmittingLabel = isEditing ? "Actualizando idioma..." : "Agregando idioma..."
 
     const onSubmit = async (data: LanguageInput) => {
         showResponse(await addLanguageAction(

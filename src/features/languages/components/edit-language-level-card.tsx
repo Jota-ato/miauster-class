@@ -22,7 +22,9 @@ export function EditLanguageCard({
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <LanguageForm />
+                <LanguageForm
+                    language={language}
+                />
             </CardContent>
         </Card>
     )
