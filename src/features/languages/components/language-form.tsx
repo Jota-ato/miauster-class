@@ -12,6 +12,7 @@ import { FormSubmit } from "@/shared/components/forms/form-submit"
 import { showResponse } from "@/shared/lib/client-actions"
 import { addLanguageAction } from "../actions/language-actions"
 import { Language } from "../types/languages.types"
+import { CustomSelect } from "@/shared/components/forms/custom-select"
 
 const inputs: FieldInput<LanguageInput>[] = [
     {
@@ -33,11 +34,13 @@ export function LanguageForm({
     const {
         register,
         handleSubmit,
+        control,
         formState: { errors, isSubmitting }
     } = useForm({
         resolver: zodResolver(languageSchema),
         defaultValues: {
-            name: language?.name || ""
+            name: language?.name || "",
+            isActive: language?.isActive ?? true
         }
     })
 
@@ -62,6 +65,16 @@ export function LanguageForm({
                             {...input}
                         />
                     ))}
+                    {isEditing && (
+                        <CustomSelect
+                            control={control}
+                            name="isActive"
+                            options={[
+                                { label: "Activo", value: true },
+                                { label: "Inactivo", value: false }
+                            ]}
+                        />
+                    )}
                 </FieldGroup>
                 <FormSubmit
                     isSubmitting={isSubmitting}
