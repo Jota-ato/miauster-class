@@ -1,6 +1,7 @@
 import { db } from "@/db"
-import { Language, LanguageLevelWithLanguage, LanguageWithLanguagesLevels, NewLanguage } from "../types/languages.types"
+import { Language, LanguageLevelWithLanguage, LanguageWithLanguagesLevels, NewLanguage, UpdateLanguage } from "../types/languages.types"
 import { languages } from "@/db/schema/languages-schema"
+import { eq } from "drizzle-orm"
 
 export interface ILanguagesRepository {
     getAll(full: true): Promise<LanguageWithLanguagesLevels[]>
@@ -10,6 +11,7 @@ export interface ILanguagesRepository {
     getById(id: string): Promise<Language | null>
     getByLevel(levelId: string): Promise<LanguageLevelWithLanguage[]>
     insert(data: NewLanguage): Promise<void>
+    update(data: UpdateLanguage, id: string): Promise<void>
 }
 
 class LanguagesRepository implements ILanguagesRepository {
@@ -26,7 +28,8 @@ class LanguagesRepository implements ILanguagesRepository {
                             level: full ? true : undefined
                         }
                     }
-                }
+                },
+                orderBy: (languages, { asc }) => asc(languages.name)
             })
     }
 
@@ -58,6 +61,13 @@ class LanguagesRepository implements ILanguagesRepository {
         await db
             .insert(languages)
             .values(data)
+    }
+
+    async update(data: UpdateLanguage, id: string): Promise<void> {
+        await db
+            .update(languages)
+            .set(data)
+            .where(eq(languages.id, id))
     }
 }
 

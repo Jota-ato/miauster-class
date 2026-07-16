@@ -16,3 +16,15 @@ export const addLanguageAction = adminAction(async (data: LanguageInput) => {
 
     return `Idioma ${zodResponse.data.name} agregado correctamente`
 })
+
+export const updateLanguageAction = adminAction(async (data: LanguageInput, id: string) => {
+    const zodResponse = languageSchema.safeParse(data)
+
+    if (!zodResponse.success) {
+        throw new AppError("Datos inválidos")
+    }
+
+    await languagesService.updateLanguage(zodResponse.data, id)
+
+    return `Idioma ${zodResponse.data.name} actualizado correctamente`
+})

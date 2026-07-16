@@ -10,7 +10,7 @@ import { FieldInput } from "@/shared/components/forms/field-inputs.types"
 import { FieldWLabel } from "@/shared/components/forms/field-w-label"
 import { FormSubmit } from "@/shared/components/forms/form-submit"
 import { showResponse } from "@/shared/lib/client-actions"
-import { addLanguageAction } from "../actions/language-actions"
+import { addLanguageAction, updateLanguageAction } from "../actions/language-actions"
 import { Language } from "../types/languages.types"
 import { CustomSelect } from "@/shared/components/forms/custom-select"
 
@@ -48,9 +48,16 @@ export function LanguageForm({
     const isSubmittingLabel = isEditing ? "Actualizando idioma..." : "Agregando idioma..."
 
     const onSubmit = async (data: LanguageInput) => {
-        showResponse(await addLanguageAction(
-            data
-        ))
+        if (isEditing && language) {
+            showResponse(await updateLanguageAction(
+                data,
+                language.id
+            ))
+        } else {
+            showResponse(await addLanguageAction(
+                data
+            ))
+        }
     }
 
     return (

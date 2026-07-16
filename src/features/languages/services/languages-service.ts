@@ -1,3 +1,4 @@
+import { AppError } from "@/shared/lib/errors";
 import { Language, LanguageWithLanguagesLevels, NewLanguage } from "../types/languages.types";
 import { ILanguagesRepository, languagesRepository } from "./languages-repository";
 
@@ -22,6 +23,14 @@ class LanguagesService {
 
     async createLanguage(data: NewLanguage) {
         return await this.languagesRepository.insert(data)
+    }
+
+    async updateLanguage(data: NewLanguage, id: string) {
+        const language = await this.languagesRepository.getById(id)
+
+        if (!language) throw new AppError("Idioma no encontrado")
+
+        await this.languagesRepository.update(data, id)
     }
 }
 
