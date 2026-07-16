@@ -17,6 +17,8 @@ import {
 } from "../schemas/language-level-schema"
 import { FormSubmit } from "@/shared/components/forms/form-submit"
 import { Checkbox } from "@/shared/components/ui/checkbox"
+import { showResponse } from "@/shared/lib/client-actions"
+import { updateLanguageLevelsAction } from "../actions/language-levels-actions"
 
 export function AddLanguageToLevelForm({
     level,
@@ -40,7 +42,10 @@ export function AddLanguageToLevelForm({
     })
 
     const onSubmit = async (data: LanguageLevelInput) => {
-        console.log(data)
+        showResponse(await updateLanguageLevelsAction(
+            data,
+            level.id
+        ))
     }
 
     return (

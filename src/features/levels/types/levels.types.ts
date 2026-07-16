@@ -1,3 +1,4 @@
+import { languagesLevels } from "@/db/schema/languages-levels-schema";
 import { levels } from "@/db/schema/levels-schema";
 import { Language } from "@/features/languages/types/languages.types";
 
@@ -9,3 +10,4 @@ export type LevelWithLanguages = Level & {
 }
 export type NewLevel = typeof levels.$inferInsert
 export type UpdateLevel = Partial<Omit<Level, "id">>
+export type NewLanguageLevel = typeof languagesLevels.$inferInsert
