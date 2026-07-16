@@ -7,6 +7,9 @@ import {
     CardHeader,
     CardTitle
 } from "@/shared/components/ui/card"
+import { LanguageLevelFlag } from "./language-level-flag"
+import { AdminLanguageLevelFlag } from "./admin-language-level-flag"
+import { AddLanguageLevelFlag } from "./add-language-level-flag"
 
 export function LevelLanguagesCard({
     level,
@@ -25,18 +28,28 @@ export function LevelLanguagesCard({
             </CardHeader>
             <CardContent>
                 {languages.length ? (
-                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                    <div className="flex md:inline-flex flex-col sm:flex-row items-center gap-4 mr-4">
                         {languages.map(languageLevel => (
-                            <span
-                                key={languageLevel.id}
-                                className="inline-block w-full sm:w-auto text-center px-6 py-4 bg-muted border border-border rounded-md"
-                            >
-                                {languageLevel.language.name}
-                            </span>
+                            isAdmin ? (
+                                <AdminLanguageLevelFlag
+                                    key={languageLevel.id}
+                                    languageLevel={languageLevel}
+                                />
+                            ) : (
+                                <LanguageLevelFlag
+                                    key={languageLevel.id}
+                                    languageLevel={languageLevel}
+                                />
+                            )
                         ))}
                     </div>
                 ) : (
-                    <span>No hay idiomas disponibles para este nivel</span>
+                    <div className="mb-4">
+                        <p>No hay idiomas disponibles para este nivel, comienza agregando uno</p>
+                    </div>
+                )}
+                {isAdmin && (
+                    <AddLanguageLevelFlag />
                 )}
             </CardContent>
         </Card>
