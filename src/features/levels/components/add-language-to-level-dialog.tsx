@@ -9,15 +9,17 @@ import {
 } from "@/shared/components/ui/dialog"
 import { useLanguageLevelStore } from "../stores/language-level-store"
 import { Level } from "../types/levels.types"
-import { LanguageLevelWithLanguage } from "@/features/languages/types/languages.types"
+import { Language, LanguageLevelWithLanguage } from "@/features/languages/types/languages.types"
 import { AddLanguageToLevelForm } from "./add-language-to-level-form"
 
 export function AddLanguageToLevelDialog({
     level,
+    currentLanguagesInLevel,
     languages
 }: {
     level: Level,
-    languages: LanguageLevelWithLanguage[]
+    currentLanguagesInLevel: LanguageLevelWithLanguage[]
+    languages: Language[]
 }) {
 
     const { dialogOpen, setDialogOpen } = useLanguageLevelStore()
@@ -33,6 +35,7 @@ export function AddLanguageToLevelDialog({
                 </DialogHeader>
                 <AddLanguageToLevelForm 
                     level={level}
+                    currentLanguagesInLevel={currentLanguagesInLevel}
                     languages={languages}
                 />
             </DialogContent>

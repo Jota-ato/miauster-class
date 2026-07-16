@@ -29,7 +29,8 @@ export default async function LevelPage({
 
     const level = await levelsService.getLevelById(levelId)
     if (!level) notFound()
-    const languages = await languagesService.getLanguagesByLevel(level.id)
+    const currentLanguagesInLevel = await languagesService.getLanguagesByLevel(level.id)
+    const languages = await languagesService.getAllLanguages()
 
     return (
         <>
@@ -47,11 +48,12 @@ export default async function LevelPage({
 
             <LevelLanguagesCard 
                 level={level}
-                languages={languages}
+                currentLanguagesInLevel={currentLanguagesInLevel}
                 isAdmin={UsersPolicies.isAdmin(user)}
             />
             <AddLanguageToLevelDialog 
                 level={level}
+                currentLanguagesInLevel={currentLanguagesInLevel}
                 languages={languages}
             />
         </>

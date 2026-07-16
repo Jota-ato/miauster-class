@@ -1,6 +1,6 @@
 "use client"
 
-import { LanguageLevelWithLanguage } from "@/features/languages/types/languages.types"
+import { Language, LanguageLevelWithLanguage } from "@/features/languages/types/languages.types"
 import { Level } from "../types/levels.types"
 import {
     FieldSet,
@@ -20,20 +20,22 @@ import { Checkbox } from "@/shared/components/ui/checkbox"
 
 export function AddLanguageToLevelForm({
     level,
+    currentLanguagesInLevel,
     languages
 }: {
     level: Level,
-    languages: LanguageLevelWithLanguage[]
+    currentLanguagesInLevel: LanguageLevelWithLanguage[]
+    languages: Language[]
 }) {
 
     const {
         handleSubmit,
         control,
-        formState: { errors, isSubmitting }
+        formState: { isSubmitting }
     } = useForm<LanguageLevelInput>({
         resolver: zodResolver(languageLevelSchema),
         defaultValues: {
-            languages: []
+            languages: currentLanguagesInLevel.map(language => language.language.id)
         }
     })
 
@@ -51,15 +53,15 @@ export function AddLanguageToLevelForm({
                     render={({ field }) => (
                         <>
                             {languages.map(language => {
-                                const isChecked = field.value?.includes(language.languageId) ?? false
+                                const isChecked = field.value?.includes(language.id) ?? false
 
                                 const handleCheckedChange = (checked: boolean) => {
                                     const currentValue = field.value ?? []
                                     if (checked) {
-                                        field.onChange([...currentValue, language.languageId])
+                                        field.onChange([...currentValue, language.id])
                                     } else {
                                         field.onChange(
-                                            currentValue.filter((id: string) => id !== language.languageId)
+                                            currentValue.filter((id: string) => id !== language.id)
                                         )
                                     }
                                 }
@@ -72,7 +74,7 @@ export function AddLanguageToLevelForm({
                                         />
                                         <FieldContent>
                                             <FieldLabel>
-                                                {language.language.name}
+                                                {language.name}
                                             </FieldLabel>
                                         </FieldContent>
                                     </Field>

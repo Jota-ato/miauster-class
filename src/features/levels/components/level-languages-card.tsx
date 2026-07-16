@@ -14,11 +14,11 @@ import { AddLanguageLevelFlag } from "./add-language-level-flag"
 export function LevelLanguagesCard({
     level,
     isAdmin = false,
-    languages
+    currentLanguagesInLevel: languages
 }: {
     level: Level
     isAdmin?: boolean
-    languages: LanguageLevelWithLanguage[]
+    currentLanguagesInLevel: LanguageLevelWithLanguage[]
 }) {
     return (
         <Card>
