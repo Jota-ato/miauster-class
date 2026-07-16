@@ -1,3 +1,5 @@
+import { EditLanguageCard } from "@/features/languages/components/edit-language-level-card"
+import { LanguageDetailsCard } from "@/features/languages/components/language-details-card"
 import { languagesService } from "@/features/languages/services/languages-service"
 import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { requireAuth } from "@/lib/auth-server"
@@ -22,7 +24,16 @@ export default async function LanguagePage({
 
     return (
         <>
-            <Heading>{language.name}</Heading>            
+            <Heading>{language.name}</Heading>
+            {UsersPolicies.isAdmin(user) ? (
+                <EditLanguageCard 
+                    language={language}
+                />
+            ): (
+                <LanguageDetailsCard 
+                    language={language}
+                />
+            )}   
         </>
     )
 }
