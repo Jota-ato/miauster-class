@@ -44,7 +44,10 @@ class LanguagesRepository implements ILanguagesRepository {
             .query
             .languagesLevels
             .findMany({
-                where: (languagesLevels, { eq }) => eq(languagesLevels.levelId, levelId),
+                where: (languagesLevels, { and, not, eq }) => and(
+                    eq(languagesLevels.levelId, levelId),
+                    not(eq(languagesLevels.isActive, false))
+                ),
                 with: {
                     language: true
                 }

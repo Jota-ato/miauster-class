@@ -17,7 +17,10 @@ class LanguageLevelsRepository implements ILanguageLevelsRepository {
 
     async deleteByLevelId(levelId: string): Promise<void> {
         await db
-            .delete(languagesLevels)
+            .update(languagesLevels)
+            .set({
+                isActive: false
+            })
             .where(eq(languagesLevels.levelId, levelId))
     }
 }
