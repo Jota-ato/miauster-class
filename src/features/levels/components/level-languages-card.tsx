@@ -28,7 +28,7 @@ export function LevelLanguagesCard({
             </CardHeader>
             <CardContent>
                 {languages.length ? (
-                    <div className="flex md:inline-flex flex-col sm:flex-row items-center gap-4 mr-4">
+                    <div className="flex md:inline-flex flex-col sm:flex-row items-center gap-4 md:mr-4">
                         {languages.map(languageLevel => (
                             isAdmin ? (
                                 <AdminLanguageLevelFlag
