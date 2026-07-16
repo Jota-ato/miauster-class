@@ -16,5 +16,5 @@ export type LanguageLevelWithLanguage = LanguageLevel & {
 }
 
 export type LanguageWithLanguagesLevels = Language & {
-    languagesLevels: LanguageLevel[]
+    languagesLevels: LanguageLevelWithLevel[]
 }
