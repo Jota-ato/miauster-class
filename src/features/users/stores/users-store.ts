@@ -1,20 +1,20 @@
-import { create } from "zustand"
-import { User } from "../types/user.types"
+import { create } from "zustand";
+import { User } from "../types/user.types";
 
 export interface UsersStore {
-    activeUser: User | null
-    setActiveUser: (user: User | null) => void
-    openEditSheet: boolean
-    setOpenEditSheet: (open: boolean) => void
-    openDeleteDialog: boolean
-    setOpenDeleteDialog: (open: boolean) => void
+  activeUser: User | null;
+  setActiveUser: (user: User | null) => void;
+  openEditSheet: boolean;
+  setOpenEditSheet: (open: boolean) => void;
+  openDeleteDialog: boolean;
+  setOpenDeleteDialog: (open: boolean) => void;
 }
 
 export const useUsersStore = create<UsersStore>((set) => ({
-    activeUser: null,
-    setActiveUser: (user) => set({ activeUser: user }),
-    openEditSheet: false,
-    setOpenEditSheet: (open) => set({ openEditSheet: open }),
-    openDeleteDialog: false,
-    setOpenDeleteDialog: (open) => set({ openDeleteDialog: open })
-}))
+  activeUser: null,
+  setActiveUser: (user) => set({ activeUser: user }),
+  openEditSheet: false,
+  setOpenEditSheet: (open) => set({ openEditSheet: open }),
+  openDeleteDialog: false,
+  setOpenDeleteDialog: (open) => set({ openDeleteDialog: open }),
+}));
