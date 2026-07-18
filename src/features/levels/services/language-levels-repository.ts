@@ -14,10 +14,12 @@ export interface ILanguageLevelsRepository {
   ): Promise<LanguageLevel | null>;
   getById(id: string): Promise<LanguageLevel | null>;
   getActiveByLevelId(levelId: string): Promise<LanguageLevel[]>;
+  getActiveByLanguageId(languageId: string): Promise<LanguageLevel[]>;
   getByLanguageId(languageId: string): Promise<LanguageLevelWithLevel[]>;
   insert(languages: NewLanguageLevel[]): Promise<void>;
   delete(id: string): Promise<void>;
   deleteByLevelId(levelId: string): Promise<void>;
+  deleteByLanguageId(languageId: string): Promise<void>;
   reactivate(id: string): Promise<void>;
 }
 
@@ -65,6 +67,16 @@ class LanguageLevelsRepository implements ILanguageLevelsRepository {
     });
   }
 
+  async getActiveByLanguageId(languageId: string): Promise<LanguageLevel[]> {
+    return await db.query.languagesLevels.findMany({
+      where: (languageLevel, { and, eq }) =>
+        and(
+          eq(languageLevel.languageId, languageId),
+          eq(languageLevel.isActive, true),
+        ),
+    });
+  }
+
   async insert(languages: NewLanguageLevel[]): Promise<void> {
     await db.insert(languagesLevels).values(languages);
   }
@@ -85,6 +97,15 @@ class LanguageLevelsRepository implements ILanguageLevelsRepository {
         isActive: false,
       })
       .where(eq(languagesLevels.levelId, levelId));
+  }
+
+  async deleteByLanguageId(languageId: string): Promise<void> {
+    await db
+      .update(languagesLevels)
+      .set({
+        isActive: false,
+      })
+      .where(eq(languagesLevels.languageId, languageId));
   }
 
   async reactivate(id: string): Promise<void> {

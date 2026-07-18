@@ -23,7 +23,7 @@ export default async function LanguagePage({
     const { languageId } = await params
     const language = await languagesService.getLanguageById(languageId)
     if (!language) notFound()
-    const levelsOfLanguage = await languageLevelService.getLevelesByLanguage(languageId)
+    const levelsOfLanguage = await languageLevelService.getLevelsByLanguage(languageId)
     const levels = await levelsService.getAllLevels()
 
     return (

@@ -33,8 +33,24 @@ class LanguageLevelService {
     }
   }
 
-  async getLevelesByLanguage(languageId: string) {
-    if (!this.validateLanguagesExist([languageId])) throw new AppError("Idioma no encontrado");
+  private async validateLevelsExist(levelIds: string[]): Promise<void> {
+    const levelsResult = await Promise.all(
+      levelIds.map(
+        async (levelId) => await this.levelsRepository.getById(levelId),
+      ),
+    );
+
+    const levels = levelsResult.filter(
+      (level): level is NonNullable<typeof level> => level !== null,
+    );
+
+    if (levels.length !== levelIds.length) {
+      throw new AppError("Uno o más niveles no encontrados");
+    }
+  }
+
+  async getLevelsByLanguage(languageId: string) {
+    await this.validateLanguagesExist([languageId]);
 
     return await this.languageLevelsRepository.getByLanguageId(languageId);
   }
@@ -133,6 +149,121 @@ class LanguageLevelService {
 
     if (!languageLevel && remove)
       throw new AppError("El idioma no está asociado a este nivel");
+
+    if (remove && languageLevel) {
+      await this.languageLevelsRepository.delete(languageLevel.id);
+    }
+
+    if (!remove && !languageLevel) {
+      await this.languageLevelsRepository.insert([
+        {
+          levelId: level.id,
+          languageId: language.id,
+        },
+      ]);
+    }
+
+    if (!remove && languageLevel && !languageLevel.isActive) {
+      await this.languageLevelsRepository.reactivate(languageLevel.id);
+    }
+  }
+
+  // ---- Lógica opuesta: un idioma, varios niveles ----
+
+  async addLevelsToLanguage(
+    languageId: string,
+    levelIds: string[],
+  ): Promise<void> {
+    const language = await this.languageRepository.getById(languageId);
+
+    if (!language) throw new AppError("Idioma no encontrado");
+
+    await this.validateLevelsExist(levelIds);
+
+    const payload: NewLanguageLevel[] = levelIds.map((levelId) => ({
+      levelId,
+      languageId: language.id,
+    }));
+
+    await this.languageLevelsRepository.insert(payload);
+  }
+
+  async removeLevelsFromLanguage(languageId: string): Promise<void> {
+    const language = await this.languageRepository.getById(languageId);
+
+    if (!language) throw new AppError("Idioma no encontrado");
+
+    await this.languageLevelsRepository.deleteByLanguageId(language.id);
+  }
+
+  async updateLevelsInLanguage(
+    languageId: string,
+    levelIds: string[],
+  ): Promise<void> {
+    const language = await this.languageRepository.getById(languageId);
+
+    if (!language) throw new AppError("Idioma no encontrado");
+
+    await this.validateLevelsExist(levelIds);
+
+    const currentActive =
+      await this.languageLevelsRepository.getActiveByLanguageId(language.id);
+    const currentActiveLevelIds = new Set(
+      currentActive.map((cl) => cl.levelId),
+    );
+    const newLevelIds = new Set(levelIds);
+
+    const toRemove = currentActive.filter(
+      (cl) => !newLevelIds.has(cl.levelId),
+    );
+
+    const toAdd = levelIds.filter((id) => !currentActiveLevelIds.has(id));
+
+    await Promise.all(
+      toRemove.map((cl) => this.languageLevelsRepository.delete(cl.id)),
+    );
+
+    await Promise.all(
+      toAdd.map(async (levelId) => {
+        const existing =
+          await this.languageLevelsRepository.getByLevelAndLanguage(
+            levelId,
+            language.id,
+          );
+
+        if (existing) {
+          await this.languageLevelsRepository.reactivate(existing.id);
+        } else {
+          await this.languageLevelsRepository.insert([
+            {
+              levelId,
+              languageId: language.id,
+            },
+          ]);
+        }
+      }),
+    );
+  }
+
+  async updateLevelInLanguage(
+    languageId: string,
+    levelId: string,
+    remove: boolean = false,
+  ) {
+    const language = await this.languageRepository.getById(languageId);
+    if (!language) throw new AppError("Idioma no encontrado");
+
+    const level = await this.levelsRepository.getById(levelId);
+    if (!level) throw new AppError("Nivel no encontrado");
+
+    const languageLevel =
+      await this.languageLevelsRepository.getByLevelAndLanguage(
+        level.id,
+        language.id,
+      );
+
+    if (!languageLevel && remove)
+      throw new AppError("El nivel no está asociado a este idioma");
 
     if (remove && languageLevel) {
       await this.languageLevelsRepository.delete(languageLevel.id);

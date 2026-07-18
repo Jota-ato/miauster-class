@@ -19,6 +19,8 @@ import {
 } from "../schema/languages-schema";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
 import { Checkbox } from "@/shared/components/ui/checkbox";
+import { showResponse } from "@/shared/lib/client-actions";
+import { editLanguageLevelsAction } from "../actions/language-actions";
 
 export function EditLevelToLanguageForm({
   language,
@@ -43,7 +45,7 @@ export function EditLevelToLanguageForm({
   });
 
   const onSubmit = async (data: LanguageLevelInput) => {
-    // TODO: conectar con server action para actualizar los niveles del idioma
+    showResponse(await editLanguageLevelsAction(language.id, data));
   };
 
   return (
