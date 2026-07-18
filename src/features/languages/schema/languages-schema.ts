@@ -6,3 +6,9 @@ export const languageSchema = z.object({
 });
 
 export type LanguageInput = z.infer<typeof languageSchema>;
+
+export const languageLevelSchema = z.object({
+  levelsId: z.array(z.uuid())
+})
+
+export type LanguageLevelInput = z.infer<typeof languageLevelSchema>;

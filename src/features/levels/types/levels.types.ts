@@ -12,3 +12,6 @@ export type NewLevel = typeof levels.$inferInsert;
 export type UpdateLevel = Partial<Omit<Level, "id">>;
 export type NewLanguageLevel = typeof languagesLevels.$inferInsert;
 export type LanguageLevel = typeof languagesLevels.$inferSelect;
+export type LanguageLevelWithLevel = LanguageLevel & {
+  level: Level;
+};

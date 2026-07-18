@@ -33,6 +33,12 @@ class LanguageLevelService {
     }
   }
 
+  async getLevelesByLanguage(languageId: string) {
+    if (!this.validateLanguagesExist([languageId])) throw new AppError("Idioma no encontrado");
+
+    return await this.languageLevelsRepository.getByLanguageId(languageId);
+  }
+
   async addLanguagesToLevel(
     levelId: string,
     languageIds: string[],
@@ -76,12 +82,10 @@ class LanguageLevelService {
     );
     const newLanguageIds = new Set(languageIds);
 
-    // Lo que estaba activo y ya no está en la nueva lista -> soft delete
     const toRemove = currentActive.filter(
       (cl) => !newLanguageIds.has(cl.languageId),
     );
 
-    // Lo que está en la nueva lista pero no estaba activo -> agregar o reactivar
     const toAdd = languageIds.filter((id) => !currentActiveLanguageIds.has(id));
 
     await Promise.all(

@@ -1,6 +1,10 @@
 import { EditLanguageCard } from "@/features/languages/components/edit-language-level-card"
+import { EditLanguageLevelsDialog } from "@/features/languages/components/edit-language-levels-dialog"
 import { LanguageDetailsCard } from "@/features/languages/components/language-details-card"
+import { LanguagesLevelCard } from "@/features/languages/components/languages-level-card"
 import { languagesService } from "@/features/languages/services/languages-service"
+import { languageLevelService } from "@/features/levels/services/language-level-service"
+import { levelsService } from "@/features/levels/services/levels-service"
 import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { requireAuth } from "@/lib/auth-server"
 import { Heading } from "@/shared/components/typography/heading"
@@ -18,8 +22,9 @@ export default async function LanguagePage({
     
     const { languageId } = await params
     const language = await languagesService.getLanguageById(languageId)
-
     if (!language) notFound()
+    const levelsOfLanguage = await languageLevelService.getLevelesByLanguage(languageId)
+    const levels = await levelsService.getAllLevels()
 
     return (
         <>
@@ -32,7 +37,17 @@ export default async function LanguagePage({
                 <LanguageDetailsCard 
                     language={language}
                 />
-            )}   
+            )}
+            <LanguagesLevelCard 
+                language={language}
+                levels={levelsOfLanguage}
+                admin={UsersPolicies.isAdmin(user)}
+            />
+            <EditLanguageLevelsDialog
+                language={language}
+                currentLevelsInLanguage={levelsOfLanguage.map(level => level.level)}
+                levels={levels}
+            />
         </>
     )
 }

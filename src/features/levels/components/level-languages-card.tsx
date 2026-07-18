@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { LanguageLevelFlag } from "./language-level-flag";
 import { EditLanguageLevelFlag } from "./edit-language-level-flag";
+import { Flag } from "@/shared/components/ui/flag";
 
 export function LevelLanguagesCard({
   level,
@@ -31,9 +31,9 @@ export function LevelLanguagesCard({
         {languages.length ? (
           <div className="flex md:inline-flex flex-col sm:flex-row items-center gap-4 md:mr-4">
             {languages.map((languageLevel) => (
-              <LanguageLevelFlag
+              <Flag
                 key={languageLevel.id}
-                languageLevel={languageLevel}
+                label={languageLevel.language.name}
               />
             ))}
           </div>
