@@ -1,23 +1,20 @@
-import { AddLanguageCard } from "@/features/languages/components/add-language-card";
+import { AddLanguageCard } from "@/features/languages/components/forms-cards";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
 import { redirect } from "next/navigation";
 
 export default async function AddLanguagePage() {
+  const { session, user } = await requireAuth();
 
-    const { session, user } = await requireAuth()
+  if (!session || !user) redirect("/auth/sign-in");
 
-    if (!session || !user) redirect("/auth/sign-in")
+  if (user.role !== "admin") redirect("/not-authorized");
 
-    if (user.role !== "admin") redirect("/not-authorized")
+  return (
+    <>
+      <Heading>Agregar idioma</Heading>
 
-    return (
-        <>
-            <Heading>
-                Agregar idioma
-            </Heading>
-
-            <AddLanguageCard />
-        </>
-    )
+      <AddLanguageCard />
+    </>
+  );
 }

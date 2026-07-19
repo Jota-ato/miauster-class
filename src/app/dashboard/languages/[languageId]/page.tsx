@@ -1,5 +1,5 @@
-import { EditLanguageCard } from "@/features/languages/components/edit-language-level-card"
 import { EditLanguageLevelsDialog } from "@/features/languages/components/edit-language-levels-dialog"
+import { EditLanguageCard } from "@/features/languages/components/forms-cards"
 import { LanguageDetailsCard } from "@/features/languages/components/language-details-card"
 import { LanguagesLevelCard } from "@/features/languages/components/languages-level-card"
 import { languagesService } from "@/features/languages/services/languages-service"

@@ -1,4 +1,4 @@
-import { AddLevelCard } from "@/features/levels/components/add-level-card"
+import { AddLevelCard } from "@/features/levels/components/forms-cards"
 import { requireAuth } from "@/lib/auth-server"
 import { Heading } from "@/shared/components/typography/heading"
 import { redirect } from "next/navigation"
