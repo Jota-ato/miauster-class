@@ -14,18 +14,16 @@ export default async function DashboardLayout({
     children: ReactNode
 }) {
 
-    const { session } = await requireAuth()
+    const { session, user } = await requireAuth()
 
     if (!session) redirect("/not-authorized")
 
-    const { user } = session
-
-    if (!UsersPolicies.isAuthorizedToDashboard(user as User)) redirect("/not-authorized")
+    if (!UsersPolicies.isAuthorizedToDashboard(user)) redirect("/not-authorized")
 
     return (
         <SidebarProvider>
             <DashboardSidebar
-                user={user as User}
+                user={user}
             />
             <main className="flex-1 min-w-0">
                 <Container className="py-8 md:py-12 space-y-8">

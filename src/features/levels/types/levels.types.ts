@@ -15,3 +15,6 @@ export type LanguageLevel = typeof languagesLevels.$inferSelect;
 export type LanguageLevelWithLevel = LanguageLevel & {
   level: Level;
 };
+export type LanguageLevelWithLanguageAndLevel = LanguageLevelWithLevel & {
+  language: Language
+}

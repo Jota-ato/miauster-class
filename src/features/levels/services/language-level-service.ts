@@ -1,5 +1,5 @@
 import { AppError } from "@/shared/lib/errors";
-import { NewLanguageLevel } from "../types/levels.types";
+import { LanguageLevel, LanguageLevelWithLanguageAndLevel, NewLanguageLevel } from "../types/levels.types";
 import {
   ILanguageLevelsRepository,
   languageLevelsRepository,
@@ -16,6 +16,12 @@ class LanguageLevelService {
     private levelsRepository: ILevelsRepository,
     private languageRepository: ILanguagesRepository,
   ) {}
+
+  async getAllLanguageLevels(full: true) : Promise<LanguageLevelWithLanguageAndLevel[]>;
+  async getAllLanguageLevels(full?: false) : Promise<LanguageLevel[]>; 
+  async getAllLanguageLevels(full: boolean = true) {
+    return await this.languageLevelsRepository.getAll(full);
+  }
 
   private async validateLanguagesExist(languageIds: string[]): Promise<void> {
     const languagesResult = await Promise.all(

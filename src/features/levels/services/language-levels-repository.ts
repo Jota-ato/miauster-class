@@ -2,12 +2,16 @@ import { db } from "@/db";
 import { languagesLevels } from "@/db/schema";
 import {
   LanguageLevel,
+  LanguageLevelWithLanguageAndLevel,
   LanguageLevelWithLevel,
   NewLanguageLevel,
 } from "../types/levels.types";
 import { eq } from "drizzle-orm";
 
 export interface ILanguageLevelsRepository {
+  getAll(full: true): Promise<LanguageLevelWithLanguageAndLevel[]>;
+  getAll(full: false): Promise<LanguageLevel[]>;
+  getAll(full?: boolean): Promise<LanguageLevel[]>;
   getByLevelAndLanguage(
     levelId: string,
     languageId: string,
@@ -24,6 +28,20 @@ export interface ILanguageLevelsRepository {
 }
 
 class LanguageLevelsRepository implements ILanguageLevelsRepository {
+  async getAll(full: true): Promise<LanguageLevelWithLanguageAndLevel[]>;
+  async getAll(full: false): Promise<LanguageLevel[]>;
+  async getAll(full: boolean = true): Promise<LanguageLevel[]> {
+    return await db
+      .query
+      .languagesLevels
+      .findMany({
+        where: (languageLevel, { eq }) => eq(languageLevel.isActive, true),
+        with: {
+          language: full ? true : undefined,
+          level: full ? true : undefined
+        }
+      })
+  }
   async getByLevelAndLanguage(
     levelId: string,
     languageId: string,
