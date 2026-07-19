@@ -1,3 +1,4 @@
+import { Badge } from "@/shared/components/ui/badge";
 import { Level } from "../types/levels.types";
 import {
   Card,
@@ -17,7 +18,9 @@ export function LevelDetailsCard({ level }: { level: Level }) {
         )}
       </CardHeader>
       <CardContent>
-        <p>Estado: {level.isActive ? "Activo" : "Inactivo"}</p>
+        <Badge variant={level.isActive ? "default" : "destructive"}>
+          {level.isActive ? "Activo" : "Inactivo"}
+        </Badge>
       </CardContent>
     </Card>
   );
