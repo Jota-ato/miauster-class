@@ -8,6 +8,8 @@ import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 import { CustomSelect } from "@/shared/components/forms/custom-select";
 import { LanguageLevelWithLanguageAndLevel } from "@/features/levels/types/levels.types";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
+import { DatePickerInput } from "@/shared/components/forms/date-picker";
+import { CustomSwitch } from "@/shared/components/forms/custom-switch";
 
 const inputs: FieldInput<GroupInput>[] = [
   {
@@ -30,18 +32,6 @@ const inputs: FieldInput<GroupInput>[] = [
     step: 0.01,
     placeholder: "Precio semanal",
   },
-  {
-    name: "startDate",
-    label: "Fecha de inicio",
-    type: "date",
-    placeholder: "Fecha de inicio",
-  },
-  {
-    name: "endDate",
-    label: "Fecha de finalización",
-    type: "date",
-    placeholder: "Fecha de finalización",
-  },
 ];
 
 export function GroupForm({
@@ -56,15 +46,21 @@ export function GroupForm({
     formState: { errors, isSubmitting },
   } = useForm<GroupInput>({
     resolver: zodResolver(groupSchema),
+    defaultValues: {
+        isActive: true,
+    }
   });
 
-  const onSubmit = async (data: GroupInput) => {};
+  const onSubmit = async (data: GroupInput) => {
+    console.log(data)
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FieldSet>
         <FieldGroup>
           <CustomSelect
+            error={errors.languageLevelId?.message}
             control={control}
             name="languageLevelId"
             placeholder="Idioma del grupo"
@@ -87,10 +83,35 @@ export function GroupForm({
                 error={errors[input.name]?.message}
                 key={input.name}
                 register={register}
+                valueAsNumber={input.type === "number"}
                 {...input}
               />
             ))}
+            <DatePickerInput
+                control={control}
+                name="startDate"
+                label="Fecha de inicio"
+                placeholder="01 de junio de 2025"
+            />
+            <DatePickerInput
+                control={control}
+                name="endDate"
+                label="Fecha de finalización"
+                placeholder="01 de junio de 2025"
+            />
           </div>
+          <CustomSwitch 
+            control={control}
+            name="isActive"
+            label="Estado del grupo"
+            description="Determina si el grupo está activo"
+          />
+          <CustomSwitch 
+            control={control}
+            name="particular"
+            label="Grupo particular"
+            description="Determina si el grupo es particular"
+          />
         </FieldGroup>
         <FormSubmit
           isSubmitting={isSubmitting}

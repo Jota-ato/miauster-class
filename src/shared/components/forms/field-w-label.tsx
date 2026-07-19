@@ -15,6 +15,7 @@ type FieldWLabelProps<TFieldValues extends FieldValues> = {
     register: UseFormRegister<TFieldValues>
     error?: string | null
     orientation?: ComponentProps<typeof Field>["orientation"]
+    valueAsNumber?: boolean
 } & Omit<ComponentProps<typeof Input>, "name">
 
 export function FieldWLabel<TFieldValues extends FieldValues>({
@@ -23,6 +24,7 @@ export function FieldWLabel<TFieldValues extends FieldValues>({
     register,
     error,
     orientation,
+    valueAsNumber,
     ...inputProps
 }: FieldWLabelProps<TFieldValues>) {
     return (
@@ -34,7 +36,7 @@ export function FieldWLabel<TFieldValues extends FieldValues>({
                 id={name}
                 aria-invalid={!!error}
                 {...inputProps}
-                {...register(name)}
+                {...register(name, { valueAsNumber })}
             />
             {error && (
                 <FieldError>
