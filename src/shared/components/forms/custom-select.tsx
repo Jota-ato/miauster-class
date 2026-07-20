@@ -22,7 +22,7 @@ interface GenericSelectProps<T extends FieldValues> {
   placeholder?: string;
   groupLabel?: string;
   error?: string | null;
-    label?: string;
+  label?: string;
 }
 
 export function CustomSelect<T extends FieldValues>({
@@ -46,7 +46,11 @@ export function CustomSelect<T extends FieldValues>({
         return (
           <Field data-invalid={!!error}>
             {label && <FieldLabel htmlFor={name}>{label}</FieldLabel>}
-            <Select value={field.value} onValueChange={field.onChange} data-invalid={!!error}>
+            <Select
+              value={field.value}
+              onValueChange={field.onChange}
+              data-invalid={!!error}
+            >
               <SelectTrigger
                 id={name}
                 className="w-full"

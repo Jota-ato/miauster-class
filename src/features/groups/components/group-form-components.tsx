@@ -1,6 +1,12 @@
 "use client";
 
-import { Control, FieldErrors, UseFormRegister, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
+import {
+  Control,
+  FieldErrors,
+  UseFormRegister,
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+} from "react-hook-form";
 import { Field, FieldGroup, FieldLabel } from "@/shared/components/ui/field";
 import { GroupInput } from "../schemas/group-schema";
 import { FieldInput } from "@/shared/components/forms/field-inputs.types";
@@ -45,7 +51,12 @@ interface BaseFieldsProps {
   errors: FieldErrors<GroupInput>;
 }
 
-export function GroupFormBaseFields({ languageLevels, control, register, errors }: BaseFieldsProps) {
+export function GroupFormBaseFields({
+  languageLevels,
+  control,
+  register,
+  errors,
+}: BaseFieldsProps) {
   return (
     <>
       <CustomSelect
@@ -162,12 +173,22 @@ interface IrregularProps {
   remove: UseFieldArrayRemove;
 }
 
-export function IrregularScheduleFields({ control, register, errors, fields, append, remove }: IrregularProps) {
+export function IrregularScheduleFields({
+  control,
+  register,
+  errors,
+  fields,
+  append,
+  remove,
+}: IrregularProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <Heading level={3} className="text-sm! text-left font-medium text-foreground">
+          <Heading
+            level={3}
+            className="text-sm! text-left font-medium text-foreground"
+          >
             Horarios personalizados
           </Heading>
           <p className="text-xs text-muted-foreground">

@@ -6,7 +6,12 @@ import { FieldGroup, FieldSet } from "@/shared/components/ui/field";
 import { groupSchema, GroupInput } from "../schemas/group-schema";
 import { LanguageLevelWithLanguageAndLevel } from "@/features/levels/types/levels.types";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
-import { GroupFormBaseFields, GroupFormSwitches, RegularScheduleFields, IrregularScheduleFields } from "./group-form-components";
+import {
+  GroupFormBaseFields,
+  GroupFormSwitches,
+  RegularScheduleFields,
+  IrregularScheduleFields,
+} from "./group-form-components";
 
 export function GroupForm({
   languageLevels,
@@ -54,16 +59,13 @@ export function GroupForm({
             register={register}
             errors={errors}
           />
-          
+
           <GroupFormSwitches control={control} />
 
           <hr className="my-2 border-muted" />
 
           {isRegular ? (
-            <RegularScheduleFields 
-              register={register} 
-              errors={errors} 
-            />
+            <RegularScheduleFields register={register} errors={errors} />
           ) : (
             <IrregularScheduleFields
               control={control}
