@@ -12,6 +12,8 @@ import {
   RegularScheduleFields,
   IrregularScheduleFields,
 } from "./group-form-components";
+import { showResponse } from "@/shared/lib/client-actions";
+import { createGroupAction } from "../actions/group-actions";
 
 export function GroupForm({
   languageLevels,
@@ -46,7 +48,7 @@ export function GroupForm({
   });
 
   const onSubmit = async (data: GroupInput) => {
-    console.log("Datos enviados al backend:", data);
+    showResponse(await createGroupAction(data))
   };
 
   return (
