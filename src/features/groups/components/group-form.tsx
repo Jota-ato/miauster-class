@@ -48,8 +48,11 @@ export function GroupForm({
   });
 
   const onSubmit = async (data: GroupInput) => {
-    showResponse(await createGroupAction(data))
-  };
+    showResponse(await createGroupAction({
+      ...data,
+      particular: data.regularSchedule ? false : true,
+    }));
+  }; 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
