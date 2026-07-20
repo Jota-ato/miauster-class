@@ -14,6 +14,10 @@ class GroupsService {
     private groupsSchedulesRepository: IGroupsSchedulesRepository,
   ) {}
 
+  async getAllGroups(date: string) {
+    return await this.groupsRepository.getAll(date);
+  }
+
   async createGroup(data: GroupInput): Promise<void> {
     const payload: NewGroup = {
       ...data,

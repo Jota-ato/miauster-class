@@ -1,9 +1,7 @@
 import { daysOfWeekEnum } from "@/db/schema";
 
-export const translatedDaysOfWeek: Record<
-  (typeof daysOfWeekEnum.enumValues)[number],
-  string
-> = {
+export type DaysOfWeek = (typeof daysOfWeekEnum.enumValues)[number];
+export const translatedDaysOfWeek: Record<DaysOfWeek, string> = {
     monday: "Lunes",
     tuesday: "Martes",
     wednesday: "Miércoles",
