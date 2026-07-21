@@ -3,6 +3,7 @@ import { groupsService } from "../services/groups-service";
 import { Heading } from "@/shared/components/typography/heading";
 import { EditGroupFormCard } from "./forms-cards";
 import { languageLevelService } from "@/features/levels/services/language-level-service";
+import { GroupCardToggle } from "./admin-group-page-components";
 
 export async function AdminGroupPage({
     groupId
@@ -18,7 +19,7 @@ export async function AdminGroupPage({
     <>
       <Heading>Grupo: {group.name}</Heading>
 
-      <EditGroupFormCard 
+      <GroupCardToggle 
         group={group}
         languageLevels={languageLevels}
       />

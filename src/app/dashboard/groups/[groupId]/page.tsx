@@ -22,7 +22,7 @@ export default async function GroupPage({
 
   return (
     <>
-      {!isAdmin ? (
+      {isAdmin ? (
         <AdminGroupPage groupId={groupId} />
       ) : (
         <SellerGroupPage groupId={groupId} />
