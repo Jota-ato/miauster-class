@@ -1,6 +1,7 @@
 import { groups, groupsSchedules } from "@/db/schema";
 import { Language } from "@/features/languages/types/languages.types";
 import { Level } from "@/features/levels/types/levels.types";
+import { Student } from "@/features/students/types/students.types";
 
 export type NewGroup = typeof groups.$inferInsert
 export type Group = typeof groups.$inferSelect
@@ -12,5 +13,11 @@ export type DetailedGroup = Group & {
     languageLevel: {
         language: Language,
         level: Level
+    }
+}
+
+export type FullGroup = DetailedGroup & {
+    studentsGroups: {
+        student: Student
     }
 }

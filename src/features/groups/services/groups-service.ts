@@ -1,11 +1,16 @@
 import { daysOfWeekEnum } from "@/db/schema";
-import { GroupInput, SlotInput } from "../schemas/group-schema";
+import { GroupInput } from "../schemas/group-schema";
 import { groupsRepository, IGroupsRepository } from "./groups-repository";
 import {
   groupsSchedulesRepository,
   IGroupsSchedulesRepository,
 } from "./groups-schedules-repository";
-import { NewGroup, NewGroupSchedule } from "../types/groups.types";
+import {
+  DetailedGroup,
+  FullGroup,
+  NewGroup,
+  NewGroupSchedule,
+} from "../types/groups.types";
 import { format } from "date-fns";
 
 class GroupsService {
@@ -13,6 +18,13 @@ class GroupsService {
     private groupsRepository: IGroupsRepository,
     private groupsSchedulesRepository: IGroupsSchedulesRepository,
   ) {}
+
+  async getGroupById(id: string, full: true): Promise<FullGroup | null>;
+  async getGroupById(id: string, full?: false): Promise<DetailedGroup | null>;
+  async getGroupById(id: string, full?: boolean): Promise<DetailedGroup | null>;
+  async getGroupById(id: string, full?: boolean) {
+    return await this.groupsRepository.getById(id, full);
+  }
 
   async getAllGroups(date: string) {
     return await this.groupsRepository.getAll(date);

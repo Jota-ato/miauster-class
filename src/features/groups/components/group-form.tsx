@@ -14,11 +14,14 @@ import {
 } from "./group-form-components";
 import { showResponse } from "@/shared/lib/client-actions";
 import { createGroupAction } from "../actions/group-actions";
+import { FullGroup } from "../types/groups.types";
 
 export function GroupForm({
   languageLevels,
+  group
 }: {
   languageLevels: LanguageLevelWithLanguageAndLevel[];
+  group?: FullGroup;
 }) {
   const {
     handleSubmit,
