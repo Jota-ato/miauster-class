@@ -174,8 +174,6 @@ class LanguageLevelService {
     }
   }
 
-  // ---- Lógica opuesta: un idioma, varios niveles ----
-
   async addLevelsToLanguage(
     languageId: string,
     levelIds: string[],

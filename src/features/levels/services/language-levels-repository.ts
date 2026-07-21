@@ -67,8 +67,11 @@ class LanguageLevelsRepository implements ILanguageLevelsRepository {
 
   async getByLanguageId(languageId: string): Promise<LanguageLevelWithLevel[]> {
     return await db.query.languagesLevels.findMany({
-      where: (languageLevel, { eq }) =>
-        eq(languageLevel.languageId, languageId),
+      where: (languageLevel, { and, eq }) =>
+        and(
+          eq(languageLevel.languageId, languageId),
+          eq(languageLevel.isActive, true),
+        ),
       with: {
         level: true,
       },
