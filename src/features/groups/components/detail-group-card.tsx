@@ -31,12 +31,15 @@ export function DetailGroupCard({ group }: { group: DetailedGroup }) {
           <Badge variant={group.isActive ? "default" : "secondary"}>
             {group.isActive ? "Activo" : "Inactivo"}
           </Badge>
+          <Badge variant="outline">
+            {group.regularSchedule ? "Horario regular" : "Horario irregular"}
+          </Badge>
           {group.particular && <Badge variant="outline">Particular</Badge>}
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-xs text-muted-foreground">Cupo máximo</p>
             <p className="text-sm font-medium">
@@ -47,12 +50,6 @@ export function DetailGroupCard({ group }: { group: DetailedGroup }) {
             <p className="text-xs text-muted-foreground">Precio semanal</p>
             <p className="text-sm font-medium">
               {formatCurrency(group.weeklyPrice)}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Horario</p>
-            <p className="text-sm font-medium">
-              {group.regularSchedule ? "Regular" : "Personalizado"}
             </p>
           </div>
           <div>
