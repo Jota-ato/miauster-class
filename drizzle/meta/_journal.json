@@ -78,6 +78,13 @@
       "when": 1784652288662,
       "tag": "0010_slippery_blackheart",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1784672750657,
+      "tag": "0011_normal_mercury",
+      "breakpoints": true
     }
   ]
 }

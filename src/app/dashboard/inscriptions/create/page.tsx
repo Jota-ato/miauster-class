@@ -4,6 +4,7 @@ export default async function CreateInscriptionPage() {
   return (
     <>
       <Heading>Nueva inscripción</Heading>
+      
     </>
   )
 }

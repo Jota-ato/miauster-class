@@ -1,6 +1,7 @@
 import { UsersPolicies } from "@/features/users/policies/user-policies";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
+import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -52,23 +53,22 @@ export default async function InscriptionsPage() {
           size="lg"
           className="w-full sm:w-auto"
         >
-          <BookMarked className="mr-2 h-5 w-5" /> Inscribir Estudiante
+          <BookMarked className="size-4" /> Inscribir Estudiante
         </Button>
       </div>
 
-      {/* Grid de Estado y Gamificación */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Card 1: Meta Semanal con Progreso Visual */}
         <Card className="md:col-span-2">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-base font-medium flex items-center gap-2">
-                <Gift className="h-4 w-4 text-primary" /> Meta Semanal de
+              <CardTitle className="text-sm md:text-base font-medium flex items-center gap-2">
+                <Gift className="h-4 w-4 text-primary shrink-0" /> Meta Semanal de
                 Bonificación
               </CardTitle>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-primary/10 text-primary">
-                {weeklyStats.current} / {weeklyStats.target} Completadas
-              </span>
+              <Badge variant="default">
+                {weeklyStats.current} / {weeklyStats.target} 
+                <span className="hidden md:block">Completadas</span>
+              </Badge>
             </div>
             <CardDescription>
               ¡Inscribe {3 - weeklyStats.current} estudiante(s) más esta semana
@@ -76,7 +76,6 @@ export default async function InscriptionsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Barra de progreso nativa/Tailwind */}
             <div className="w-full bg-muted rounded-full h-3 overflow-hidden mt-2">
               <div
                 className="bg-primary h-full transition-all duration-300"
@@ -86,11 +85,10 @@ export default async function InscriptionsPage() {
           </CardContent>
         </Card>
 
-        {/* Card 2: Ganancias Estimadas */}
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-medium flex items-center gap-2 text-muted-foreground">
-              <TrendingUp className="h-4 w-4 text-emerald-500" /> Ganancias
+              <TrendingUp className="h-4 w-4 text-emerald-800 dark:text-emerald-500" /> Ganancias
               Estimadas
             </CardTitle>
           </CardHeader>
@@ -105,7 +103,6 @@ export default async function InscriptionsPage() {
         </Card>
       </div>
 
-      {/* Acciones Rápidas Complementarias */}
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Acciones rápidas</CardTitle>
@@ -114,11 +111,9 @@ export default async function InscriptionsPage() {
           <Button variant="outline" size="sm" className="gap-2">
             <Copy className="h-4 w-4" /> Copiar Link de Registro Directo
           </Button>
-          {/* Agregar más disparadores útiles aquí */}
         </CardContent>
       </Card>
 
-      {/* Tabla de Inscripciones */}
       <Card>
         <CardHeader>
           <CardTitle>Inscripciones Recientes</CardTitle>
@@ -127,7 +122,6 @@ export default async function InscriptionsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* Componente de Tabla / DataGrid irá aquí */}
         </CardContent>
       </Card>
     </>
