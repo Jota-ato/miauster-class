@@ -1,6 +1,7 @@
 import { AdminGroupPage } from "@/features/groups/components/admin-group-page";
 import { DetailGroupCard } from "@/features/groups/components/detail-group-card";
 import { EditGroupFormCard } from "@/features/groups/components/forms-cards";
+import { SellerGroupPage } from "@/features/groups/components/seller-group-page";
 import { groupsService } from "@/features/groups/services/groups-service";
 import { languageLevelService } from "@/features/levels/services/language-level-service";
 import { UsersPolicies } from "@/features/users/policies/user-policies";
@@ -21,9 +22,11 @@ export default async function GroupPage({
 
   return (
     <>
-      {isAdmin ? (
+      {!isAdmin ? (
         <AdminGroupPage groupId={groupId} />
-      ): (<p></p>)}
+      ) : (
+        <SellerGroupPage groupId={groupId} />
+      )}
     </>
   );
 }
