@@ -36,12 +36,12 @@ export function EditableToggleCard({
       <Button onClick={handleToggle} className="mb-4">
         {isEditing ? (
           <>
-            <Eye className="mr-2 h-4 w-4" />
+            <Eye className="size-4" />
             {viewLabel}
           </>
         ) : (
           <>
-            <PenSquare className="mr-2 h-4 w-4" />
+            <PenSquare className="size-4" />
             {editLabel}
           </>
         )}

@@ -3,6 +3,7 @@ import { AddLanguageToLevelDialog } from "@/features/levels/components/edit-lang
 import { EditLevelCard } from "@/features/levels/components/forms-cards"
 import { LevelDetailsCard } from "@/features/levels/components/level-details-card"
 import { LevelLanguagesCard } from "@/features/levels/components/level-languages-card"
+import { LevelToggleCards } from "@/features/levels/components/level-toggle-cards"
 import { levelsService } from "@/features/levels/services/levels-service"
 import { UsersPolicies } from "@/features/users/policies/user-policies"
 import { requireAuth } from "@/lib/auth-server"
@@ -30,7 +31,7 @@ export default async function LevelPage({
             <Heading>Nivel: {level.name}</Heading>
 
             {UsersPolicies.isAdmin(user) ? (
-                <EditLevelCard 
+                <LevelToggleCards 
                     level={level}
                 />
             ) : (

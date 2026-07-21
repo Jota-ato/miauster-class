@@ -69,7 +69,10 @@ class GroupsService {
           dayOfWeek: slot.day,
           ...slot,
         }))
-      : daysOfWeekEnum.enumValues.map((day) => ({
+      : daysOfWeekEnum
+      .enumValues
+      .slice(0, 3)
+      .map((day) => ({
           groupId,
           dayOfWeek: day,
           startTime: data.startTime,

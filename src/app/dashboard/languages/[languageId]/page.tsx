@@ -1,6 +1,7 @@
 import { EditLanguageLevelsDialog } from "@/features/languages/components/edit-language-levels-dialog"
 import { EditLanguageCard } from "@/features/languages/components/forms-cards"
 import { LanguageDetailsCard } from "@/features/languages/components/language-details-card"
+import { LanguageToggleCard } from "@/features/languages/components/language-toggle-card"
 import { LanguagesLevelCard } from "@/features/languages/components/languages-level-card"
 import { languagesService } from "@/features/languages/services/languages-service"
 import { languageLevelService } from "@/features/levels/services/language-level-service"
@@ -30,7 +31,7 @@ export default async function LanguagePage({
         <>
             <Heading>{language.name}</Heading>
             {UsersPolicies.isAdmin(user) ? (
-                <EditLanguageCard 
+                <LanguageToggleCard 
                     language={language}
                 />
             ): (
