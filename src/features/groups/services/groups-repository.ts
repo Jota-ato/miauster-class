@@ -4,8 +4,10 @@ import {
   FullGroup,
   Group,
   NewGroup,
+  UpdateGroup,
 } from "../types/groups.types";
 import { groups } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export interface IGroupsRepository {
   getById(id: string, full: true): Promise<FullGroup | null>;
@@ -13,6 +15,7 @@ export interface IGroupsRepository {
   getById(id: string, full?: boolean): Promise<DetailedGroup | null>;
   getAll(date: string): Promise<DetailedGroup[]>;
   insert(group: NewGroup): Promise<Group>;
+  update(id: string, data: UpdateGroup): Promise<void>
 }
 
 class GroupsRepository implements IGroupsRepository {
@@ -52,6 +55,13 @@ class GroupsRepository implements IGroupsRepository {
 
   async insert(group: NewGroup): Promise<Group> {
     return (await db.insert(groups).values(group).returning())[0];
+  }
+
+  async update(id: string, data: UpdateGroup): Promise<void> {
+    await db
+      .update(groups)
+      .set(data)
+      .where(eq(groups.id, id));
   }
 }
 

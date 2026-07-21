@@ -25,6 +25,9 @@ export const groups = pgTable("groups", {
     languageLevelId: uuid("language_level_id")
         .notNull()
         .references(() => languagesLevels.id, { onDelete: "restrict" }),
+    regularSchedule: boolean("regular_schedule")
+        .notNull()
+        .default(true),
     particular: boolean("particular")
         .notNull()
         .default(false),

@@ -13,16 +13,18 @@ import {
   IrregularScheduleFields,
 } from "./group-form-components";
 import { showResponse } from "@/shared/lib/client-actions";
-import { createGroupAction } from "../actions/group-actions";
+import { createGroupAction, updateGroupAction } from "../actions/group-actions";
 import { FullGroup } from "../types/groups.types";
 
 export function GroupForm({
   languageLevels,
-  group
+  group,
 }: {
   languageLevels: LanguageLevelWithLanguageAndLevel[];
   group?: FullGroup;
 }) {
+  const isEditing = !!group;
+
   const {
     handleSubmit,
     register,
@@ -31,13 +33,32 @@ export function GroupForm({
   } = useForm<GroupInput>({
     resolver: zodResolver(groupSchema),
     defaultValues: {
-      isActive: true,
-      particular: false,
-      regularSchedule: true,
-      startTime: "",
-      endTime: "",
-      slots: [],
-    } as any,
+      name: group?.name ?? "",
+      languageLevelId: group?.languageLevelId ?? "",
+      maxStudents: group?.maxStudents ?? 1,
+      weeklyPrice: group ? Number(group.weeklyPrice) : 0,
+      isActive: group?.isActive ?? true,
+      particular: group?.particular ?? false,
+      startDate: group ? new Date(group.startDate) : undefined,
+      endDate: group ? new Date(group.endDate) : undefined,
+      regularSchedule: group?.regularSchedule ?? true,
+      startTime:
+        group?.regularSchedule && group.schedules[0]
+          ? group.schedules[0].startTime
+          : "",
+      endTime:
+        group?.regularSchedule && group.schedules[0]
+          ? group.schedules[0].endTime
+          : "",
+      slots:
+        group && !group.regularSchedule
+          ? group.schedules.map((schedule) => ({
+              day: schedule.dayOfWeek,
+              startTime: schedule.startTime,
+              endTime: schedule.endTime,
+            }))
+          : [],
+    } as GroupInput,
   });
 
   const isRegular = useWatch({
@@ -51,11 +72,12 @@ export function GroupForm({
   });
 
   const onSubmit = async (data: GroupInput) => {
-    showResponse(await createGroupAction({
-      ...data,
-      particular: data.regularSchedule ? false : true,
-    }));
-  }; 
+    if (isEditing && group) {
+      showResponse(await updateGroupAction(group.id, data));
+    } else {
+      showResponse(await createGroupAction(data));
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -88,8 +110,8 @@ export function GroupForm({
 
         <FormSubmit
           isSubmitting={isSubmitting}
-          label="Crear grupo"
-          isSubmittingLabel="Creando..."
+          label={isEditing ? "Guardar cambios" : "Crear grupo"}
+          isSubmittingLabel={isEditing ? "Guardando..." : "Creando..."}
         />
       </FieldSet>
     </form>

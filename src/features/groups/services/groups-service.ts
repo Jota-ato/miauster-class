@@ -12,6 +12,7 @@ import {
   NewGroupSchedule,
 } from "../types/groups.types";
 import { format } from "date-fns";
+import { AppError } from "@/shared/lib/errors";
 
 class GroupsService {
   constructor(
@@ -31,30 +32,49 @@ class GroupsService {
   }
 
   async createGroup(data: GroupInput): Promise<void> {
-    const payload: NewGroup = {
+    const payload: NewGroup = this.generateGroupPayload(data);
+    const { id } = await this.groupsRepository.insert(payload);
+    const slots: NewGroupSchedule[] = this.generateSlots(id, data);
+    await this.groupsSchedulesRepository.insert(slots);
+  }
+
+  async updateGroup(groupId: string, data: GroupInput): Promise<void> {
+    const dbGroup = await this.groupsRepository.getById(groupId);
+
+    if (!dbGroup) {
+      throw new AppError("Grupo no encontrado");
+    }
+
+    const payload: NewGroup = this.generateGroupPayload(data);
+    const slots: NewGroupSchedule[] = this.generateSlots(groupId, data);
+
+    await this.groupsSchedulesRepository.deleteByGroupId(groupId);
+    await this.groupsRepository.update(groupId, payload);
+    await this.groupsSchedulesRepository.insert(slots);
+  }
+
+  generateGroupPayload(data: GroupInput): NewGroup {
+    return {
       ...data,
       startDate: format(data.startDate, "yyyy-MM-dd"),
       endDate: format(data.endDate, "yyyy-MM-dd"),
       weeklyPrice: data.weeklyPrice.toString(),
     };
+  }
 
-    const { id } = await this.groupsRepository.insert(payload);
-
-    const slots: NewGroupSchedule[] =
-      "slots" in data
-        ? data.slots.map((slot) => ({
-            groupId: id,
-            dayOfWeek: slot.day,
-            ...slot,
-          }))
-        : daysOfWeekEnum.enumValues.map((day) => ({
-            groupId: id,
-            dayOfWeek: day,
-            startTime: data.startTime,
-            endTime: data.endTime,
-          }));
-
-    await this.groupsSchedulesRepository.insert(slots);
+  generateSlots(groupId: string, data: GroupInput): NewGroupSchedule[] {
+    return "slots" in data
+      ? data.slots.map((slot) => ({
+          groupId,
+          dayOfWeek: slot.day,
+          ...slot,
+        }))
+      : daysOfWeekEnum.enumValues.map((day) => ({
+          groupId,
+          dayOfWeek: day,
+          startTime: data.startTime,
+          endTime: data.endTime,
+        }));
   }
 }
 

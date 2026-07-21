@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { format } from "date-fns";
+import { format, startOfMonth } from "date-fns";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -20,8 +20,8 @@ export default async function GroupsPage() {
 
   if (!session || !user) redirect("/auth/sign-in");
 
-  const today = new Date();
-  const groups = await groupsService.getAllGroups(format(today, "yyyy-MM-dd"));
+  const month = startOfMonth(new Date());
+  const groups = await groupsService.getAllGroups(format(month, "yyyy-MM-dd"));
 
   return (
     <>

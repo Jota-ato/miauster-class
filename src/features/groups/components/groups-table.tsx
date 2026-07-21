@@ -29,12 +29,15 @@ export function GroupsTable({ groups }: { groups: DetailedGroup[] }) {
             <TableCell>{group.languageLevel.language.name}</TableCell>
             <TableCell>{group.languageLevel.level.name}</TableCell>
             <TableCell>
-              {group.particular ? (
-                "Particular"
+              {!group.regularSchedule ? (
+                "Irregular"
               ) : (
                 <>
                   <p>Lun-Jue</p>
-                  <span>{formatTime(group.schedules[0].startTime)} - {formatTime(group.schedules[0].endTime)}</span>
+                  <span>
+                    {formatTime(group.schedules[0].startTime)} -{" "}
+                    {formatTime(group.schedules[0].endTime)}
+                  </span>
                 </>
               )}
             </TableCell>

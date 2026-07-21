@@ -5,6 +5,7 @@ import { Student } from "@/features/students/types/students.types";
 
 export type NewGroup = typeof groups.$inferInsert
 export type Group = typeof groups.$inferSelect
+export type UpdateGroup = Partial<Omit<Group, "id">>
 export type NewGroupSchedule = typeof groupsSchedules.$inferInsert
 export type GroupSchedule = typeof groupsSchedules.$inferSelect
 
