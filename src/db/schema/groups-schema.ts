@@ -16,7 +16,7 @@ export const groups = pgTable("groups", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    name: varchar("name", { length: 20 })
+    name: varchar("name", { length: 50 })
         .notNull(),
     maxStudents: integer("max_students")
         .notNull(),

@@ -11,15 +11,18 @@ import { Student } from "@/features/students/types/students.types";
 import { StudentCommandList } from "./student-command-list";
 import { useStudentSearch } from "@/shared/hooks/use-students-seach";
 import { cn } from "@/shared/lib/utils";
+import { FieldError } from "@/shared/components/ui/field";
 
 export function StudentPicker({
   onSelect,
   onCreate,
   currentStudentName,
+  error,
 }: {
   onSelect: (student: Student) => void;
   onCreate: (name: string) => void;
   currentStudentName?: string | null;
+  error?: string | null;
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -47,12 +50,13 @@ export function StudentPicker({
   return (
     <>
       <Button
+        aria-invalid={!!error}
         variant="outline"
         onClick={() => setOpen(true)}
         type="button"
         className={cn(
           "w-full justify-between font-normal",
-          hasSelection && "border-primary/50 bg-primary/5"
+          hasSelection && "border-primary/50 bg-primary/5",
         )}
       >
         <span className="flex items-center gap-2 truncate">
@@ -61,12 +65,15 @@ export function StudentPicker({
           ) : (
             <UserRound className="size-4 shrink-0 text-muted-foreground" />
           )}
-          <span className={cn("truncate", !hasSelection && "text-muted-foreground")}>
+          <span
+            className={cn("truncate", !hasSelection && "text-muted-foreground")}
+          >
             {currentStudentName ?? "Seleccionar alumno"}
           </span>
         </span>
         <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
       </Button>
+      {error && <FieldError>{error}</FieldError>}
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command shouldFilter={false}>
