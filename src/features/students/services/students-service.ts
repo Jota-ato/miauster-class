@@ -17,6 +17,10 @@ class StudentsService {
 
     return await this.studentsRepository.insert(payload);
   }
+
+  async listRecent(limit: number = 20): Promise<Student[]> {
+    return await studentsRepository.listRecent(limit);
+  }
 }
 
 export const studentsService = new StudentsService(studentsRepository);

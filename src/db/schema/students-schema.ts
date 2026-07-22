@@ -26,6 +26,7 @@ export const students = pgTable(
       "gin",
       sql`${table.name} gin_trgm_ops`,
     ),
+    index("students_created_at_idx").on(table.createdAt.desc()),
   ],
 );
 

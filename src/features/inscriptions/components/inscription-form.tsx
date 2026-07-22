@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldGroup, FieldSet } from "@/shared/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldSet } from "@/shared/components/ui/field";
 import { inscriptionSchema, InscriptionInput } from "../schemas/inscription-schemas";
 import { Student } from "@/features/students/types/students.types";
 import { StudentPicker } from "./student-picker";
@@ -27,6 +27,7 @@ export function InscriptionForm() {
 
   const handleSelectStudent = (student: Student) => {
     setValue("studentName", student.name);
+    setValue("studentId", student.id);
   };
 
   const handleCreateStudent = async (name: string) => {
@@ -42,8 +43,7 @@ export function InscriptionForm() {
         <FieldGroup>
           <Field>
             <StudentPicker onSelect={handleSelectStudent} onCreate={handleCreateStudent} />
-            <input type="hidden" {...register("studentName")} />
-            {errors.studentName && <span>{errors.studentName.message}</span>}
+            {errors.studentName && <FieldError>{errors.studentName.message}</FieldError>}
           </Field>
         </FieldGroup>
       </FieldSet>

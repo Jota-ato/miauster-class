@@ -4,6 +4,7 @@ import { students } from "@/db/schema";
 
 export interface IStudentsRepository {
   search(query: string): Promise<Student[]>;
+  listRecent(limit: number): Promise<Student[]>;
   insert(data: NewStudent): Promise<Student>;
 }
 
@@ -14,6 +15,13 @@ class StudentsRepository implements IStudentsRepository {
       limit: 10,
       orderBy: (students, { sql }) =>
         sql`similarity(${students.name}, ${query}) DESC`,
+    });
+  }
+
+  async listRecent(limit: number): Promise<Student[]> {
+    return await db.query.students.findMany({
+      orderBy: (students, { desc }) => desc(students.createdAt),
+      limit,
     });
   }
 

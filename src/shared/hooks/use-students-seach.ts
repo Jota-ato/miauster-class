@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Student } from "@/features/students/types/students.types";
-import { searchStudentsAction } from "@/features/students/actions/student-actions";
+import { listRecentStudentsAction, searchStudentsAction } from "@/features/students/actions/student-actions";
 import { useDebouncedValue } from "./use-debounce-value";
 
 interface UseStudentSearchResult {
@@ -13,24 +13,22 @@ export function useStudentSearch(
   delayMs = 300,
 ): UseStudentSearchResult {
   const [students, setStudents] = useState<Student[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const debouncedQuery = useDebouncedValue(query.trim(), delayMs);
   const requestIdRef = useRef(0);
 
   useEffect(() => {
-    if (!debouncedQuery) {
-      setStudents([]);
-      setIsLoading(false);
-      return;
-    }
-
     const currentRequestId = ++requestIdRef.current;
     setIsLoading(true);
 
-    searchStudentsAction(debouncedQuery)
+    const request = debouncedQuery
+      ? searchStudentsAction(debouncedQuery)
+      : listRecentStudentsAction(20);
+
+    request
       .then(({ data }) => {
         if (currentRequestId !== requestIdRef.current) return;
-        else setStudents(data ?? []);
+        setStudents(data ?? []);
       })
       .catch(() => {
         if (currentRequestId !== requestIdRef.current) return;
