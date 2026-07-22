@@ -19,6 +19,7 @@ import { CustomSelect } from "@/shared/components/forms/custom-select";
 import { FieldInput } from "@/shared/components/forms/field-inputs.types";
 import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
+import ImageUploader from "@/shared/components/upload/image-uploader";
 
 const inputs: FieldInput<InscriptionInput>[] = [
   {
@@ -63,6 +64,8 @@ export function InscriptionForm({ groups }: { groups: DetailedGroup[] }) {
     setValue("studentId", data.id);
   };
 
+  const image = watch("invoiceImage");
+
   const currentStudentName = watch("studentName");
 
   return (
@@ -94,6 +97,13 @@ export function InscriptionForm({ groups }: { groups: DetailedGroup[] }) {
               {...input}
             />
           ))}
+          <ImageUploader
+            image={image}
+            label="Imagen del comprobante de pago"
+            onChange={(url) =>
+              setValue("invoiceImage", url ? url : "", { shouldValidate: true })
+            }
+          />
         </FieldGroup>
         <FormSubmit
           isSubmitting={isSubmitting}
