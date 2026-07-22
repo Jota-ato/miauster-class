@@ -5,13 +5,19 @@ import { Field, FieldError, FieldGroup, FieldSet } from "@/shared/components/ui/
 import { inscriptionSchema, InscriptionInput } from "../schemas/inscription-schemas";
 import { Student } from "@/features/students/types/students.types";
 import { StudentPicker } from "./student-picker";
-import { studentsService } from "@/features/students/services/students-service";
 import { createStudentAction } from "@/features/students/actions/student-actions";
+import { DetailedGroup } from "@/features/groups/types/groups.types";
+import { CustomSelect } from "@/shared/components/forms/custom-select";
 
-export function InscriptionForm() {
+export function InscriptionForm({
+    groups
+}: {
+    groups: DetailedGroup[]
+}) {
   const {
-    register,
     handleSubmit,
+    register,
+    control,
     setValue,
     watch,
     formState: { errors },
@@ -19,6 +25,7 @@ export function InscriptionForm() {
     resolver: zodResolver(inscriptionSchema),
     defaultValues: {
       studentName: "",
+      extraPrice: 0,
     },
   });
 
@@ -48,6 +55,14 @@ export function InscriptionForm() {
             <StudentPicker currentStudentName={currentStudentName} onSelect={handleSelectStudent} onCreate={handleCreateStudent} />
             {errors.studentName && <FieldError>{errors.studentName.message}</FieldError>}
           </Field>
+          <CustomSelect 
+            control={control}
+            name="groupId"
+            options={groups.map(group => ({
+                label: group.name,
+                value: group.id
+            }))}
+          />
         </FieldGroup>
       </FieldSet>
     </form>

@@ -14,7 +14,8 @@ export type DetailedGroup = Group & {
     languageLevel: {
         language: Language,
         level: Level
-    }
+    },
+    leftSpots: number
 }
 
 export type FullGroup = DetailedGroup & {

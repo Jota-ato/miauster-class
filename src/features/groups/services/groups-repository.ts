@@ -7,7 +7,7 @@ import {
   UpdateGroup,
 } from "../types/groups.types";
 import { groups } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export interface IGroupsRepository {
   getById(id: string, full: true): Promise<FullGroup | null>;
@@ -34,6 +34,15 @@ class GroupsRepository implements IGroupsRepository {
           studentsGroups: full ? { with: { student: true } } : undefined,
           languageLevel: { with: { language: true, level: true } },
         },
+        extras: (groups) => ({
+          leftSpots: sql<number>`
+            ${groups.maxStudents} - (
+              select count(*)::int
+              from students_groups
+              where students_groups.group_id = ${groups.id}
+            )
+          `.as("left_spots"),
+        }),
       })) || null
     );
   }
@@ -50,6 +59,15 @@ class GroupsRepository implements IGroupsRepository {
           },
         },
       },
+      extras: (groups) => ({
+        leftSpots: sql<number>`
+          ${groups.maxStudents} - (
+            select count(*)::int
+            from students_groups
+            where students_groups.group_id = ${groups.id}
+          )
+        `.as("left_spots"),
+      }),
     });
   }
 
