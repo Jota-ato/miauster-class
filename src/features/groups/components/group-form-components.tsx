@@ -83,7 +83,6 @@ export function GroupFormBaseFields({
             error={(errors as any)[input.name]?.message}
             key={input.name}
             register={register}
-            valueAsNumber={input.type === "number"}
             {...input}
           />
         ))}
