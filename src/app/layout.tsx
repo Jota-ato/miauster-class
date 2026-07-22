@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
 import { Geist } from "next/font/google";
 import { cn } from "@/shared/lib/utils";
 import { ThemeProvider } from "@/shared/components/ui/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { Toaster } from "sonner";
+import { ourFileRouter } from "./api/uploadthing/core";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -25,6 +28,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full">
+        <NextSSRPlugin
+          routerConfig={extractRouterConfig(ourFileRouter)}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
