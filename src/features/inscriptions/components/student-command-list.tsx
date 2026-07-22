@@ -6,14 +6,7 @@ import {
 } from "@/shared/components/ui/command";
 import { Button } from "@/shared/components/ui/button";
 import { Student } from "@/features/students/types/students.types";
-
-interface StudentCommandListProps {
-  students: Student[];
-  isLoading: boolean;
-  search: string;
-  onSelect: (student: Student) => void;
-  onCreate: () => void;
-}
+import { GraduationCap, Plus } from "lucide-react";
 
 export function StudentCommandList({
   students,
@@ -21,7 +14,13 @@ export function StudentCommandList({
   search,
   onSelect,
   onCreate,
-}: StudentCommandListProps) {
+}: {
+  students: Student[];
+  isLoading: boolean;
+  search: string;
+  onSelect: (student: Student) => void;
+  onCreate: () => void;
+}) {
   if (isLoading) {
     return (
       <CommandList>
@@ -36,8 +35,13 @@ export function StudentCommandList({
         <CommandEmpty>
           No se encontró &quot;{search}&quot;
           <br />
-          <Button variant="outline" onClick={onCreate} className="mt-2" type="button">
-            Crear nuevo alumno
+          <Button
+            variant="outline"
+            onClick={onCreate}
+            className="mt-2"
+            type="button"
+          >
+            <Plus /> Crear nuevo alumno
           </Button>
         </CommandEmpty>
       </CommandList>
@@ -49,7 +53,7 @@ export function StudentCommandList({
       <CommandGroup>
         {students.map((student) => (
           <CommandItem key={student.id} onSelect={() => onSelect(student)}>
-            {student.name}
+            <GraduationCap /> {student.name}
           </CommandItem>
         ))}
       </CommandGroup>

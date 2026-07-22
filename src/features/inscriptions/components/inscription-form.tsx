@@ -13,6 +13,7 @@ export function InscriptionForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<InscriptionInput>({
     resolver: zodResolver(inscriptionSchema),
@@ -37,12 +38,14 @@ export function InscriptionForm() {
     setValue("studentId", data.id);
   };
 
+  const currentStudentName = watch("studentName");
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FieldSet>
         <FieldGroup>
           <Field>
-            <StudentPicker onSelect={handleSelectStudent} onCreate={handleCreateStudent} />
+            <StudentPicker currentStudentName={currentStudentName} onSelect={handleSelectStudent} onCreate={handleCreateStudent} />
             {errors.studentName && <FieldError>{errors.studentName.message}</FieldError>}
           </Field>
         </FieldGroup>
