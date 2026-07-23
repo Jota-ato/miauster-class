@@ -6,7 +6,7 @@ import { ImageIcon, X, CheckCircle2, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { compressImage } from "@/shared/lib/image-compression";
 import { UploadDropzone, uploadFiles } from "@/shared/lib/uploadthing";
-import { Field, FieldLabel } from "../ui/field";
+import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 
@@ -14,12 +14,14 @@ interface ImageUploaderProps {
   label: string;
   onChange: (url: string | null) => void;
   image?: string;
+  error?: string | null;
 }
 
 export default function ImageUploader({
   label,
   onChange,
   image,
+  error,
 }: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
@@ -128,6 +130,9 @@ export default function ImageUploader({
                                 ? "border-primary/50 bg-primary/5 pointer-events-none"
                                 : "border-border hover:border-primary/50 hover:bg-muted/50"
                             }
+                            ${
+                              error ? "border-destructive/50 bg-destructive/5" : ""
+                            }
                         `,
             uploadIcon: "size-8 stroke-muted-foreground",
             label: "text-sm font-medium text-foreground",
@@ -138,6 +143,7 @@ export default function ImageUploader({
           }}
         />
       )}
+      {error && <FieldError>{error}</FieldError>}
     </Field>
   );
 }

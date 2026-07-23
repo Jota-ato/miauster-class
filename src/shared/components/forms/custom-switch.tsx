@@ -39,7 +39,7 @@ export function CustomSwitch<T extends FieldValues>({
           <FieldContent>
             <FieldLabel htmlFor={name}>{label}</FieldLabel>
             {description && (
-              <FieldDescription>{description}</FieldDescription>
+              <FieldDescription className="text-xs">{description}</FieldDescription>
             )}
             {error && <FieldError>{error}</FieldError>}
           </FieldContent>

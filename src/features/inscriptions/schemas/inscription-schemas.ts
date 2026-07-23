@@ -1,14 +1,21 @@
 import { z } from "zod";
 
-export const inscriptionSchema = z.object({
-  groupId: z.uuid({ error: "El grupo es requerido" }),
-  studentId: z.uuid({ error: "El estudiante es requerido" }),
-  studentName: z
-    .string()
-    .min(1, { error: "El nombre del estudiante es requerido" }),
-  invoiceImage: z.url({
-    error: "La imagen del comprobante de pago es requerida",
-  }),
+const baseInscriptionSchema = z.object({
+  studentId: z.uuid({ message: "El estudiante es requerido" }),
+  studentName: z.string().min(1, { message: "El nombre del estudiante es requerido" }),
+  invoiceImage: z.url({ message: "La imagen del comprobante de pago es requerida" }),
 });
+
+export const inscriptionSchema = z.discriminatedUnion("levelTest", [
+    baseInscriptionSchema.extend({
+        levelTest: z.literal(true),
+        testPrice: z.number().min(1, { message: "El precio del examen es requerido" }),
+    }),
+    baseInscriptionSchema.extend({
+        levelTest: z.literal(false),
+        groupId: z.string().min(1, { message: "El grupo es requerido" }),
+    }),
+]
+)
 
 export type InscriptionInput = z.infer<typeof inscriptionSchema>;

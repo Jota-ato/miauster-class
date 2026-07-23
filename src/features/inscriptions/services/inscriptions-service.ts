@@ -43,14 +43,17 @@ class InscriptionService {
       userId,
     );
 
-    this.validateSpotsAvailability(group);
+    if (group) this.validateSpotsAvailability(group);
 
     const newInscription: NewInscription = {
       studentId: student.id,
-      groupId: group.id,
+      groupId: group?.id ?? null,
+      levelTest: data.levelTest,
       invoiceImage: data.invoiceImage,
       createdBy: user.id,
-      ...buildInscriptionSnapshot(user, student, group),
+      ...buildInscriptionSnapshot(user, student, group, {
+        testPrice: data.levelTest ? data.testPrice : undefined,
+      }),
     };
 
     await this.inscriptionRepository.insert(newInscription);
@@ -65,14 +68,16 @@ class InscriptionService {
       userId,
     );
 
-    this.validateSpotsAvailability(group);
+    if (group) this.validateSpotsAvailability(group);
 
     const updatedInscription: UpdateInscription = {
       studentId: student.id,
-      groupId: group.id,
+      groupId: group?.id ?? null,
+      levelTest: data.levelTest,
       invoiceImage: data.invoiceImage,
-
-      ...buildInscriptionSnapshot(user, student, group),
+      ...buildInscriptionSnapshot(user, student, group, {
+        testPrice: data.levelTest ? data.testPrice : undefined,
+      }),
     };
 
     if (
@@ -94,12 +99,14 @@ class InscriptionService {
     const [user, student, group] = await Promise.all([
       this.usersRepository.findById(userId),
       this.studentsRepository.getById(data.studentId),
-      this.groupsRepository.getById(data.groupId),
+      data.levelTest
+        ? Promise.resolve(null)
+        : this.groupsRepository.getById(data.groupId),
     ]);
 
     if (!user) throw new AppError("Usuario no encontrado");
     if (!student) throw new AppError("Estudiante no encontrado");
-    if (!group) throw new AppError("Grupo no encontrado");
+    if (!data.levelTest && !group) throw new AppError("Grupo no encontrado");
 
     return { user, student, group };
   }

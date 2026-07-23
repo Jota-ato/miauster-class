@@ -12,11 +12,32 @@ type InscriptionSnapshot = Pick<
   | "groupStartDateSnapshot"
 >;
 
+type LevelTestPriceOptions = {
+  testPrice?: number;
+};
+
 export function buildInscriptionSnapshot(
   user: User,
   student: Student,
-  group: Group,
+  group: Group | null,
+  { testPrice }: LevelTestPriceOptions = {},
 ): InscriptionSnapshot {
+  if (!group) {
+    if (testPrice === undefined) {
+      throw new Error(
+        "testPrice es requerido cuando la inscripción no tiene grupo (examen de colocación)",
+      );
+    }
+
+    return {
+      priceSnapshot: testPrice.toString(),
+      creatorNameSnapshot: user.name,
+      studentNameSnapshot: student.name,
+      groupNameSnapshot: null,
+      groupStartDateSnapshot: null,
+    };
+  }
+
   return {
     priceSnapshot: group.weeklyPrice,
     creatorNameSnapshot: user.name,

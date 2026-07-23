@@ -2,17 +2,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldGroup, FieldSet } from "@/shared/components/ui/field";
-import {
-  inscriptionSchema,
-  InscriptionInput,
-} from "../schemas/inscription-schemas";
 import { Student } from "@/features/students/types/students.types";
 import { StudentPicker } from "./student-picker";
 import { createStudentAction } from "@/features/students/actions/student-actions";
 import { DetailedGroup } from "@/features/groups/types/groups.types";
 import { CustomSelect } from "@/shared/components/forms/custom-select";
-import { FieldInput } from "@/shared/components/forms/field-inputs.types";
-import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
 import ImageUploader from "@/shared/components/upload/image-uploader";
 import { showResponse } from "@/shared/lib/client-actions";
@@ -21,7 +15,12 @@ import {
   updateInscriptionAction,
 } from "../actions/inscriptions-actions";
 import { Inscription } from "../types/inscriptions.types";
-
+import { CustomSwitch } from "@/shared/components/forms/custom-switch";
+import {
+  InscriptionInput,
+  inscriptionSchema,
+} from "../schemas/inscription-schemas";
+import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 
 export function InscriptionForm({
   groups,
@@ -47,7 +46,7 @@ export function InscriptionForm({
       studentName: isEditting ? inscription.studentNameSnapshot : "",
       studentId: isEditting ? inscription.studentId : "",
       invoiceImage: isEditting ? inscription.invoiceImage : "",
-      groupId: isEditting ? inscription.groupId : "",
+      levelTest: isEditting ? inscription.levelTest : false,
     },
   });
 
@@ -72,35 +71,57 @@ export function InscriptionForm({
   };
 
   const image = watch("invoiceImage");
+  const levelTest = watch("levelTest");
 
   const currentStudentName = watch("studentName");
-  const submitLabel = isEditting ? "Actualizar inscripción" : "Crear inscripción";
+  const submitLabel = isEditting
+    ? "Actualizar inscripción"
+    : "Crear inscripción";
   const isSubmittingLabel = isEditting ? "Actualizando..." : "Creando...";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FieldSet>
         <FieldGroup>
-          <Field>
-            <StudentPicker
-              currentStudentName={currentStudentName}
-              onSelect={handleSelectStudent}
-              onCreate={handleCreateStudent}
-              error={errors.studentId?.message}
+          <div className="flex gap-2 flex-col md:flex-row">
+            <Field>
+              <StudentPicker
+                currentStudentName={currentStudentName}
+                onSelect={handleSelectStudent}
+                onCreate={handleCreateStudent}
+                error={errors.studentId?.message}
+              />
+            </Field>
+            <CustomSwitch
+              control={control}
+              label="Examen de colocación"
+              name="levelTest"
+              description="Si realizó examen de colocación no es necesario asignar el grupo"
             />
-          </Field>
-          <CustomSelect
-            label="Grupo"
-            placeholder="Grupo"
-            error={errors.groupId?.message}
-            control={control}
-            name="groupId"
-            options={groups.map((group) => ({
-              label: group.name,
-              value: group.id,
-            }))}
-          />
+          </div>
+          {levelTest ? (
+            <FieldWLabel
+              register={register}
+              label="Precio del examen de colocación"
+              error={"testPrice" in errors ? errors.testPrice?.message : undefined}
+              type="number"
+              {...register("testPrice")}
+            />
+          ) : (
+            <CustomSelect
+              label="Grupo"
+              placeholder="Grupo"
+              error={"groupId" in errors ? errors.groupId?.message : undefined}
+              control={control}
+              name="groupId"
+              options={groups.map((group) => ({
+                label: group.name,
+                value: group.id,
+              }))}
+            />
+          )}
           <ImageUploader
+            error={errors.invoiceImage?.message}
             image={image}
             label="Imagen del comprobante de pago"
             onChange={(url) =>
