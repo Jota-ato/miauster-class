@@ -85,6 +85,8 @@ export function InscriptionForm({
   const image = watch("invoiceImage");
 
   const currentStudentName = watch("studentName");
+  const submitLabel = isEditting ? "Actualizar inscripción" : "Crear inscripción";
+  const isSubmittingLabel = isEditting ? "Actualizando..." : "Creando...";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -125,8 +127,8 @@ export function InscriptionForm({
         </FieldGroup>
         <FormSubmit
           isSubmitting={isSubmitting}
-          label="Crear inscripción"
-          isSubmittingLabel="Creando..."
+          label={submitLabel}
+          isSubmittingLabel={isSubmittingLabel}
         />
       </FieldSet>
     </form>
