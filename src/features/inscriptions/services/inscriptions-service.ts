@@ -59,6 +59,12 @@ class InscriptionService {
     return { user, student, group };
   }
 
+  async getInscriptionsByRangeAndUserId(userId: string, startDate: Date, endDate: Date) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) throw new AppError("Usuario no encontrado");
+    return await this.inscriptionRepository.getByRangeAndUserId(user.id, startDate, endDate);
+  }
+
   validateSpotsAvailability(group: { leftSpots: number }) {
     if (group.leftSpots <= 0) throw new AppError("No hay cupos disponibles en este grupo");
   }

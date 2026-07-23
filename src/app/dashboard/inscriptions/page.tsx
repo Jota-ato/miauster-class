@@ -1,3 +1,4 @@
+import { inscriptionService } from "@/features/inscriptions/services/inscriptions-service";
 import { UsersPolicies } from "@/features/users/policies/user-policies";
 import { requireAuth } from "@/lib/auth-server";
 import { Heading } from "@/shared/components/typography/heading";
@@ -10,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { endOfWeek, startOfWeek } from "date-fns";
 import { BookMarked, Copy, Gift, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -24,11 +26,18 @@ export default async function InscriptionsPage() {
   const { session, user } = await requireAuth();
   if (!session || !user) redirect("/auth/sign-in");
   if (!UsersPolicies.isSeller(user)) redirect("/not-authorized");
+  const startRange = startOfWeek(new Date());
+  const endRange = endOfWeek(new Date());
+  const weeklyInscriptions = await inscriptionService.getInscriptionsByRangeAndUserId(
+    user.id,
+    startRange,
+    endRange
+  )
 
   const weeklyStats = {
-    current: 2,
+    current: weeklyInscriptions.length,
     target: 3,
-    estimatedEarnings: 1500
+    estimatedEarnings: weeklyInscriptions.reduce((acc, inscription) => acc + +inscription.priceSnapshot, 0)
   };
 
   const progressPercentage = Math.min(
@@ -71,8 +80,7 @@ export default async function InscriptionsPage() {
               </Badge>
             </div>
             <CardDescription>
-              ¡Inscribe {3 - weeklyStats.current} estudiante(s) más esta semana
-              para obtener tu semana gratis!
+              {weeklyStats.target - weeklyStats.current > 0 ? `¡Inscribe ${weeklyStats.target - weeklyStats.current} estudiante(s) más esta semana para obtener tu semana gratis!` : "¡Felicidades! Has alcanzado tu meta semanal de inscripciones."}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,16 +94,16 @@ export default async function InscriptionsPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-base font-medium flex items-center gap-2 text-muted-foreground">
-              <TrendingUp className="h-4 w-4 text-emerald-800 dark:text-emerald-500" /> Ganancias
+              <TrendingUp className="size-4 text-emerald-800 dark:text-emerald-500" /> Ganancias
               Estimadas
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <p className="text-2xl font-bold">
               ${weeklyStats.estimatedEarnings.toLocaleString("es-MX")}
-            </div>
+            </p>
             <p className="text-xs text-muted-foreground mt-1">
               Acumulado de comisión semanal
             </p>

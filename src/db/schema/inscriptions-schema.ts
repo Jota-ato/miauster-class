@@ -46,9 +46,9 @@ export const inscriptions = pgTable("inscriptions", {
   }).notNull(),
   approved: boolean("approved").notNull().default(false),
   comissionPaid: boolean("paid").notNull().default(false),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
   invoiceImage: varchar("invoice_image", { length: 120 }).notNull(),
-  updatedAt: timestamp("updated_at")
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" })
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
