@@ -10,6 +10,7 @@ import { Separator } from "@/shared/components/ui/separator";
 import { formatCurrency } from "@/shared/utils/currency";
 import { format } from "date-fns";
 import { Inscription } from "../types/inscriptions.types";
+import Link from "next/link";
 
 function DetailField({
   label,
@@ -57,7 +58,9 @@ export function DetailInscriptionCard({
             {inscription.studentNameSnapshot}
           </DetailField>
           <DetailField label="Grupo">
-            {inscription.groupNameSnapshot}
+            <Link href={`/dashboard/groups/${inscription.groupId}`}>
+              {inscription.groupNameSnapshot}
+            </Link>
           </DetailField>
           <DetailField label="Inicio de grupo">
             {inscription.groupStartDateSnapshot}

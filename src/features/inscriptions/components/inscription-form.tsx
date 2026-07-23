@@ -22,6 +22,7 @@ import { FormSubmit } from "@/shared/components/forms/form-submit";
 import ImageUploader from "@/shared/components/upload/image-uploader";
 import { showResponse } from "@/shared/lib/client-actions";
 import { createInscriptionAction } from "../actions/inscriptions-actions";
+import { Inscription } from "../types/inscriptions.types";
 
 const inputs: FieldInput<InscriptionInput>[] = [
   {
@@ -37,10 +38,14 @@ const inputs: FieldInput<InscriptionInput>[] = [
 export function InscriptionForm({
   groups,
   userId,
+  inscription,
 }: {
   groups: DetailedGroup[];
   userId: string;
+  inscription?: Inscription;
 }) {
+  const isEditting = !!inscription;
+
   const {
     handleSubmit,
     register,
@@ -51,13 +56,19 @@ export function InscriptionForm({
   } = useForm<InscriptionInput>({
     resolver: zodResolver(inscriptionSchema),
     defaultValues: {
-      studentName: "",
-      extraPrice: 0,
+      studentName: isEditting ? inscription.studentNameSnapshot : "",
+      studentId: isEditting ? inscription.studentId : "",
+      extraPrice: isEditting ? +inscription.extraPrice : 0,
+      invoiceImage: isEditting ? inscription.invoiceImage : "",
+      groupId: isEditting ? inscription.groupId : "",
     },
   });
 
   const onSubmit = async (data: InscriptionInput) => {
-    showResponse(await createInscriptionAction(data, userId));
+    if (isEditting && inscription) {
+    } else {
+      showResponse(await createInscriptionAction(data, userId));
+    }
   };
 
   const handleSelectStudent = (student: Student) => {
