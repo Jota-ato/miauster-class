@@ -48,10 +48,9 @@ class InscriptionService {
     const newInscription: NewInscription = {
       studentId: student.id,
       groupId: group.id,
-      extraPrice: data.extraPrice.toString(),
       invoiceImage: data.invoiceImage,
       createdBy: user.id,
-      ...buildInscriptionSnapshot(user, student, group, data.extraPrice),
+      ...buildInscriptionSnapshot(user, student, group),
     };
 
     await this.inscriptionRepository.insert(newInscription);
@@ -71,10 +70,9 @@ class InscriptionService {
     const updatedInscription: UpdateInscription = {
       studentId: student.id,
       groupId: group.id,
-      extraPrice: data.extraPrice.toString(),
       invoiceImage: data.invoiceImage,
 
-      ...buildInscriptionSnapshot(user, student, group, data.extraPrice),
+      ...buildInscriptionSnapshot(user, student, group),
     };
 
     if (

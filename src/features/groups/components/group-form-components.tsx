@@ -224,6 +224,7 @@ export function IrregularScheduleFields({
                 Día
               </FieldLabel>
               <CustomSelect
+                placeholder="Selecciona un día"
                 control={control}
                 name={`slots.${index}.day`}
                 options={daysOfWeekEnum.enumValues.map((day) => ({

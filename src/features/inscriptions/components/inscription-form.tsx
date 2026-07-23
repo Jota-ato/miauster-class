@@ -22,16 +22,6 @@ import {
 } from "../actions/inscriptions-actions";
 import { Inscription } from "../types/inscriptions.types";
 
-const inputs: FieldInput<InscriptionInput>[] = [
-  {
-    name: "extraPrice",
-    label: "Precio extra",
-    type: "number",
-    step: "0.01",
-    min: "0",
-    placeholder: "Ingrese un precio extra si aplica",
-  },
-];
 
 export function InscriptionForm({
   groups,
@@ -56,7 +46,6 @@ export function InscriptionForm({
     defaultValues: {
       studentName: isEditting ? inscription.studentNameSnapshot : "",
       studentId: isEditting ? inscription.studentId : "",
-      extraPrice: isEditting ? +inscription.extraPrice : 0,
       invoiceImage: isEditting ? inscription.invoiceImage : "",
       groupId: isEditting ? inscription.groupId : "",
     },
@@ -101,6 +90,8 @@ export function InscriptionForm({
             />
           </Field>
           <CustomSelect
+            label="Grupo"
+            placeholder="Grupo"
             error={errors.groupId?.message}
             control={control}
             name="groupId"
@@ -109,14 +100,6 @@ export function InscriptionForm({
               value: group.id,
             }))}
           />
-          {inputs.map((input) => (
-            <FieldWLabel
-              key={input.name}
-              register={register}
-              error={errors[input.name]?.message}
-              {...input}
-            />
-          ))}
           <ImageUploader
             image={image}
             label="Imagen del comprobante de pago"

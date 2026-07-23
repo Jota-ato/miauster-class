@@ -6,7 +6,6 @@ export const inscriptionSchema = z.object({
   studentName: z
     .string()
     .min(1, { error: "El nombre del estudiante es requerido" }),
-  extraPrice: z.number(),
   invoiceImage: z.url({
     error: "La imagen del comprobante de pago es requerida",
   }),

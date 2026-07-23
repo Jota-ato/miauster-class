@@ -31,7 +31,7 @@ export function CustomSelect<T extends FieldValues>({
   options,
   error,
   label,
-  placeholder = "Select an option",
+  placeholder = "Selecciona una opción",
   groupLabel,
 }: GenericSelectProps<T>) {
   return (

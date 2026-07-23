@@ -16,10 +16,9 @@ export function buildInscriptionSnapshot(
   user: User,
   student: Student,
   group: Group,
-  extraPrice: number,
 ): InscriptionSnapshot {
   return {
-    priceSnapshot: (Number(group.weeklyPrice) + extraPrice).toString(),
+    priceSnapshot: group.weeklyPrice,
     creatorNameSnapshot: user.name,
     studentNameSnapshot: student.name,
     groupNameSnapshot: group.name,

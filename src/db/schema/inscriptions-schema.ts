@@ -24,12 +24,6 @@ export const inscriptions = pgTable("inscriptions", {
   studentId: uuid("student_id")
     .notNull()
     .references(() => students.id, { onDelete: "restrict" }),
-  extraPrice: numeric("extra_price", {
-    precision: 10,
-    scale: 2,
-  })
-    .notNull()
-    .default("0"),
   priceSnapshot: numeric("price_snapshot", {
     precision: 10,
     scale: 2,
