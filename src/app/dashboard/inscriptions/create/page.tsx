@@ -15,7 +15,7 @@ export default async function CreateInscriptionPage() {
   return (
     <>
       <Heading>Nueva inscripción</Heading>
-      <CreateInscriptionCard groups={groups} />
+      <CreateInscriptionCard groups={groups} userId={user.id} />
     </>
   );
 }

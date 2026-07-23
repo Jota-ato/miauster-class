@@ -3,12 +3,21 @@ import { NewStudent, Student } from "../types/students.types";
 import { students } from "@/db/schema";
 
 export interface IStudentsRepository {
+  getById(id: string): Promise<Student | null>;
   search(query: string): Promise<Student[]>;
   listRecent(limit: number): Promise<Student[]>;
   insert(data: NewStudent): Promise<Student>;
 }
 
 class StudentsRepository implements IStudentsRepository {
+  async getById(id: string): Promise<Student | null> {
+    return (
+      (await db.query.students.findFirst({
+        where: (students, { eq }) => eq(students.id, id),
+      })) || null
+    );
+  }
+
   async search(query: string): Promise<Student[]> {
     return await db.query.students.findMany({
       where: (students, { ilike }) => ilike(students.name, `%${query}%`),

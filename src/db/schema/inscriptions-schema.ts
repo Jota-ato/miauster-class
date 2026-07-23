@@ -47,13 +47,14 @@ export const inscriptions = pgTable("inscriptions", {
   approved: boolean("approved").notNull().default(false),
   comissionPaid: boolean("paid").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  invoiceImage: varchar("invoice_image", { length: 120 }).notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  updatedBy: text("updated_by")
-    .notNull()
-    .references(() => user.id, { onDelete: "restrict" }),
+  updatedBy: text("updated_by").references(() => user.id, {
+    onDelete: "restrict",
+  }),
 });
 
 export const inscriptionsRelations = relations(inscriptions, ({ one }) => ({

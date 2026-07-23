@@ -20,6 +20,8 @@ import { FieldInput } from "@/shared/components/forms/field-inputs.types";
 import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
 import ImageUploader from "@/shared/components/upload/image-uploader";
+import { showResponse } from "@/shared/lib/client-actions";
+import { createInscriptionAction } from "../actions/inscriptions-actions";
 
 const inputs: FieldInput<InscriptionInput>[] = [
   {
@@ -32,7 +34,13 @@ const inputs: FieldInput<InscriptionInput>[] = [
   },
 ];
 
-export function InscriptionForm({ groups }: { groups: DetailedGroup[] }) {
+export function InscriptionForm({
+  groups,
+  userId,
+}: {
+  groups: DetailedGroup[];
+  userId: string;
+}) {
   const {
     handleSubmit,
     register,
@@ -48,8 +56,8 @@ export function InscriptionForm({ groups }: { groups: DetailedGroup[] }) {
     },
   });
 
-  const onSubmit = (data: InscriptionInput) => {
-    console.log("Datos del formulario:", data);
+  const onSubmit = async (data: InscriptionInput) => {
+    showResponse(await createInscriptionAction(data, userId));
   };
 
   const handleSelectStudent = (student: Student) => {
