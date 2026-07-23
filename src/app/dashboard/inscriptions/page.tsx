@@ -111,18 +111,6 @@ export default async function InscriptionsPage() {
           </CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Acciones rápidas</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Copy className="h-4 w-4" /> Copiar Link de Registro Directo
-          </Button>
-        </CardContent>
-      </Card>
-
       <RecentInscriptionsCard inscriptions={inscriptions} />
     </>
   );
