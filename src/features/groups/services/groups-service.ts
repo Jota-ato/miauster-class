@@ -71,7 +71,7 @@ class GroupsService {
         }))
       : daysOfWeekEnum
       .enumValues
-      .slice(0, 3)
+      .slice(0, 4)
       .map((day) => ({
           groupId,
           dayOfWeek: day,
