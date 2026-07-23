@@ -19,7 +19,8 @@ export function GroupsTable({ groups }: { groups: DetailedGroup[] }) {
           <TableHead>Idioma</TableHead>
           <TableHead>Nivel</TableHead>
           <TableHead>Horario</TableHead>
-          <TableHead>Acciones</TableHead>
+          <TableHead>Espacios disponibles</TableHead>
+          <TableHead>Ver detalles</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -41,6 +42,7 @@ export function GroupsTable({ groups }: { groups: DetailedGroup[] }) {
                 </>
               )}
             </TableCell>
+            <TableCell>{group.leftSpots}</TableCell>
             <TableCell>
               <EyeButton href={`/dashboard/groups/${group.id}`} />
             </TableCell>

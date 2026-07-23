@@ -31,6 +31,8 @@ class InscriptionService {
 
     const { user, student, group } = await this.validateExistingData(data, userId);
 
+    this.validateSpotsAvailability(group);
+
     const newInscription: NewInscription = {
       studentId: student.id,
       groupId: group.id,
@@ -55,6 +57,10 @@ class InscriptionService {
     if (!group) throw new AppError("Grupo no encontrado");
 
     return { user, student, group };
+  }
+
+  validateSpotsAvailability(group: { leftSpots: number }) {
+    if (group.leftSpots <= 0) throw new AppError("No hay cupos disponibles en este grupo");
   }
 }
 
