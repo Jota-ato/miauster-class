@@ -1,3 +1,4 @@
+import { RecentInscriptionsCard } from "@/features/inscriptions/components/recent-inscriptions-card";
 import { inscriptionService } from "@/features/inscriptions/services/inscriptions-service";
 import { UsersPolicies } from "@/features/users/policies/user-policies";
 import { requireAuth } from "@/lib/auth-server";
@@ -28,20 +29,18 @@ export default async function InscriptionsPage() {
   if (!UsersPolicies.isSeller(user)) redirect("/not-authorized");
   const startRange = startOfWeek(new Date());
   const endRange = endOfWeek(new Date());
-  const weeklyInscriptions = await inscriptionService.getInscriptionsByRangeAndUserId(
+  const { totalInscriptions, approveInscriptions, estimatedEarnings } =
+    await inscriptionService.getRangeStats(user.id, startRange, endRange);
+  const inscriptions = await inscriptionService.getInscriptionsByRangeAndUserId(
     user.id,
     startRange,
-    endRange
-  )
+    endRange,
+  );
 
-  const weeklyStats = {
-    current: weeklyInscriptions.length,
-    target: 3,
-    estimatedEarnings: weeklyInscriptions.reduce((acc, inscription) => acc + +inscription.priceSnapshot, 0)
-  };
+  const target = 3;
 
   const progressPercentage = Math.min(
-    (weeklyStats.current / weeklyStats.target) * 100,
+    (approveInscriptions / target) * 100,
     100,
   );
 
@@ -71,16 +70,18 @@ export default async function InscriptionsPage() {
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm md:text-base font-medium flex items-center gap-2">
-                <Gift className="h-4 w-4 text-primary shrink-0" /> Meta Semanal de
-                Bonificación
+                <Gift className="h-4 w-4 text-primary shrink-0" /> Meta Semanal
+                de Bonificación
               </CardTitle>
               <Badge variant="default">
-                {weeklyStats.current} / {weeklyStats.target} 
+                {approveInscriptions} / {target}
                 <span className="hidden md:block">Completadas</span>
               </Badge>
             </div>
             <CardDescription>
-              {weeklyStats.target - weeklyStats.current > 0 ? `¡Inscribe ${weeklyStats.target - weeklyStats.current} estudiante(s) más esta semana para obtener tu semana gratis!` : "¡Felicidades! Has alcanzado tu meta semanal de inscripciones."}
+              {target - approveInscriptions > 0
+                ? `¡Inscribe ${target - approveInscriptions} estudiante(s) más esta semana para obtener tu semana gratis!`
+                : "¡Felicidades! Has alcanzado tu meta semanal de inscripciones."}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -96,13 +97,13 @@ export default async function InscriptionsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base font-medium flex items-center gap-2 text-muted-foreground">
-              <TrendingUp className="size-4 text-emerald-800 dark:text-emerald-500" /> Ganancias
-              Estimadas
+              <TrendingUp className="size-4 text-emerald-800 dark:text-emerald-500" />{" "}
+              Ganancias Estimadas
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">
-              ${weeklyStats.estimatedEarnings.toLocaleString("es-MX")}
+              ${estimatedEarnings.toLocaleString("es-MX")}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               Acumulado de comisión semanal
@@ -122,16 +123,7 @@ export default async function InscriptionsPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Inscripciones Recientes</CardTitle>
-          <CardDescription>
-            Historial de alumnos inscritos en el periodo actual.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-        </CardContent>
-      </Card>
+      <RecentInscriptionsCard inscriptions={inscriptions} />
     </>
   );
 }

@@ -18,6 +18,7 @@ import {
   IGroupsRepository,
 } from "@/features/groups/services/groups-repository";
 import { buildInscriptionSnapshot } from "../lib/build-inscription-snapshots";
+import { UsersPolicies } from "@/features/users/policies/user-policies";
 
 class InscriptionService {
   constructor(
@@ -27,9 +28,20 @@ class InscriptionService {
     private groupsRepository: IGroupsRepository,
   ) {}
 
-  async createInscription(data: InscriptionInput, userId: string) {
+  async getById(id: string, userId: string) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) throw new AppError("Usuario no encontrado");
+    const inscription = await this.inscriptionRepository.findById(id);
+    if (inscription?.createdBy !== user.id && !UsersPolicies.isAdmin(user))
+      throw new AppError("No autorizado para ver esta inscripción");
+    return inscription;
+  }
 
-    const { user, student, group } = await this.validateExistingData(data, userId);
+  async createInscription(data: InscriptionInput, userId: string) {
+    const { user, student, group } = await this.validateExistingData(
+      data,
+      userId,
+    );
 
     this.validateSpotsAvailability(group);
 
@@ -59,14 +71,40 @@ class InscriptionService {
     return { user, student, group };
   }
 
-  async getInscriptionsByRangeAndUserId(userId: string, startDate: Date, endDate: Date) {
+  async getInscriptionsByRangeAndUserId(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ) {
     const user = await this.usersRepository.findById(userId);
     if (!user) throw new AppError("Usuario no encontrado");
-    return await this.inscriptionRepository.getByRangeAndUserId(user.id, startDate, endDate);
+    return await this.inscriptionRepository.getByRangeAndUserId(
+      user.id,
+      startDate,
+      endDate,
+    );
   }
 
   validateSpotsAvailability(group: { leftSpots: number }) {
-    if (group.leftSpots <= 0) throw new AppError("No hay cupos disponibles en este grupo");
+    if (group.leftSpots <= 0)
+      throw new AppError("No hay cupos disponibles en este grupo");
+  }
+
+  async getRangeStats(userId: string, startDate: Date, endDate: Date) {
+    const inscriptions = await this.getInscriptionsByRangeAndUserId(
+      userId,
+      startDate,
+      endDate,
+    );
+    const totalInscriptions = inscriptions.length;
+    const approveInscriptions = inscriptions.filter(
+      (inscription) => inscription.approved,
+    ).length;
+    const estimatedEarnings = inscriptions.reduce(
+      (acc, inscription) => acc + +inscription.priceSnapshot,
+      0,
+    );
+    return { totalInscriptions, approveInscriptions, estimatedEarnings };
   }
 }
 
