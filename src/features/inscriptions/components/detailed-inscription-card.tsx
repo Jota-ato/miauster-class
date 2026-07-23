@@ -11,6 +11,9 @@ import { formatCurrency } from "@/shared/utils/currency";
 import { format } from "date-fns";
 import { Inscription } from "../types/inscriptions.types";
 import Link from "next/link";
+import { Button } from "@/shared/components/ui/button";
+import { ReceiptText } from "lucide-react";
+import { InvoiceImageDialog } from "./invoice-image-dialog";
 
 function DetailField({
   label,
@@ -52,8 +55,8 @@ export function DetailInscriptionCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      <CardContent className="space-y-4 [&>div]:grid [&>div]:grid-cols-2 [&>div]:gap-4 [&>div]:sm:grid-cols-3 [&>div]:items-center">
+        <div>
           <DetailField label="Alumno">
             {inscription.studentNameSnapshot}
           </DetailField>
@@ -69,7 +72,7 @@ export function DetailInscriptionCard({
 
         <Separator />
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div>
           <DetailField label="Precio">
             {formatCurrency(inscription.priceSnapshot)}
           </DetailField>
@@ -87,12 +90,15 @@ export function DetailInscriptionCard({
 
         <Separator />
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 text-muted-foreground">
+        <div className="text-muted-foreground">
           <DetailField label="Creado">
             {format(inscription.createdAt, "dd/MM/yyyy HH:mm")}
           </DetailField>
           <DetailField label="Actualizado">
             {format(inscription.updatedAt, "dd/MM/yyyy HH:mm")}
+          </DetailField>
+          <DetailField label="Factura">
+            <InvoiceImageDialog inscription={inscription} />
           </DetailField>
         </div>
       </CardContent>

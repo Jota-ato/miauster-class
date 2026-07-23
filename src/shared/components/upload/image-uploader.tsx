@@ -32,7 +32,7 @@ export default function ImageUploader({
       const compressedFiles = await Promise.all(
         files.map(async (file) => {
           return await compressImage(file, {
-            maxSizeMB: 0.8,
+            maxSizeMB: 2,
             maxWidthOrHeight: 1440,
           });
         }),
