@@ -18,3 +18,14 @@ export const createInscriptionAction = sellerAction(
     return "Inscripción creada exitosamente";
   },
 );
+
+export const updateInscriptionAction = sellerAction(
+  async (id: string, data: InscriptionInput, userId: string) => {
+    const zodResponse = inscriptionSchema.safeParse(data);
+
+    if (!zodResponse.success) throw new AppError("Datos no válidos");
+
+    await inscriptionService.updateInscription(id, data, userId);
+    return "Inscripción actualizada exitosamente";
+  },
+);

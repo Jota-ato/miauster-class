@@ -1,6 +1,11 @@
 import { db } from "@/db";
-import { Inscription, NewInscription } from "../types/inscriptions.types";
+import {
+  Inscription,
+  NewInscription,
+  UpdateInscription,
+} from "../types/inscriptions.types";
 import { inscriptions } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export interface IInscriptionRepository {
   insert(data: NewInscription): Promise<void>;
@@ -10,6 +15,7 @@ export interface IInscriptionRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<Inscription[]>;
+  update(id: string, data: UpdateInscription): Promise<void>;
 }
 
 class InscriptionRepository implements IInscriptionRepository {
@@ -38,6 +44,10 @@ class InscriptionRepository implements IInscriptionRepository {
           lte(inscription.createdAt, endDate),
         ),
     });
+  }
+
+  async update(id: string, data: UpdateInscription): Promise<void> {
+    await db.update(inscriptions).set(data).where(eq(inscriptions.id, id));
   }
 }
 

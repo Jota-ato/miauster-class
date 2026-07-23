@@ -1,12 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldSet,
-} from "@/shared/components/ui/field";
+import { Field, FieldGroup, FieldSet } from "@/shared/components/ui/field";
 import {
   inscriptionSchema,
   InscriptionInput,
@@ -21,7 +16,10 @@ import { FieldWLabel } from "@/shared/components/forms/field-w-label";
 import { FormSubmit } from "@/shared/components/forms/form-submit";
 import ImageUploader from "@/shared/components/upload/image-uploader";
 import { showResponse } from "@/shared/lib/client-actions";
-import { createInscriptionAction } from "../actions/inscriptions-actions";
+import {
+  createInscriptionAction,
+  updateInscriptionAction,
+} from "../actions/inscriptions-actions";
 import { Inscription } from "../types/inscriptions.types";
 
 const inputs: FieldInput<InscriptionInput>[] = [
@@ -66,6 +64,7 @@ export function InscriptionForm({
 
   const onSubmit = async (data: InscriptionInput) => {
     if (isEditting && inscription) {
+      showResponse(await updateInscriptionAction(inscription.id, data, userId));
     } else {
       showResponse(await createInscriptionAction(data, userId));
     }

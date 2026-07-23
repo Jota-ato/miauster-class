@@ -3,7 +3,7 @@ import {
   usersRepository,
 } from "@/features/users/services/users-repository";
 import { InscriptionInput } from "../schemas/inscription-schemas";
-import { NewInscription } from "../types/inscriptions.types";
+import { NewInscription, UpdateInscription } from "../types/inscriptions.types";
 import {
   IInscriptionRepository,
   inscriptionRepository,
@@ -55,6 +55,41 @@ class InscriptionService {
     };
 
     await this.inscriptionRepository.insert(newInscription);
+  }
+
+  async updateInscription(id: string, data: InscriptionInput, userId: string) {
+    const existingInscription = await this.inscriptionRepository.findById(id);
+    if (!existingInscription) throw new AppError("Inscripción no encontrada");
+
+    const { user, student, group } = await this.validateExistingData(
+      data,
+      userId,
+    );
+
+    this.validateSpotsAvailability(group);
+
+    const updatedInscription: UpdateInscription = {
+      studentId: student.id,
+      groupId: group.id,
+      extraPrice: data.extraPrice.toString(),
+      invoiceImage: data.invoiceImage,
+
+      ...buildInscriptionSnapshot(user, student, group, data.extraPrice),
+    };
+
+    if (
+      (Object.keys(updatedInscription).includes("approved") ||
+        Object.keys(updatedInscription).includes("comissionPaid")) &&
+      !UsersPolicies.isAdmin(user)
+    )
+      throw new AppError(
+        "No autorizado para actualizar los campos de aprobación o pago de comisión",
+      );
+
+    await this.inscriptionRepository.update(
+      existingInscription.id,
+      updatedInscription,
+    );
   }
 
   async validateExistingData(data: InscriptionInput, userId: string) {
