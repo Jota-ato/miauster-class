@@ -1,7 +1,7 @@
 import { FormCard } from "@/shared/components/forms/form-card";
 import { InscriptionForm } from "./inscription-form";
 import { DetailedGroup } from "@/features/groups/types/groups.types";
-import { Inscription } from "../types/inscriptions.types";
+import { Inscription, InscriptionWithLanguage } from "../types/inscriptions.types";
 import { Language } from "@/features/languages/types/languages.types";
 
 export function CreateInscriptionCard({
@@ -31,7 +31,7 @@ export function EditInscriptionCard({
 }: {
   groups: DetailedGroup[];
   userId: string;
-  inscription: Inscription;
+  inscription: InscriptionWithLanguage;
   languages: Language[]
 }) {
   return (

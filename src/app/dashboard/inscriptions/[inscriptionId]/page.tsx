@@ -2,6 +2,7 @@ import { groupsService } from "@/features/groups/services/groups-service";
 import { DetailInscriptionCard } from "@/features/inscriptions/components/detailed-inscription-card";
 import { EditInscriptionCard } from "@/features/inscriptions/components/form-cards";
 import { inscriptionService } from "@/features/inscriptions/services/inscriptions-service";
+import { languagesService } from "@/features/languages/services/languages-service";
 import { requireAuth } from "@/lib/auth-server";
 import { EditableToggleCard } from "@/shared/components/dashboard/editable-toggle-card";
 import { Heading } from "@/shared/components/typography/heading";
@@ -21,6 +22,7 @@ export default async function InscriptionPage({
   const inscription = await inscriptionService.getById(inscriptionId, user.id);
   if (!inscription) notFound();
   const groups = await groupsService.getAllGroups(format(today, "yyyy-MM-dd"));
+  const languages = await languagesService.getAllLanguages();
 
   return (
     <>
@@ -29,6 +31,7 @@ export default async function InscriptionPage({
         viewComponent={<DetailInscriptionCard inscription={inscription} />}
         editComponent={
           <EditInscriptionCard
+            languages={languages}
             groups={groups}
             userId={user.id}
             inscription={inscription}

@@ -38,11 +38,20 @@ function CommissionBadge({ paid }: { paid: boolean }) {
   );
 }
 
+function GroupCell({ inscription }: { inscription: Inscription }) {
+  if (inscription.levelTest) {
+    return <Badge variant="outline">Examen de colocación</Badge>;
+  }
+  return <>{inscription.groupNameSnapshot}</>;
+}
+
 function InscriptionRow({ inscription }: { inscription: Inscription }) {
   return (
     <TableRow>
       <TableCell>{inscription.studentNameSnapshot}</TableCell>
-      <TableCell>{inscription.groupNameSnapshot}</TableCell>
+      <TableCell>
+        <GroupCell inscription={inscription} />
+      </TableCell>
       <TableCell>{formatCurrency(inscription.priceSnapshot)}</TableCell>
       <TableCell>
         <ApprovalBadge approved={inscription.approved} />

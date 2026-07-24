@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import {
   Inscription,
+  InscriptionWithLanguage,
   NewInscription,
   UpdateInscription,
 } from "../types/inscriptions.types";
@@ -9,12 +10,12 @@ import { eq } from "drizzle-orm";
 
 export interface IInscriptionRepository {
   insert(data: NewInscription): Promise<void>;
-  findById(id: string): Promise<Inscription | null>;
+  findById(id: string): Promise<InscriptionWithLanguage | null>;
   getByRangeAndUserId(
     userId: string,
     startDate: Date,
     endDate: Date,
-  ): Promise<Inscription[]>;
+  ): Promise<InscriptionWithLanguage[]>;
   update(id: string, data: UpdateInscription): Promise<void>;
 }
 
@@ -23,9 +24,12 @@ class InscriptionRepository implements IInscriptionRepository {
     await db.insert(inscriptions).values(data);
   }
 
-  async findById(id: string): Promise<Inscription | null> {
+  async findById(id: string): Promise<InscriptionWithLanguage | null> {
     return (
       (await db.query.inscriptions.findFirst({
+        with: {
+          language: true,
+        },
         where: (inscription, { eq }) => eq(inscription.id, id),
       })) || null
     );
@@ -35,8 +39,11 @@ class InscriptionRepository implements IInscriptionRepository {
     userId: string,
     startDate: Date,
     endDate: Date,
-  ): Promise<Inscription[]> {
+  ): Promise<InscriptionWithLanguage[]> {
     return await db.query.inscriptions.findMany({
+      with: {
+        language: true,
+      },
       where: (inscription, { and, eq, gte, lte }) =>
         and(
           eq(inscription.createdBy, userId),

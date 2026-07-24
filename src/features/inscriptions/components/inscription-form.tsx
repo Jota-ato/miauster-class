@@ -1,7 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "@/shared/components/ui/field";
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/shared/components/ui/field";
 import { Student } from "@/features/students/types/students.types";
 import { StudentPicker } from "./student-picker";
 import { createStudentAction } from "@/features/students/actions/student-actions";
@@ -14,7 +19,10 @@ import {
   createInscriptionAction,
   updateInscriptionAction,
 } from "../actions/inscriptions-actions";
-import { Inscription } from "../types/inscriptions.types";
+import {
+  Inscription,
+  InscriptionWithLanguage,
+} from "../types/inscriptions.types";
 import { CustomSwitch } from "@/shared/components/forms/custom-switch";
 import {
   InscriptionInput,
@@ -32,7 +40,7 @@ export function InscriptionForm({
 }: {
   groups: DetailedGroup[];
   userId: string;
-  inscription?: Inscription;
+  inscription?: InscriptionWithLanguage;
   languages: Language[];
 }) {
   const isEditting = !!inscription;
@@ -50,7 +58,16 @@ export function InscriptionForm({
       studentName: isEditting ? inscription.studentNameSnapshot : "",
       studentId: isEditting ? inscription.studentId : "",
       invoiceImage: isEditting ? inscription.invoiceImage : "",
+      observations: isEditting ? (inscription.observations ?? "") : "",
       levelTest: isEditting ? inscription.levelTest : false,
+      ...(isEditting && inscription.levelTest
+        ? {
+            languageId: inscription.language?.id,
+            testPrice: Number(inscription.priceSnapshot),
+          }
+        : {
+            groupId: isEditting ? (inscription.groupId ?? "") : "",
+          }),
     },
   });
 
@@ -139,12 +156,8 @@ export function InscriptionForm({
             />
           )}
           <Field>
-            <FieldLabel>
-              Observaciones
-            </FieldLabel>
-            <Textarea 
-              {...register("observations")}
-            />
+            <FieldLabel>Observaciones</FieldLabel>
+            <Textarea {...register("observations")} />
           </Field>
           <ImageUploader
             error={errors.invoiceImage?.message}

@@ -9,10 +9,8 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Separator } from "@/shared/components/ui/separator";
 import { formatCurrency } from "@/shared/utils/currency";
 import { format } from "date-fns";
-import { Inscription } from "../types/inscriptions.types";
+import { InscriptionWithLanguage } from "../types/inscriptions.types";
 import Link from "next/link";
-import { Button } from "@/shared/components/ui/button";
-import { ReceiptText } from "lucide-react";
 import { InvoiceImageDialog } from "./invoice-image-dialog";
 
 function DetailField({
@@ -32,10 +30,36 @@ function DetailField({
   );
 }
 
+function InscriptionTypeFields({ inscription }: { inscription: InscriptionWithLanguage }) {
+  if (inscription.levelTest) {
+    return (
+      <>
+        <DetailField label="Tipo">
+          <Badge variant="outline">Examen de colocación</Badge>
+        </DetailField>
+        <DetailField label="Idioma">{inscription.language?.name}</DetailField>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <DetailField label="Grupo">
+        <Link href={`/dashboard/groups/${inscription.groupId}`}>
+          {inscription.groupNameSnapshot}
+        </Link>
+      </DetailField>
+      <DetailField label="Inicio de grupo">
+        {inscription.groupStartDateSnapshot}
+      </DetailField>
+    </>
+  );
+}
+
 export function DetailInscriptionCard({
   inscription,
 }: {
-  inscription: Inscription;
+  inscription: InscriptionWithLanguage;
 }) {
   return (
     <Card>
@@ -60,14 +84,7 @@ export function DetailInscriptionCard({
           <DetailField label="Alumno">
             {inscription.studentNameSnapshot}
           </DetailField>
-          <DetailField label="Grupo">
-            <Link href={`/dashboard/groups/${inscription.groupId}`}>
-              {inscription.groupNameSnapshot}
-            </Link>
-          </DetailField>
-          <DetailField label="Inicio de grupo">
-            {inscription.groupStartDateSnapshot}
-          </DetailField>
+          <InscriptionTypeFields inscription={inscription} />
         </div>
 
         <Separator />
@@ -75,9 +92,6 @@ export function DetailInscriptionCard({
         <div>
           <DetailField label="Precio">
             {formatCurrency(inscription.priceSnapshot)}
-          </DetailField>
-          <DetailField label="Extra">
-            {formatCurrency(inscription.extraPrice)}
           </DetailField>
           <DetailField label="Comisión">
             <Badge
@@ -87,6 +101,17 @@ export function DetailInscriptionCard({
             </Badge>
           </DetailField>
         </div>
+
+        {inscription.observations && (
+          <>
+            <Separator />
+            <div className="sm:grid-cols-1">
+              <DetailField label="Observaciones">
+                <p className="font-normal">{inscription.observations}</p>
+              </DetailField>
+            </div>
+          </>
+        )}
 
         <Separator />
 

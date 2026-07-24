@@ -14,6 +14,7 @@ import { groups } from "./groups-schema";
 import { students } from "./students-schema";
 import { user } from "./auth-schema";
 import { relations } from "drizzle-orm";
+import { languages } from "./languages-schema";
 
 export const inscriptions = pgTable(
   "inscriptions",
@@ -29,7 +30,9 @@ export const inscriptions = pgTable(
       .notNull()
       .references(() => students.id, { onDelete: "restrict" }),
     levelTest: boolean("level_test").notNull().default(false),
-    language: varchar("language", { length: 20 }),
+    languageId: uuid("language_id").references(() => languages.id, {
+      onDelete: "restrict",
+    }),
     observations: text("observations"),
     priceSnapshot: numeric("price_snapshot", {
       precision: 10,
@@ -87,5 +90,9 @@ export const inscriptionsRelations = relations(inscriptions, ({ one }) => ({
   student: one(students, {
     fields: [inscriptions.studentId],
     references: [students.id],
+  }),
+  language: one(languages, {
+    fields: [inscriptions.languageId],
+    references: [languages.id],
   }),
 }));

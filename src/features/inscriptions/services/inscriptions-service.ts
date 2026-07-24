@@ -3,7 +3,7 @@ import {
   usersRepository,
 } from "@/features/users/services/users-repository";
 import { InscriptionInput } from "../schemas/inscription-schemas";
-import { NewInscription, UpdateInscription } from "../types/inscriptions.types";
+import { InscriptionWithLanguage, NewInscription, UpdateInscription } from "../types/inscriptions.types";
 import {
   IInscriptionRepository,
   inscriptionRepository,
@@ -50,7 +50,9 @@ class InscriptionService {
       groupId: group?.id ?? null,
       levelTest: data.levelTest,
       invoiceImage: data.invoiceImage,
+      languageId: "languageId" in data ? data.languageId : null,
       createdBy: user.id,
+      observations: data.observations,
       ...buildInscriptionSnapshot(user, student, group, {
         testPrice: data.levelTest ? data.testPrice : undefined,
       }),
@@ -75,6 +77,8 @@ class InscriptionService {
       groupId: group?.id ?? null,
       levelTest: data.levelTest,
       invoiceImage: data.invoiceImage,
+      languageId: "languageId" in data ? data.languageId : null,
+      observations: data.observations,
       ...buildInscriptionSnapshot(user, student, group, {
         testPrice: data.levelTest ? data.testPrice : undefined,
       }),
