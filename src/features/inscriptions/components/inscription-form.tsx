@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldGroup, FieldSet } from "@/shared/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/shared/components/ui/field";
 import { Student } from "@/features/students/types/students.types";
 import { StudentPicker } from "./student-picker";
 import { createStudentAction } from "@/features/students/actions/student-actions";
@@ -21,15 +21,19 @@ import {
   inscriptionSchema,
 } from "../schemas/inscription-schemas";
 import { FieldWLabel } from "@/shared/components/forms/field-w-label";
+import { Language } from "@/features/languages/types/languages.types";
+import { Textarea } from "@/shared/components/ui/textarea";
 
 export function InscriptionForm({
   groups,
   userId,
   inscription,
+  languages,
 }: {
   groups: DetailedGroup[];
   userId: string;
   inscription?: Inscription;
+  languages: Language[];
 }) {
   const isEditting = !!inscription;
 
@@ -100,13 +104,27 @@ export function InscriptionForm({
             />
           </div>
           {levelTest ? (
-            <FieldWLabel
-              register={register}
-              label="Precio del examen de colocación"
-              error={"testPrice" in errors ? errors.testPrice?.message : undefined}
-              type="number"
-              {...register("testPrice")}
-            />
+            <>
+              <CustomSelect
+                control={control}
+                name="languageId"
+                label="Idioma"
+                placeholder="Idioma"
+                options={languages.map((language) => ({
+                  label: language.name,
+                  value: language.id,
+                }))}
+              />
+              <FieldWLabel
+                register={register}
+                label="Precio del examen de colocación"
+                error={
+                  "testPrice" in errors ? errors.testPrice?.message : undefined
+                }
+                type="number"
+                {...register("testPrice")}
+              />
+            </>
           ) : (
             <CustomSelect
               label="Grupo"
@@ -120,6 +138,14 @@ export function InscriptionForm({
               }))}
             />
           )}
+          <Field>
+            <FieldLabel>
+              Observaciones
+            </FieldLabel>
+            <Textarea 
+              {...register("observations")}
+            />
+          </Field>
           <ImageUploader
             error={errors.invoiceImage?.message}
             image={image}

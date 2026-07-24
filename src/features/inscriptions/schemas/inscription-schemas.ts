@@ -4,12 +4,14 @@ const baseInscriptionSchema = z.object({
   studentId: z.uuid({ message: "El estudiante es requerido" }),
   studentName: z.string().min(1, { message: "El nombre del estudiante es requerido" }),
   invoiceImage: z.url({ message: "La imagen del comprobante de pago es requerida" }),
+  observations: z.string().optional(),
 });
 
 export const inscriptionSchema = z.discriminatedUnion("levelTest", [
     baseInscriptionSchema.extend({
         levelTest: z.literal(true),
         testPrice: z.number().min(1, { message: "El precio del examen es requerido" }),
+        languageId: z.uuid({ message: "El idioma del examen es requerido" }),
     }),
     baseInscriptionSchema.extend({
         levelTest: z.literal(false),

@@ -1,5 +1,5 @@
 import { Student } from "@/features/students/types/students.types";
-import { Group } from "@/features/groups/types/groups.types";
+import { DetailedGroup, Group } from "@/features/groups/types/groups.types";
 import { NewInscription } from "../types/inscriptions.types";
 import { User } from "@/features/users/types/user.types";
 
@@ -10,6 +10,7 @@ type InscriptionSnapshot = Pick<
   | "studentNameSnapshot"
   | "groupNameSnapshot"
   | "groupStartDateSnapshot"
+  | "language"
 >;
 
 type LevelTestPriceOptions = {
@@ -19,7 +20,7 @@ type LevelTestPriceOptions = {
 export function buildInscriptionSnapshot(
   user: User,
   student: Student,
-  group: Group | null,
+  group: DetailedGroup | null,
   { testPrice }: LevelTestPriceOptions = {},
 ): InscriptionSnapshot {
   if (!group) {
@@ -44,5 +45,6 @@ export function buildInscriptionSnapshot(
     studentNameSnapshot: student.name,
     groupNameSnapshot: group.name,
     groupStartDateSnapshot: group.startDate,
+    language: group.languageLevel.language.name,
   };
 }

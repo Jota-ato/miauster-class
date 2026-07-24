@@ -29,6 +29,7 @@ export const inscriptions = pgTable(
       .notNull()
       .references(() => students.id, { onDelete: "restrict" }),
     levelTest: boolean("level_test").notNull().default(false),
+    language: varchar("language", { length: 20 }),
     observations: text("observations"),
     priceSnapshot: numeric("price_snapshot", {
       precision: 10,
